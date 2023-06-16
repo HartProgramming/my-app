@@ -9,7 +9,7 @@ export default function LogIn() {
 
   const navigation = useNavigation();
 
-  const loginScreen = (route: string) => {
+  const transScreen = (route: string) => {
     navigation.navigate(route as never);
   };
 
@@ -37,14 +37,15 @@ export default function LogIn() {
         </View>
         <View style={styles.loginContainer}>
           <TouchableOpacity style={styles.loginButton}>
-            <Text style={styles.loginText}>Login</Text>
+            <Text style={styles.loginText} onPress={() => transScreen('Today')}>Login</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.forgotContainer}>
           <Text>
-            Forgot <Text style={styles.forgotText}>Password</Text> or{" "}
-            <Text style={styles.forgotText}>Username</Text>
+            Forgot <Text style={styles.transText}>Password</Text> or{" "}
+            <Text style={styles.transText}>Username</Text>
           </Text>
+          <Text>Need to <Text style={styles.transText} onPress={() => transScreen('Sign Up')}>Sign Up</Text>?</Text>
         </View>
       </View>
     </View>
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
   },
-  forgotText: {
+  transText: {
     color: "blue",
   },
 });
