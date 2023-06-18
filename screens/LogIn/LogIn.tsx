@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 32,
     color: "black",
-    fontFamily: "Arial",
   },
   buttonContainer: {
     display: "flex",
