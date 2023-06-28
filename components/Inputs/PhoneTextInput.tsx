@@ -16,15 +16,17 @@ interface PhoneInputProps {
   secureTextEntry: boolean;
   value: any;
   keyboardType: keyboardType;
-  children: any;
+  children?: any;
+  ref?: any;
+  onFocus?: any;
 }
 
-const PhoneTextInput : React.FC<PhoneInputProps> = ({children, keyboardType, secureTextEntry, onChange, placeholder, inputContainerClass, inputClass, textClass, value}) => {
+const PhoneTextInput : React.FC<PhoneInputProps> = ({onFocus, ref, children, keyboardType, secureTextEntry, onChange, placeholder, inputContainerClass, inputClass, textClass, value}) => {
 
   return (
     <View style={inputContainerClass}>
       <TouchableOpacity style={inputClass}>
-        <TextInput keyboardType={keyboardType} secureTextEntry={secureTextEntry} onChangeText={onChange} placeholder={placeholder} value={value} style={textClass}></TextInput>
+        <TextInput onFocus={onFocus} ref={ref} keyboardType={keyboardType} secureTextEntry={secureTextEntry} onChangeText={onChange} placeholder={placeholder} value={value} style={textClass}></TextInput>
         {children}
       </TouchableOpacity>
     </View>

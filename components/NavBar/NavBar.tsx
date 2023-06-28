@@ -2,37 +2,64 @@ import React from "react";
 import PhoneButton from "../Inputs/PhoneButton";
 import { View, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
 
-export default function NavBar({buttonArr}: {buttonArr: any[]}){
 
-    const navigation = useNavigation()
+interface NavBarButtonArray {
+  label: string;
+  component: any;
+  image: any;
+}
 
-    const transScreen = (route: any) => {
-        navigation.navigate(route as never)
-    }
+export default function NavBar({
+  buttonArr,
+}: {
+  buttonArr: NavBarButtonArray[];
+}) {
+  const Tab = createBottomTabNavigator();
 
-    return(
-        <View style={styles.container}>
-            {buttonArr.map((value: any) => (
-                <PhoneButton key={value.text} text={value.text} onPress={() => transScreen(value.route)} buttonClass={styles.buttonClass} buttonContainerClass={styles.buttonContainerClass} textClass={styles.textClass} ></PhoneButton>
-            ))}
-        </View>
-    )
+  const navigation = useNavigation();
+
+  const transScreen = (route: any) => {
+    navigation.navigate(route as never);
+  };
+
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          const button = buttonArr.find(
+            (button) => button.label === route.name
+          );
+          if (button && button.image) {
+            return button.image();
+          }else {
+            return null
+          }
+        },
+      })}
+    >
+      {buttonArr.map((value: any) => {
+        return <Tab.Screen options={{ headerShown: false}} name={value.label} component={value.component} />;
+      })}
+    </Tab.Navigator>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        height: 75,
-        backgroundColor: 'green'
-    },
-    buttonClass: {
-        display: 'flex'
-    },
-    buttonContainerClass: {
-        display: 'flex'
-    },
-    textClass: {
-        fontSize: 18
-    }
-})
+  container: {
+    flex: 1,
+    height: 75,
+    backgroundColor: "green",
+  },
+  buttonClass: {
+    display: "flex",
+  },
+  buttonContainerClass: {
+    display: "flex",
+  },
+  textClass: {
+    fontSize: 18,
+  },
+});

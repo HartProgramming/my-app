@@ -8,19 +8,25 @@ interface PhoneButtonProps {
   buttonClass: StyleProp<ViewStyle>;
   textClass: StyleProp<TextStyle>;
   onPress: ButtonClickHandler;
-  text: string
+  text: string;
+  image?: any;
 }
 
-const PhoneButton : React.FC<PhoneButtonProps> = ({buttonContainerClass, buttonClass, textClass, onPress, text}) => {
+const PhoneButton: React.FC<PhoneButtonProps> = ({
+  buttonContainerClass,
+  buttonClass,
+  textClass,
+  onPress,
+  text,
+  image
+}) => {
   return (
-      <View style={buttonContainerClass}>
-        <TouchableOpacity
-          onPress={onPress}
-          style={buttonClass}
-        >
-          <Text style={textClass}>{text}</Text>
-        </TouchableOpacity>
-      </View>
+    <View style={buttonContainerClass}>
+      <TouchableOpacity onPress={onPress} style={buttonClass}>
+        {image}
+        <Text style={textClass}>{text}</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
