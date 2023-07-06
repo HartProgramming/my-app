@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import PhoneButton from "../../components/Inputs/PhoneButton";
 import { StyleSheet, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import PhoneTextInput from "../../components/Inputs/PhoneTextInput";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import * as EmailValidator from "email-validator";
+import logo from '../../images/logo/minhealthtrans.png';
 
 export default function SignUp() {
   interface Data {
@@ -33,11 +34,14 @@ export default function SignUp() {
   };
 
   const handleSignup = () => {
+    /*
     if (passwordEqual && passwordTest && validateEmail) {
       transScreen("Details");
     } else {
       console.log("not true");
     }
+    */
+   transScreen('Details')
   };
 
   const handleEmail = (text: string) => {
@@ -156,7 +160,7 @@ export default function SignUp() {
   return (
     <View style={[styles.container, { height: screenHeight }]}>
       <View style={styles.headerContainer}>
-        <Text style={styles.header}>Simplcise</Text>
+        <Image source={logo} />
       </View>
       <View>
         <PhoneTextInput
@@ -236,7 +240,8 @@ export default function SignUp() {
 const styles = StyleSheet.create({
   container: {
     display: "flex",
-    backgroundColor: "black",
+    backgroundColor: "white",
+    justifyContent: 'center'
   },
   headerContainer: {
     display: "flex",
@@ -271,7 +276,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonClass: {
-    backgroundColor: "green",
+    backgroundColor: "#8c52ff",
     width: 150,
     display: "flex",
     alignItems: "center",
@@ -283,14 +288,15 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     letterSpacing: 1.2,
+    color: 'white'
   },
   loginText: {
-    color: "green",
+    color: "#8c52ff",
     textAlign: "center",
     fontSize: 16,
   },
   loginClass: {
-    color: "white",
+    color: "black",
     textAlign: "center",
   },
   icon: {

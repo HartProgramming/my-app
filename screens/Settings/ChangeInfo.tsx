@@ -1,20 +1,68 @@
 import Card from "../../components/Card/Card";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
+import PhoneButton from "../../components/Inputs/PhoneButton";
+import { useNavigation } from "@react-navigation/native";
+import PhoneTextInput from "../../components/Inputs/PhoneTextInput";
+import { FunctionComponentElement } from "react";
+import Picker from "react-native-picker-select";
+import Details from "../Details/Details";
 
+export default function ChangeInfo() {
+  const navigation = useNavigation();
 
-export default function ChangeInfo(){
-    
+  const transScreen = (event: string) => {
+    navigation.navigate(event as never);
+  };
 
-    return(
-        <Card scrollable={false} containerClass={styles.container}>
-
-        </Card>
-    )
+  return (
+    <Card scrollable={false} containerClass={styles.container}>
+      <Details
+      changeHeader={true}
+      globalDetails={true}
+      submitGoBackStyle={styles.buttonsContainer}
+      submitGoBackContainer={true}
+        button={
+          <PhoneButton
+            text="Go Back"
+            onPress={() => transScreen("Settings")}
+            buttonClass={styles.button}
+            buttonContainerClass={styles.buttonContainer}
+            textClass={styles.buttonText}
+          />
+        }
+      ></Details>
+    </Card>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white'
-    }
-})
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  buttonText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    letterSpacing: 1.15,
+    color: "#8c52ff",
+    alignSelf: "center",
+  },
+  button: {
+    borderRadius: 10,
+    borderColor: "#8c52ff",
+    borderWidth: 2,
+    borderStyle: "solid",
+    padding: 10,
+  },
+  buttonContainer: {
+    width: "50%",
+    alignSelf: "center",
+  },
+  buttonsContainer: {
+    alignItems: 'center',
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-between',
+    margin: 5,
+    width: '70%'
+  }
+});

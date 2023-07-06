@@ -12,6 +12,7 @@ import { AntDesign, Entypo, FontAwesome5 } from "@expo/vector-icons";
 import History from "./screens/History/History";
 import Settings from "./screens/Settings/Settings";
 import SettingNavigation from "./screens/Settings/SettingNav";
+import UserColors from "./screens/Details/UserColors";
 
 const Stack = createNativeStackNavigator();
 
@@ -69,13 +70,18 @@ const App: React.FC = () => {
                 options={{ headerShown: false }}
                 component={Details}
               />
+              <Stack.Screen
+                name="User Colors"
+                options={{ headerShown: false }}
+                component={UserColors}
+              />
             </>
           ) : (
             <>
               <Stack.Screen name="Main" options={{ headerShown: false }}>
                 {(props) => <NavBar {...props} buttonArr={navBarArray} />}
               </Stack.Screen>
-              <Stack.Screen name='Setting' options={{headerShown: false}}>
+              <Stack.Screen name="Setting" options={{ headerShown: false }}>
                 {(props) => <SettingNavigation />}
               </Stack.Screen>
             </>

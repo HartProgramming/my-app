@@ -197,15 +197,15 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     padding: 14,
     margin: 10,
-    backgroundColor: "#c3c3c3",
+    backgroundColor: "#f7f7f7",
     width: 200,
+    borderStyle: 'solid',
+    borderColor: '#8c52ff',
+    borderWidth: 3
   },
   passwordContainer: {
     flexDirection: "row",
     alignSelf: 'center',
-    borderColor: 'black',
-    borderStyle: 'solid',
-    borderWidth: 2,
     width: '55%',
     alignItems: 'center'
   },

@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import { ReactNode } from "react";
+import { ReactNode, startTransition } from "react";
 import Svg, { Path, Text, G, TextPath, TSpan, Rect } from "react-native-svg";
 import React from "react";
 import Card from "../Card/Card";
@@ -59,7 +59,7 @@ export default function Meter({
           width={progressPath}
           height={rectHeight}
           strokeWidth={strokeWidth}
-          fill={progressFill}
+          fill={progressPath === standardPath ? '#8c52ff' : progressFill}
           stroke={strokeProgress}
           strokeLinecap={strokeLinecap}
         />
@@ -67,7 +67,7 @@ export default function Meter({
           <Text
             x={width / 2}
             y={rectHeight / 2}
-            fill={"white"}
+            fill={progressPath === standardPath ? 'white' : '#8c52ff'}
             fontSize={22}
             fontWeight={"bold"}
             textAnchor="middle"

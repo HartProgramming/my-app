@@ -32,7 +32,7 @@ interface CriteriaExercise {
 }
 
 const exerciseRecentArray: CriteriaExercise[] = [
-  { name: "Jogging", miles: '3', key: "Jogging3" },
+  { name: "Jogging", miles: "3", key: "Jogging3" },
 ];
 
 const mealRecentArray: CriteriaMeal[] = [
@@ -75,12 +75,14 @@ export default function InsertRegimen() {
   const [caloriesCreateEntry, setCaloriesCreateEntry] = useState<string>("");
   const [proteinCreateEntry, setProteinCreateEntry] = useState<string>("");
   const [exerciseCreateEntry, setExerciseCreateEntry] = useState<string>();
-  const [repsCreateEntry, setRepsCreateEntry] = useState<string>('');
-  const [milesCreateEntry, setMilesCreateEntry] = useState<string>('');
-  const [minutesCreateEntry, setMinutesCreateEntry] = useState<string>('');
+  const [repsCreateEntry, setRepsCreateEntry] = useState<string>("");
+  const [milesCreateEntry, setMilesCreateEntry] = useState<string>("");
+  const [minutesCreateEntry, setMinutesCreateEntry] = useState<string>("");
 
   const [createMealEntryData, setCreateMealEntryData] = useState<any>([]);
-  const [createExerciseEntryData, setCreateExerciseEntryData] = useState<any>([])
+  const [createExerciseEntryData, setCreateExerciseEntryData] = useState<any>(
+    []
+  );
   const [focusInput, setFocusInput] = useState<any>();
 
   const mealCreateArray: CreateLabels[] = [
@@ -143,9 +145,7 @@ export default function InsertRegimen() {
     },
   ];
 
-  const handleCreateButton = (event: any) => {
-
-  }
+  const handleCreateButton = (event: any) => {};
 
   const handleFocus = (event: any) => {
     setFocusInput(event.current);
@@ -207,26 +207,26 @@ export default function InsertRegimen() {
             setOuncesCreateEntry(event);
           }
         }
-      }else if(!selectedSearchButton){
-        if(focusInput === 'exerciseInput'){
+      } else if (!selectedSearchButton) {
+        if (focusInput === "exerciseInput") {
           setExerciseCreateEntry(event);
-        }else if(focusInput === 'repsInput'){
-          if(!Number(event)){
-            setRepsCreateEntry('')
-          }else{
-            setRepsCreateEntry(event)
+        } else if (focusInput === "repsInput") {
+          if (!Number(event)) {
+            setRepsCreateEntry("");
+          } else {
+            setRepsCreateEntry(event);
           }
-        }else if(focusInput === 'milesInput'){
-          if(!Number(event)){
-            setMilesCreateEntry('')
-          }else{
+        } else if (focusInput === "milesInput") {
+          if (!Number(event)) {
+            setMilesCreateEntry("");
+          } else {
             setMilesCreateEntry(event);
           }
-        }else if(focusInput === 'minutesInput'){
-          if(!Number(event)){
-            setMinutesCreateEntry('')
-          }else{
-            setMinutesCreateEntry(event)
+        } else if (focusInput === "minutesInput") {
+          if (!Number(event)) {
+            setMinutesCreateEntry("");
+          } else {
+            setMinutesCreateEntry(event);
           }
         }
       }
@@ -281,11 +281,15 @@ export default function InsertRegimen() {
         name: exerciseCreateEntry,
         reps: repsCreateEntry,
         minutes: minutesCreateEntry,
-        miles :milesCreateEntry,
-        key: exerciseCreateEntry+minutesCreateEntry+repsCreateEntry+milesCreateEntry
+        miles: milesCreateEntry,
+        key:
+          exerciseCreateEntry +
+          minutesCreateEntry +
+          repsCreateEntry +
+          milesCreateEntry,
       },
     ];
-    setCreateExerciseEntryData(exerciseDataArray)
+    setCreateExerciseEntryData(exerciseDataArray);
   }, []);
 
   useEffect(() => {
@@ -510,7 +514,7 @@ export default function InsertRegimen() {
                       secureTextEntry={false}
                       value={
                         value.label === "Enter Meal"
-                          ? mealCreateArray
+                          ? mealCreateEntry
                           : value.label === "Enter Brand"
                           ? brandCreateEntry
                           : value.label === "Enter Ounces"
@@ -541,7 +545,7 @@ export default function InsertRegimen() {
             </Card>
           </>
         )}
-        
+
         <Card scrollable={false} containerClass={styles.displayRecentContainer}>
           <Card
             scrollable={false}
@@ -599,7 +603,7 @@ export default function InsertRegimen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#4caf50",
+    backgroundColor: "white",
   },
   header: {
     fontWeight: "bold",
@@ -620,7 +624,7 @@ const styles = StyleSheet.create({
     width: "50%",
   },
   menuButton: {
-    backgroundColor: "green",
+    backgroundColor: "#8c52ff",
     alignItems: "center",
     padding: 10,
     borderRadius: 35,
@@ -638,11 +642,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     borderRadius: 35,
+    borderStyle: "solid",
+    borderColor: "#8c52ff",
+    borderWidth: 4,
   },
   selectedMenuText: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "green",
+    color: "#8c52ff",
   },
   searchContainer: {
     alignSelf: "center",
@@ -656,11 +663,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     width: "100%",
     alignItems: "center",
+    borderColor: "#8c52ff",
+    borderWidth: 3,
+    borderStyle: "solid",
   },
   selectedSearchButtonContainer: {
     borderStyle: "solid",
-    borderColor: "green",
-    borderWidth: 1,
+    borderColor: "#8c52ff",
     width: "50%",
   },
   selectedSearchButton: {
@@ -675,7 +684,7 @@ const styles = StyleSheet.create({
   },
   searchButton: {
     padding: 7,
-    backgroundColor: "green",
+    backgroundColor: "#8c52ff",
   },
   searchText: {
     fontSize: 22,
@@ -687,14 +696,14 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     textAlign: "center",
-    color: "green",
+    color: "#8c52ff",
   },
   noScrollResultsContainer: {
     position: "relative",
     zIndex: 1,
     maxHeight: 200,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "#8c52ff",
     backgroundColor: "#fff",
     width: "90%",
     alignSelf: "center",
@@ -729,15 +738,15 @@ const styles = StyleSheet.create({
   },
   displayRecentContainer: {
     borderStyle: "solid",
-    borderColor: "white",
-    borderWidth: 1,
+    borderColor: "#8c52ff",
+    borderWidth: 3,
   },
   recentHeaderContainer: {
     alignItems: "center",
   },
   recentHeader: {
     fontSize: 20,
-    color: "white",
+    color: "#8c52ff",
   },
   recentInputContainer: {
     alignItems: "center",

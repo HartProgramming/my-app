@@ -4,6 +4,7 @@ import PhoneButton from "../../components/Inputs/PhoneButton";
 import { useEffect, useRef, useState } from "react";
 import PhoneTextInput from "../../components/Inputs/PhoneTextInput";
 import * as EmailValidator from "email-validator";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ChangeEmail() {
   const [showEmail, setShowEmail] = useState<boolean>(false);
@@ -11,32 +12,44 @@ export default function ChangeEmail() {
   const [currentEmail, setCurrentEmail] = useState<string>("");
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [newEmail, setNewEmail] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
   const [focus, setFocus] = useState<string>("");
   const [sendButton, setSendButton] = useState<boolean>(false);
   const [sendVerify, setSendVerify] = useState<boolean>(false);
   const [verified, setVerified] = useState<boolean>(false);
 
-  const currentEmailRef = useRef<string>("current-email");
-  const currentPasswordRef = useRef<string>("current-password");
-  const newEmailRef = useRef<string>("new-email");
+  const currentEmailRef = useRef("current-email");
+  const currentPasswordRef = useRef("current-password");
+  const newEmailRef = useRef("new-email");
+  const newPasswordRef = useRef("new-password");
+  const confirmNewPasswordRef = useRef("confirm-new-password");
 
-  interface ChangeEmailDetails {
+  const navigation = useNavigation();
+
+  const transScreen = (event: string) => {
+    navigation.navigate(event as never);
+  };
+
+  interface ChangeDetails {
     placeholder: string;
     text: string;
     ref: any;
-    onChange: any;
-    onFocus: any;
     secureTextEntry: boolean;
     keyboardType: string;
   }
 
-  const handleFocus = (event: string) => {
-    if (event === "current-email") {
-      setFocus(event);
-    } else if (event === "current-password") {
-      setFocus(event);
-    } else if (event === "new-email") {
-      setFocus(event);
+  const handleFocus = (event: any) => {
+    if (event.current === "current-email") {
+      setFocus(event.current);
+    } else if (event.current === "current-password") {
+      setFocus(event.current);
+    } else if (event.current === "new-email") {
+      setFocus(event.current);
+    } else if (event.current === "new-password") {
+      setFocus(event.current);
+    } else if (event.current === "confirm-new-password") {
+      setFocus(event.current);
     }
   };
 
@@ -47,6 +60,10 @@ export default function ChangeEmail() {
       setCurrentPassword(event);
     } else if (focus === "new-email") {
       setNewEmail(event);
+    } else if (focus === "new-password") {
+      setNewPassword(event);
+    } else if (focus === "confirm-new-password") {
+      setConfirmNewPassword(event);
     }
   };
 
@@ -82,13 +99,12 @@ export default function ChangeEmail() {
     }
   };
 
-  const changeEmailArr: ChangeEmailDetails[] = [
+  const changeEmailArr: ChangeDetails[] = [
     {
       placeholder: "Current Email",
       text: currentEmail,
       ref: currentEmailRef,
-      onChange: handleChange,
-      onFocus: handleFocus,
+
       secureTextEntry: false,
       keyboardType: "email-address",
     },
@@ -96,26 +112,68 @@ export default function ChangeEmail() {
       placeholder: "New Email",
       text: newEmail,
       ref: newEmailRef,
-      onChange: handleChange,
-      onFocus: handleFocus,
+
       secureTextEntry: false,
       keyboardType: "email-address",
     },
   ];
 
+  const changePasswordArr: ChangeDetails[] = [
+    {
+      placeholder: "Current Password",
+      text: currentPassword,
+      ref: useRef("current-password"),
+
+      secureTextEntry: false,
+      keyboardType: "default",
+    },
+    {
+      placeholder: "New Password",
+      text: newPassword,
+      ref: newPasswordRef,
+
+      secureTextEntry: false,
+      keyboardType: "default",
+    },
+    {
+      placeholder: "Confirm New Password",
+      text: confirmNewPassword,
+      ref: confirmNewPasswordRef,
+
+      secureTextEntry: false,
+      keyboardType: "default",
+    },
+  ];
+
   useEffect(() => {
-    if (
-      EmailValidator.validate(newEmail) &&
-      EmailValidator.validate(currentEmail)
-    ) {
+    console.log(sendButton)
+   
+    console.log(focus);
+    console.log(currentPassword);
+    console.log(newPassword);
+    console.log(confirmNewPassword);
+    if (currentPassword === "backend" && newPassword === confirmNewPassword) {
       setSendButton(true);
     }
-  }, [newEmail, currentEmail]);
+  }, [
+    newEmail,
+    currentEmail,
+    currentPassword,
+    newPassword,
+    confirmNewPassword,sendButton
+  ]);
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
       <Card scrollable={false} containerClass={styles.changeDetailsContainer}>
         <Card scrollable={false} containerClass={styles.changeEmailContainer}>
+          <PhoneButton
+            onPress={() => transScreen("Settings")}
+            text="Go Back"
+            textClass={styles.buttonText}
+            buttonClass={styles.button}
+            buttonContainerClass={styles.buttonContainer}
+          />
           <PhoneButton
             onPress={handleEmail}
             textClass={styles.buttonText}
@@ -123,44 +181,47 @@ export default function ChangeEmail() {
             buttonContainerClass={styles.buttonContainer}
             text="Change Email"
           />
-          {showEmail &&
-            changeEmailArr.map((value) => {
-              return (
-                <PhoneTextInput
-                  textClass={styles.inputText}
-                  inputClass={styles.input}
-                  inputContainerClass={styles.inputContainer}
-                  placeholder={value.placeholder}
-                  secureTextEntry={value.secureTextEntry}
-                  keyboardType={"email-address"}
-                  value={value.text}
-                  ref={value.ref}
-                  onChange={value.onChange}
-                  onFocus={value.onFocus}
-                />
-              );
-            })}
-          <>
-            {sendButton && (
-              <PhoneButton
-                text="Send"
-                textClass={styles.sendText}
-                buttonClass={styles.sendButton}
-                buttonContainerClass={styles.sendButtonContainer}
-                onPress={() => handleSend}
+          {changeEmailArr.map((value) => {
+            return (
+              <PhoneTextInput
+                textClass={styles.inputText}
+                inputClass={styles.input}
+                inputContainerClass={styles.inputContainer}
+                placeholder={value.placeholder}
+                secureTextEntry={value.secureTextEntry}
+                keyboardType={"email-address"}
+                value={value.text}
+                ref={value.ref}
+                onChange={handleChange}
+                onFocus={() => handleFocus(value.ref)}
               />
-            )}
+            );
+          })}
+          <>
+            {sendButton &&
+              EmailValidator.validate(newEmail) &&
+              EmailValidator.validate(currentEmail) && (
+                <PhoneButton
+                  text="Send"
+                  textClass={styles.sendText}
+                  buttonClass={styles.sendButton}
+                  buttonContainerClass={styles.sendButtonContainer}
+                  onPress={() => handleSend}
+                />
+              )}
           </>
           <>
-            {sendVerify && (
-              <PhoneButton
-                text="Verify"
-                textClass={styles.sendText}
-                buttonClass={styles.sendButton}
-                buttonContainerClass={styles.sendButtonContainer}
-                onPress={() => handleVerification}
-              />
-            )}
+            {sendVerify &&
+              EmailValidator.validate(newEmail) &&
+              EmailValidator.validate(currentEmail) && (
+                <PhoneButton
+                  text="Verify"
+                  textClass={styles.sendText}
+                  buttonClass={styles.sendButton}
+                  buttonContainerClass={styles.sendButtonContainer}
+                  onPress={() => handleVerification}
+                />
+              )}
           </>
         </Card>
         <Card
@@ -174,6 +235,56 @@ export default function ChangeEmail() {
             buttonContainerClass={styles.buttonContainer}
             textClass={styles.buttonText}
           />
+          {changePasswordArr.map((value) => {
+            return (
+              <PhoneTextInput
+                textClass={styles.inputText}
+                inputClass={styles.input}
+                inputContainerClass={styles.inputContainer}
+                placeholder={value.placeholder}
+                secureTextEntry={value.secureTextEntry}
+                keyboardType={"default"}
+                value={
+                  value.ref === "current-password"
+                    ? currentPassword
+                    : value.ref === "new-password"
+                    ? newPassword
+                    : value.ref === "confirm-new-password"
+                    ? confirmNewPassword
+                    : null
+                }
+                ref={value.ref}
+                onChange={handleChange}
+                onFocus={() => handleFocus(value.ref)}
+              />
+            );
+          })}
+          <>
+            {sendButton &&
+              currentPassword === "backend" &&
+              newPassword === confirmNewPassword && (
+                <PhoneButton
+                  text="Send"
+                  textClass={styles.sendText}
+                  buttonClass={styles.sendButton}
+                  buttonContainerClass={styles.sendButtonContainer}
+                  onPress={() => handleSend}
+                />
+              )}
+          </>
+          <>
+            {sendVerify &&
+              currentPassword === "backend" &&
+              newPassword === confirmNewPassword && (
+                <PhoneButton
+                  text="Verify"
+                  textClass={styles.sendText}
+                  buttonClass={styles.sendButton}
+                  buttonContainerClass={styles.sendButtonContainer}
+                  onPress={() => handleVerification}
+                />
+              )}
+          </>
         </Card>
       </Card>
     </Card>
@@ -186,7 +297,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   changeDetailsContainer: {
-    width: "90%",
+    width: "100%",
     alignSelf: "center",
     justifyContent: "center",
     flex: 1,
@@ -220,7 +331,9 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: "85%",
   },
-  inputText: {},
+  inputText: {
+    fontSize: 18,
+  },
   input: {
     backgroundColor: "#f2f2f2",
     padding: 10,

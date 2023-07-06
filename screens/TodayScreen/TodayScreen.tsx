@@ -179,10 +179,10 @@ const TodayScreen: React.FC = () => {
               rectHeight={55}
               percentage={value.percentage}
               strokeLinecap={"round"}
-              strokeProgress="#2196f3"
-              progressFill="#2196f3"
-              standardFill="#f3c04c"
-              strokeStandard="white"
+              strokeProgress="#e6e6e6"
+              progressFill="#ededed"
+              standardFill="#f6f6f6"
+              strokeStandard="#8c52ff"
             ></Meter>
           </Card>
         );
@@ -214,7 +214,6 @@ const TodayScreen: React.FC = () => {
 
   return (
     <Card scrollable={true} containerClass={styles.container}>
-      <Text onPress={() => transScreen('Regimen')}>Insert Regimen</Text>
       <Card scrollable={false} containerClass={styles.headerContainer}>
         <Text style={styles.header}>Today's Progress</Text>
       </Card>
@@ -266,17 +265,17 @@ const TodayScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#4caf50",
+    backgroundColor: "white",
   },
   headerContainer: {
     alignItems: "center",
-    marginTop: 15,
+    marginTop: 115,
   },
   header: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: "bold",
     letterSpacing: 1.2,
-    color: "white",
+    color: "#8c52ff",
   },
   indicatorsContainer: {
     alignItems: "center",
@@ -289,15 +288,15 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 21,
     fontWeight: "bold",
-    color: "white",
+    color: "#8c52ff",
   },
   border: {
     color: "#2196f3",
   },
   dataContainer: {
-    borderWidth: 1,
+    borderWidth: 4,
     borderStyle: "solid",
-    borderColor: "red",
+    borderColor: "#8c52ff",
     width: "85%",
     alignSelf: "center",
   },
@@ -307,6 +306,9 @@ const styles = StyleSheet.create({
     margin: "auto",
     width: "100%",
     alignItems: "center",
+    borderBottomWidth: 4,
+    borderStyle: 'solid',
+    borderColor: '#8c52ff'
   },
   buttonContainerClass: {
     width: "50%",
@@ -319,13 +321,13 @@ const styles = StyleSheet.create({
   textClass: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "green",
+    color: "#8c52ff",
   },
   alterButtonContainer: {
     width: "50%",
   },
   alterButtonClass: {
-    backgroundColor: "green",
+    backgroundColor: "#8c52ff",
     alignItems: "center",
     padding: 10,
   },
