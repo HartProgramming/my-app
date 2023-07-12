@@ -16,6 +16,7 @@ import { useNavigation } from "@react-navigation/native";
 import Card from "../../components/Card/Card";
 import { StyleProp, ViewStyle } from "react-native";
 import { CheckBox } from "react-native-elements";
+import MobileSelector from "../../components/Inputs/MobileSelector";
 
 interface DetailsProps {
   button: any;
@@ -637,7 +638,7 @@ export default function Details({
               onValueChange={handleLifestyle}
               style={styles.picker}
             >
-              {lifestyleArr}
+              {lifestyleArr} 
             </Picker>
           </View>
         </View>

@@ -5,9 +5,9 @@ type ButtonClickHandler = () => void;
 
 interface PhoneButtonProps {
   buttonContainerClass: StyleProp<ViewStyle>;
-  buttonClass: StyleProp<ViewStyle>;
+  buttonClass: any;
   textClass: StyleProp<TextStyle>;
-  onPress: ButtonClickHandler;
+  onPress: any;
   text: string;
   image?: any;
 }

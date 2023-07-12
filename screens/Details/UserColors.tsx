@@ -1,49 +1,75 @@
-import { ColorPicker, TriangleColorPicker } from "react-native-color-picker";
-import colorReducer from "../../hooks/ColorStateReducer";
-import { SliderComponent } from "react-native";
 import Card from "../../components/Card/Card";
-import { StyleSheet, Text, View } from "react-native";
-import { useState } from "react";
+import CardText from "../../components/Card/CardHeader";
+import { StyleSheet } from "react-native";
+import PhoneButton from "../../components/Inputs/PhoneButton";
+import { useNavigation } from "@react-navigation/native";
+import { Dimensions } from "react-native";
+import SetMargin from "../../functions/SetMargin";
+import { darkMode, lightMode, customMode } from "../../objects/ColorClass";
+import Navigation from "../../objects/NavigationType";
+import { useRoute } from "@react-navigation/native";
+import { ColorInterface } from "../../objects/ColorInterface";
+import { useEffect } from "react";
 
 export default function UserColors() {
+  const navigation = useNavigation();
 
-    const [colorBoo, setColorBoo] = useState<boolean>(false);
-    const [backgroundColor, setBackgroundColor] = useState<string>('');
-    const [fontColor, setFontColor] = useState<string>('');
+  const dark: ColorInterface[] = [
+    {backgroundColor: darkMode.background, color: darkMode.font, borderColor: darkMode.border}
+  ]
 
-    const handleColorChange = (color: string) => {
-        if(colorBoo){
-            setBackgroundColor(color);
-        }else {
-            setFontColor(color);
-        }
-    }
+  const light: ColorInterface[] = [
+    {backgroundColor: lightMode.background, color: lightMode.font, borderColor: lightMode.border}
+  ]
 
+  useEffect(() => {
+    console.log(darkMode.background)
+  }, [])
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
-      <Card scrollable={false} containerClass={styles.headContainer}>
-        <Text style={styles.header}>Color Theme</Text>
-      </Card>
-      <Card scrollable={false} containerClass={styles.headContainer}>
-        <Text>Select Your {colorBoo ? 'Font' : 'Background'} Color</Text>
-      </Card>
-      <Card scrollable={false} containerClass={styles.colorPickerContainer}>
-        <TriangleColorPicker
-          defaultColor={"#8c52ff"}
-          style={styles.colorPicker}
-          onColorChange={(color) => console.log(color)}
-          onColorSelected={(color) => console.log(color)}
+      <Card scrollable={false} containerClass={styles.infoContainer}>
+        <CardText
+          text="Step 1 of 5"
+          container={styles.headerContainer}
+          textStyle={styles.header}
         />
-      </Card>
-      <Card scrollable={false} containerClass={styles.colorsContainer}>
-        <Card scrollable={false} containerClass={styles.colorContainer}>
-          <Text style={styles.colorFont}>Font Color: </Text>
-          <View style={styles.colorBox}></View>
-        </Card>
-        <Card scrollable={false} containerClass={styles.colorContainer}>
-          <Text style={styles.colorFont}>Background Color: </Text>
-          <View style={styles.colorBox}></View>
+
+        <CardText
+          text="Choose Color Scheme"
+          container={styles.headerContainer}
+          textStyle={styles.header}
+        />
+        <Card scrollable={false} containerClass={styles.buttonsContainer}>
+          <PhoneButton
+            buttonClass={[styles.button, {backgroundColor: darkMode.background, borderColor: darkMode.border}]}
+            buttonContainerClass={styles.buttonContainer}
+            textClass={[styles.buttonText, {color: darkMode.font}]}
+            text="Dark Mode"
+            onPress={Navigation({ navigation }, "physical-info", dark)}
+          />
+          <PhoneButton
+            buttonClass={[
+              styles.button,{backgroundColor:
+              lightMode.background, borderColor:
+              lightMode.border,
+            }]}
+            buttonContainerClass={styles.buttonContainer}
+            textClass={[styles.buttonText, {color: lightMode.font}]}
+            text="Light Mode"
+            onPress={Navigation({ navigation }, "physical-info", light)}
+          />
+          <PhoneButton
+            buttonClass={[
+              styles.button,{backgroundColor:
+              customMode.background, borderColor:
+              customMode.border,
+            }]}
+            buttonContainerClass={styles.buttonContainer}
+            textClass={[styles.buttonText, {color: customMode.font}]}
+            text="Custom Color Scheme"
+            onPress={Navigation({ navigation }, "custom-colors")}
+          />
         </Card>
       </Card>
     </Card>
@@ -53,42 +79,35 @@ export default function UserColors() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
   },
-  headContainer: {
+  infoContainer: {
+    marginTop: SetMargin(0.2),
+  },
+  headerContainer: {
     alignItems: "center",
+    marginBottom: SetMargin(0.05),
   },
   header: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: "bold",
   },
-  colorPickerContainer: {},
-  colorPicker: {
-    backgroundColor: "transparent",
-    height: 400,
-    width: "80%",
-    alignSelf: "center",
+  buttonsContainer: {
+    flexDirection: "column",
   },
-  colorsContainer: {
-    width: "80%",
+  buttonContainer: {
+    width: "85%",
     alignSelf: "center",
+    padding: 10,
+    marginTop: SetMargin(0.01),
   },
-
-  colorContainer: {
+  button: {
     padding: 15,
-    justifyContent: "flex-start",
-    flexDirection: "row",
-  },
-  colorFont: {
-    fontSize: 22,
-    fontWeight: "bold",
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start'
-  },
-  colorBox: {
+    borderRadius: 15,
     borderStyle: "solid",
     borderWidth: 2,
-    borderColor: "#8c52ff",
-    width: '30%'
+  },
+  buttonText: {
+    fontSize: 24,
+    fontWeight: "bold",
   },
 });

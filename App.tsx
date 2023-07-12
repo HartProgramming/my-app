@@ -12,30 +12,55 @@ import { AntDesign, Entypo, FontAwesome5 } from "@expo/vector-icons";
 import History from "./screens/History/History";
 import Settings from "./screens/Settings/Settings";
 import SettingNavigation from "./screens/Settings/SettingNav";
-import UserColors from "./screens/Details/UserColors";
+import UserColors from "./screens/Details/CustomColors";
+import StandardDetails from "./screens/Details/StandardDetails";
+import DetailsNavigation from "./screens/Details/Navigation/DetailsNavigation";
+import RegimenNavigation from "./screens/InsertRegimen/Navigation/RegimenNavigation";
+
 
 const Stack = createNativeStackNavigator();
 
-const navBarArray = [
+interface NavBarInterface {
+  label: string;
+  component: any;
+  image: any;
+  backgroundColor: string;
+  fontColor: string;
+  borderColor: string;
+}
+
+const navBarArray: NavBarInterface[] = [
   {
     label: "Today",
     component: TodayScreen,
     image: () => <Entypo name="progress-two" size={24} color={"#8c52ff"} />,
+    backgroundColor: "",
+    fontColor: "",
+    borderColor: "",
   },
   {
     label: "Input Regimen",
-    component: InsertRegimen,
+    component: RegimenNavigation,
     image: () => <AntDesign name="pluscircle" size={24} color={"#8c52ff"} />,
+    backgroundColor: "#191919",
+    fontColor: "",
+    borderColor: "",
   },
   {
     label: "History",
     component: History,
     image: () => <FontAwesome5 name="history" size={24} color={"#8c52ff"} />,
+    backgroundColor: "",
+    fontColor: "",
+    borderColor: "",
   },
   {
     label: "Settings",
     component: Settings,
     image: () => <AntDesign name="setting" size={24} color={"#8c52ff"} />,
+    backgroundColor: "",
+    fontColor: "",
+    borderColor: "",
   },
 ];
 
@@ -66,10 +91,14 @@ const App: React.FC = () => {
                 component={SignUp}
               />
               <Stack.Screen
-                name="Details"
+                name="current-details"
                 options={{ headerShown: false }}
-                component={Details}
-              />
+              >
+                {(props) => <DetailsNavigation />}
+              </Stack.Screen>
+              <Stack.Screen name="Setting" options={{ headerShown: false }}>
+                {(props) => <SettingNavigation />}
+              </Stack.Screen>
               <Stack.Screen
                 name="User Colors"
                 options={{ headerShown: false }}

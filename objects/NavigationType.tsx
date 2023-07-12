@@ -1,9 +1,13 @@
-import { NavigationProp, ParamListBase } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
-declare global {
-    namespace ReactNavigation{
-        interface RootParamList extends ParamListBase{}
-    }
+interface NavigationParams {
+  [key: string]: any;
 }
 
-export function useNavigation<T extends NavigationProp>(): T
+export default function Navigation(
+  { navigation }: any,
+  route: string,
+  params?: object
+) {
+  return () => navigation.navigate(route, params);
+}

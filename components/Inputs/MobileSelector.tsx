@@ -1,63 +1,105 @@
 import Card from "../Card/Card";
 import { Picker } from "@react-native-picker/picker";
+import { MutableRefObject, RefObject, useEffect, useState } from "react";
+import { StyleProp, View, ViewStyle } from "react-native";
 
-interface MobileSelector {
+export interface MobileSelectorInterface {
   minimumNum: number;
   maximumNum: number;
-  contentArrayStr?: string[];
+  contentArrayStr?: any;
   contentArrayNum?: number[];
+  pickerStyle:
+    | StyleProp<ViewStyle>
+    | [StyleProp<ViewStyle>, StyleProp<ViewStyle>];
+  pickerItemStyle:
+    | StyleProp<ViewStyle>
+    | [StyleProp<ViewStyle>, StyleProp<ViewStyle>];
+  handleChange: any;
+  selectedValue: number | string;
+  cardContainer:
+    | StyleProp<ViewStyle>
+    | [StyleProp<ViewStyle>, StyleProp<ViewStyle>];
+  key?: string;
+  ref: any;
+  handleFocus: any;
+  id: string;
 }
 
 export default function MobileSelector({
   minimumNum,
   maximumNum,
   contentArrayStr,
-  contentArrayNum
-}: MobileSelector) {
+  contentArrayNum,
+  pickerItemStyle,
+  pickerStyle,
+  handleChange,
+  selectedValue,
+  cardContainer,
+  key,
+  ref,
+  handleFocus,
+  id,
+}: MobileSelectorInterface) {
+  const [focusId, setFocusId] = useState<string>("");
+  const [value, setValue] = useState<any>("");
+
   function generateSelectorContent(
-    minimumNum = 0,
-    maximumNum = 0,
-    contentArrayStr: string[] = [],
-    contentArrayNum: number[] = []
+    minimumNum: number,
+    maximumNum: number,
+    array?: any
   ) {
-    if (contentArrayNum.length === 0) {
-      maximumNum = contentArrayNum.length;
+    let arr: { label: string; value: string }[] = [];
+    if (maximumNum > 0) {
       for (let item = minimumNum; item <= maximumNum; item++) {
-        contentArrayNum.push(item);
+        arr.push({ label: `${item}`, value: `${item}` });
       }
+    } else if (array && array.length > 0) {
+      for (let item of array) {
+        arr.push({ label: `${item.label}`, value: `${item.value}` });
+      }
+    } else if (array === undefined) {
+      arr.push({ label: "1", value: "2" });
     }
+    return arr;
   }
 
-  function generateItemsPicker(func: any) {
-    interface Items {
-      label: string;
-      value: string;
-    }
-    let itemsArr: Items[] = [];
-    for (let x of func) {
-      itemsArr.push(
-        x.label === undefined
-          ? { label: `${x}`, value: `${x}` }
-          : { label: `${x.label}`, value: `${x.value}` }
-      );
-    }
-    return itemsArr;
+  const setChange = (event: string) => {
+    setValue(event);
+    handleChange(event);
+  };
+
+  const setFocus = (event: string) => {
+    console.log(event);
+    handleFocus(event);
   }
 
-  return(
-    <Card>
-        <Picker>
-        {generateItemsPicker(generateSelectorContent(minimumNum).map((value) => {
-        return (
-          <Picker.Item
-            style={styles.pickerItem}
-            key={`${value.value}`}
-            label={`${value.label}`}
-            value={`${value.value}`}
-          ></Picker.Item>
-        );
-      }))}
-        </Picker>
+  useEffect(() => {
+    selectedValue = value;
+  }, [value]);
+
+  return (
+    <Card scrollable={false} containerClass={cardContainer}>
+      <Picker
+        onValueChange={setChange}
+        selectedValue={value}
+        style={pickerStyle}
+        ref={ref}
+        id={id}
+        onFocus={() => setFocus(id)}
+      >
+        {generateSelectorContent(minimumNum, maximumNum, contentArrayStr).map(
+          (value: any) => {
+            return (
+              <Picker.Item
+                style={pickerItemStyle}
+                label={value.label}
+                value={value.value}
+                key={value.value}
+              ></Picker.Item>
+            );
+          }
+        )}
+      </Picker>
     </Card>
-  )
+  );
 }

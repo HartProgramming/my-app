@@ -46,13 +46,19 @@ const searchResultsArray: SearchResults[] = [
   { label: "Seafood", item: "Seafood", index: 4 },
 ];
 
-export default function InsertRegimen() {
+export default function InsertRegimen({ route }: any) {
   interface CreateLabels {
     label: string;
     key: number;
     placeholder: string;
     input: any;
   }
+
+  const {backgroundColor, fontColor, borderColor} = route.params
+
+  useEffect(() => {
+    console.log(backgroundColor);
+  }, []);
 
   const [inputMealBoo, setInputMealBoo] = useState<boolean>(true);
   const [searchEntry, setSearchEntry] = useState<string>("");
@@ -168,12 +174,9 @@ export default function InsertRegimen() {
     } else if (event.current === "minutesInput") {
       setFocusInput(event.current);
     }
-    console.log(event);
   };
 
   const handleChange = (event: string) => {
-    console.log(focusInput);
-    console.log(event);
     if (searchBoo) {
       setSearchEntry("");
       if (inputMealBoo) {
@@ -300,12 +303,9 @@ export default function InsertRegimen() {
     setDisplayRecentResult(
       selectedSearchButton ? mealRecentArray : exerciseRecentArray
     );
-    console.log(selectedSearchButton);
-    console.log(displayCreateLabels);
   }, [selectedSearchButton]);
 
   const handleButtonSwitch = (event: string) => {
-    console.log(event);
     if (event === "Search") {
       setSelectedSearchCreatedButton(true);
       setSearchBoo(true);

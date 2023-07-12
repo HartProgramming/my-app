@@ -41,7 +41,7 @@ export default function SignUp() {
       console.log("not true");
     }
     */
-   transScreen('Details')
+   transScreen('current-details')
   };
 
   const handleEmail = (text: string) => {

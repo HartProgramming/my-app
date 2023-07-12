@@ -5,7 +5,6 @@ import { useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 
-
 interface NavBarButtonArray {
   label: string;
   component: any;
@@ -19,12 +18,6 @@ export default function NavBar({
 }) {
   const Tab = createBottomTabNavigator();
 
-  const navigation = useNavigation();
-
-  const transScreen = (route: any) => {
-    navigation.navigate(route as never);
-  };
-
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -34,14 +27,25 @@ export default function NavBar({
           );
           if (button && button.image) {
             return button.image();
-          }else {
-            return null
+          } else {
+            return null;
           }
         },
       })}
     >
       {buttonArr.map((value: any) => {
-        return <Tab.Screen options={{ headerShown: false}} name={value.label} component={value.component} />;
+        return (
+          <Tab.Screen
+            options={{ headerShown: false }}
+            initialParams={{
+              backgroundColor: value.backgroundColor,
+              fontColor: value.fontColor,
+              borderColor: value.borderColor,
+            }}
+            name={value.label}
+            component={value.component}
+          />
+        );
       })}
     </Tab.Navigator>
   );
