@@ -9,7 +9,7 @@ interface CardText {
 
 export default function CardText({ text, container, textStyle }: CardText) {
   return (
-    <Card containerClass={container} scrollable={false}>
+    <Card scrollable={false} containerClass={container}>
       <Text style={textStyle}>{text}</Text>
     </Card>
   );

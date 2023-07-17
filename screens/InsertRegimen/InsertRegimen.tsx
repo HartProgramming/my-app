@@ -14,22 +14,7 @@ interface SearchResults {
   index: number;
 }
 
-interface CriteriaMeal {
-  name: string | undefined;
-  brand?: string | undefined;
-  ounces?: string | undefined;
-  calories: string | undefined;
-  protein: string | undefined;
-  key: string | undefined;
-}
 
-interface CriteriaExercise {
-  name: string | undefined;
-  reps?: string | undefined;
-  miles?: string | undefined;
-  minutes?: string | undefined;
-  key: string | undefined;
-}
 
 const exerciseRecentArray: CriteriaExercise[] = [
   { name: "Jogging", miles: "3", key: "Jogging3" },
@@ -417,7 +402,7 @@ export default function InsertRegimen({ route }: any) {
               />
             </Card>
             <Card scrollable={false} containerClass={styles.resultsContainer}>
-              <PhoneTextInput
+              <PhoneTextInput 
                 keyboardType="default"
                 secureTextEntry={false}
                 value={searchEntry}

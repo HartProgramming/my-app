@@ -19,9 +19,10 @@ interface PhoneInputProps {
   children?: any;
   ref?: any;
   onFocus?: any;
+  icon?: any;
 }
 
-const PhoneTextInput : React.FC<PhoneInputProps> = ({onFocus, ref, children, keyboardType, secureTextEntry, onChange, placeholder, inputContainerClass, inputClass, textClass, value}) => {
+const PhoneTextInput : React.FC<PhoneInputProps> = ({icon, onFocus, ref, children, keyboardType, secureTextEntry, onChange, placeholder, inputContainerClass, inputClass, textClass, value}) => {
 
   return (
     <View style={inputContainerClass}>

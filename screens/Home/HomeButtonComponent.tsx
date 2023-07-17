@@ -1,39 +1,44 @@
-import { View, TouchableOpacity, Text } from "react-native"
 import { StyleSheet } from "react-native"
-type HomeButtonComponentProps = {
-    text: string;
-    press: any;
+import PhoneButton from "../../components/Inputs/PhoneButton";
+import SetMargin from "../../functions/SetMargin";
+
+interface MainButtonProps {
+  label: string;
+  onPress: any;
 }
 
-const HomeButtonComponent : React.FC<HomeButtonComponentProps> = ({press, text}) => {
 
+  export default function MainButton({label, onPress}: MainButtonProps){
 
     return(
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={press} style={styles.button}>
-            <Text style={styles.buttonText}>{text}</Text>
-          </TouchableOpacity>
-        </View>
+        <PhoneButton onPress={onPress} text={label} buttonClass={styles.button} buttonContainerClass={styles.buttonContainer} textClass={styles.buttonText}/>
     )
 }
 
 const styles = StyleSheet.create({
     buttonContainer: {
-        display: "flex",
-        margin: "auto",
         alignItems: "center",
       },
       buttonText: {
         color: "white",
         textAlign: "center",
+        fontSize: 24,
+        fontWeight: 'bold',
+        letterSpacing: 1.15
       },
       button: {
-        borderRadius: 10,
-        padding: 14,
-        margin: 10,
+        borderRadius: 50,
+        padding: 20,
         backgroundColor: "green",
-        width: 200,
+        elevation: 5,
+        width: '60%',
+        shadowColor: 'gray',
+        shadowOffset: {
+          width: 5,
+          height: 5
+        },
+        shadowOpacity: 1,
+        shadowRadius: 9,
       },
 })
 
-export default HomeButtonComponent;

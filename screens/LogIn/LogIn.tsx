@@ -1,11 +1,15 @@
-import { View, Text, Button, TextInput, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { Image } from "react-native";
-import PhoneTextInput from "../../components/Inputs/PhoneTextInput";
 import Card from "../../components/Card/Card";
 import PhoneButton from "../../components/Inputs/PhoneButton";
+import LoginInput from "./Components/LoginInput";
+import Navigation from "../../objects/NavigationType";
+import MainButton from "../Home/HomeButtonComponent";
+import SetMargin from "../../functions/SetMargin";
+
 type handleLogin = (status: boolean) => void;
 
 export default function LogIn({ handleLogin }: { handleLogin: handleLogin }) {
@@ -22,12 +26,12 @@ export default function LogIn({ handleLogin }: { handleLogin: handleLogin }) {
     ref: any;
   }
 
-  const [email, setEmail] = useState<string>("");
+  const [user, setUser] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [focus, setFocus] = useState<any>("");
   const [loginConfirm, setLoginConfirm] = useState<boolean>(false);
   const [hidePassword, setHidePasword] = useState<boolean>(true);
-  const [hideShowText, setHideShowText] = useState<string>('Show');
+  const [hideShowText, setHideShowText] = useState<string>("Show");
 
   const emailRef = useRef("email");
   const passwordRef = useRef("password");
@@ -38,7 +42,7 @@ export default function LogIn({ handleLogin }: { handleLogin: handleLogin }) {
       key: 1,
       secureText: false,
       keyboardType: "email-address",
-      value: email,
+      value: user,
       ref: emailRef,
     },
     {
@@ -51,31 +55,13 @@ export default function LogIn({ handleLogin }: { handleLogin: handleLogin }) {
     },
   ];
 
-  const handleFocus = (event: any) => {
-    console.log(event.current);
-    setFocus(event.current);
-  };
-
-  const handleChange = (event: string) => {
-    console.log(event);
-    if (focus === "email") {
-      setEmail(event);
-    } else if (focus === "password") {
-      setPassword(event);
-    }
-  };
-
-  const transScreen = (route: string) => {
-    navigation.navigate(route as never);
-  };
-
   const togglePassword = (event: string) => {
-    if(event === 'Show'){
+    if (event === "Show") {
       setHidePasword(false);
-      setHideShowText('Hide');
-    }else{
+      setHideShowText("Hide");
+    } else {
       setHidePasword(true);
-      setHideShowText('Show');
+      setHideShowText("Show");
     }
   };
 
@@ -87,13 +73,13 @@ export default function LogIn({ handleLogin }: { handleLogin: handleLogin }) {
   };
 
   useEffect(() => {
-    console.log(email);
+    console.log(user);
     console.log(password);
     setLoginConfirm(true);
-    if (email === "hart.edward91@gmail.com" && password === "blasters") {
+    if (user === "hart.edward91@gmail.com" && password === "blasters") {
       setLoginConfirm(true);
     }
-  }, [email, password]);
+  }, [user, password]);
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
@@ -101,48 +87,35 @@ export default function LogIn({ handleLogin }: { handleLogin: handleLogin }) {
         <Image source={logo}></Image>
       </Card>
       <Card scrollable={false} containerClass={styles.containerButton}>
-        <PhoneTextInput
-          ref={emailRef}
-          onFocus={() => handleFocus(emailRef)}
-          value={email}
-          secureTextEntry={false}
-          keyboardType={"email-address"}
-          placeholder={"Email Address"}
-          inputClass={styles.input}
-          inputContainerClass={styles.buttonContainer}
-          onChange={handleChange}
-          textClass={styles.textInput}
-        />
-        <Card scrollable={false} containerClass={styles.passwordContainer}>
-          <PhoneTextInput
-            ref={passwordRef}
-            onFocus={() => handleFocus(passwordRef)}
-            value={password}
-            secureTextEntry={hidePassword}
-            keyboardType={"default"}
-            placeholder={"Password"}
-            inputClass={styles.input}
-            inputContainerClass={styles.buttonContainer}
-            onChange={handleChange}
-            textClass={styles.textInput}
+        <Card scrollable={false} containerClass={styles.buttonsContainer}>
+          <LoginInput
+            keyboardType="email-address"
+            value={setUser}
+            secureEntry={false}
+            placeholder="Email/Username"
+          />
+        </Card>
+
+        <Card scrollable={false} containerClass={styles.buttonsContainer}>
+          <LoginInput
+            keyboardType="default"
+            value={setPassword}
+            secureEntry={hidePassword}
+            placeholder="Password"
           />
           <PhoneButton
             onPress={() => togglePassword(hideShowText)}
             textClass={hidePassword ? styles.hideText : styles.showText}
             buttonContainerClass={styles.hideShowButtonContainer}
             buttonClass={hidePassword ? styles.hideButton : styles.showButton}
-            text={hideShowText}
+            text={""}
           />
         </Card>
+        <Card scrollable={false} containerClass={styles.loginButtonContainer}>
+          <MainButton label="Login" onPress={setLogin} />
+        </Card>
 
-        <View style={styles.loginContainer}>
-          <TouchableOpacity style={styles.loginButton}>
-            <Text style={styles.loginText} onPress={setLogin}>
-              Login
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.forgotContainer}>
+        <Card scrollable={false} containerClass={styles.forgotContainer}>
           <Text>
             Forgot <Text style={styles.transText}>Password</Text> or{" "}
             <Text style={styles.transText}>Username</Text>?
@@ -152,13 +125,13 @@ export default function LogIn({ handleLogin }: { handleLogin: handleLogin }) {
             Need to{" "}
             <Text
               style={styles.transText}
-              onPress={() => transScreen("Sign Up")}
+              onPress={Navigation({ navigation }, "Sign Up")}
             >
               Sign Up
             </Text>
             ?
           </Text>
-        </View>
+        </Card>
       </Card>
     </Card>
   );
@@ -178,68 +151,64 @@ const styles = StyleSheet.create({
     marginTop: 90,
   },
   containerButton: {
-    marginTop: 300,
+    marginTop: SetMargin(0.35),
+    flexDirection: "column",
+    justifyContent: "center",
+    alignContent: "center",
+    alignSelf: "center",
   },
   header: {
     fontWeight: "bold",
     fontSize: 32,
     color: "black",
   },
+ 
+  loginButton: {},
+  loginButtonText: {
+    fontSize: 28,
+    fontWeight: "bold",
+    textAlign: "center",
+    letterSpacing: 1.15,
+    color: "white",
+  },
   buttonContainer: {
-    display: "flex",
     alignItems: "center",
   },
-  textInput: {
-    textAlign: "center",
-    fontSize: 16,
-  },
-  input: {
-    borderRadius: 30,
-    padding: 14,
-    margin: 10,
-    backgroundColor: "#f7f7f7",
-    width: 200,
-    borderStyle: 'solid',
-    borderColor: '#8c52ff',
-    borderWidth: 3
-  },
-  passwordContainer: {
+  buttonsContainer: {
     flexDirection: "row",
-    alignSelf: 'center',
-    width: '55%',
-    alignItems: 'center'
+    alignSelf: "center",
+    alignItems: "center",
+    width: "70%",
   },
   hideShowButtonContainer: {
     alignItems: "center",
-    height: 50,
-    width: 88,
-    borderRadius: 50,
-    justifyContent: 'center',
-    padding: 5
+    width: "2%",
+    height: "2%",
+    justifyContent: "center",
   },
   hideButton: {
     backgroundColor: "#8c52ff",
-    color: 'white',
-    width: '100%',
-    height: 47,
-    borderRadius: 45,
-    alignItems: 'center',
-    borderStyle: 'solid',
-    borderColor: '#8c52ff',
+    color: "white",
+    borderRadius: 50,
+    alignItems: "center",
+    borderStyle: "solid",
+    borderColor: "#8c52ff",
     borderWidth: 3,
-    justifyContent: 'center',
+    justifyContent: "center",
+    padding: 25,
+    marginRight: SetMargin(-0.1),
   },
   showButton: {
     backgroundColor: "white",
-    color: 'purple',
-    width: '100%',
-    height: 47,
-    borderRadius: 45,
-    alignItems: 'center',
-    borderStyle: 'solid',
-    borderColor: '#8c52ff',
+    color: "purple",
+    borderRadius: 50,
+    alignItems: "center",
+    borderStyle: "solid",
+    borderColor: "#8c52ff",
     borderWidth: 3,
-    justifyContent: 'center',
+    justifyContent: "center",
+    padding: 25,
+    marginRight: SetMargin(-0.1),
   },
   hideText: {
     fontSize: 16,
@@ -250,31 +219,19 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#8c52ff",
-    textAlignVertical: 'center'
+    textAlignVertical: "center",
   },
   loginContainer: {
     display: "flex",
     alignItems: "center",
   },
-  loginButton: {
-    backgroundColor: "#8c52ff",
-    borderRadius: 10,
-    padding: 14,
-    margin: 10,
-    width: 200,
-  },
+
   signUpButton: {
     backgroundColor: "#8c52ff",
     padding: 10,
     borderRadius: 20,
   },
-  loginText: {
-    color: "white",
-    textAlign: "center",
-    fontSize: 24,
-    fontWeight: "bold",
-    letterSpacing: 1.2,
-  },
+
   signUpText: {
     color: "green",
   },
