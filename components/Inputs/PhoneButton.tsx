@@ -8,7 +8,7 @@ interface PhoneButtonProps {
   buttonClass: any;
   textClass: StyleProp<TextStyle>;
   onPress: any;
-  text: string;
+  text: string | undefined;
   image?: any;
 }
 

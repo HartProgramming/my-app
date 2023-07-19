@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet, View, Modal, Text, TouchableOpacity } from "react-native";
 import PhoneButton from "../Inputs/PhoneButton";
+import Card from "../Card/Card";
+import SetMargin from "../../functions/SetMargin";
 
 interface ModalProps {
   visible: boolean;
@@ -8,23 +10,32 @@ interface ModalProps {
   name?: string;
   details: string;
   image?: File;
+
 }
 
-const ModalPopup = ({ visible, onClose, details, name, image }: ModalProps) => {
+const ModalPopup = ({
+  
+  visible,
+  onClose,
+  details,
+  name,
+  image,
+}: ModalProps) => {
   return (
     <Modal visible={visible} transparent animationType="fade">
-      <View style={styles.modalContainer}>
-        <View style={styles.modalContent}>
-          <Text style={styles.modalText}>{details}</Text>
-          <PhoneButton
-            onPress={onClose}
-            buttonContainerClass={styles.closeButtonContainer}
-            text="Close"
-            textClass={styles.closeButtonText}
-            buttonClass={styles.closeButton}
-          />
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>{details}</Text>
+            <PhoneButton
+              onPress={onClose}
+              buttonContainerClass={styles.closeButtonContainer}
+              text="Close"
+              textClass={styles.closeButtonText}
+              buttonClass={styles.closeButton}
+            />
+          </View>
         </View>
-      </View>
+     
     </Modal>
   );
 };

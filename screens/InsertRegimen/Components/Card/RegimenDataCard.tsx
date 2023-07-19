@@ -1,53 +1,60 @@
-import Card from "../../../../components/Card/Card"
+import Card from "../../../../components/Card/Card";
 import { StyleSheet } from "react-native";
 import { Text, Image } from "react-native";
 import { useEffect, useState } from "react";
 import SetMargin from "../../../../functions/SetMargin";
-import { useSafeAreaFrame } from "react-native-safe-area-context";
-import { ExerciseActivity } from "../../Screens/MainRegimen";
+import { ExerciseActivity, MealActivity } from "../../Screens/MainRegimen";
+import RecentActivityImageButton from "../../../Activity/Components/Button/RecentActivityImageButton";
 
 interface RegimenDataCardProps {
-    icon: any;
-    dataType: string;
-    data: ExerciseActivity;
+  icon: any;
+  dataType: string;
+  mealData?: MealActivity;
+  exerciseData?: ExerciseActivity;
 }
 
-export default function RegimenDataCard({icon, data, dataType}: RegimenDataCardProps){
+export default function RegimenDataCard({
+  icon,
+  mealData,
+  exerciseData,
+  dataType,
+}: RegimenDataCardProps) {
+  useEffect(() => {
+    console.log(exerciseData.exercise);
+  }, []);
 
-    const [mealData, setMealData] = useState<object>({});
-    const [exerciseData, setExerciseData] = useState<object>({});
-
-    return(
-        <Card scrollable={false} containerClass={styles.container}>
-            <Image style={styles.image} source={icon} />
-            {dataType === 'Exercise' ? (
-                <Card scrollable={false} containerClass={styles.textContainer}>
-                
-                <Text>{data.exercise}</Text>
-                <Text>{data.miles}</Text>
-                </Card>
-            ):(
-                <Card scrollable={false} containerClass={styles.textContainer}>
-                    <Text>{data.meal}</Text>
-
-                </Card>
-            )
-            }
-        </Card>
-    )
+  return (
+    <Card scrollable={false} containerClass={styles.container}>
+      {dataType === "Exercise" ? (
+        <RecentActivityImageButton
+          labelStyle={styles.label}
+          imageStyle={styles.image}
+          label={exerciseData?.exercise}
+          source={icon}
+        />
+      ) : (
+        <RecentActivityImageButton
+          labelStyle={styles.label}
+          imageStyle={styles.image}
+          label={exerciseData?.exercise}
+          source={icon}
+        />
+      )}
+    </Card>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    image: {
-        height: SetMargin(.1),
-        width: SetMargin(.1)
-    },
-    textContainer: {
-
-    }
-})
+  container: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  image: {
+    height: SetMargin(0.15),
+    width: SetMargin(0.15),
+    borderRadius: 15,
+  },
+  textContainer: {},
+  label: {},
+});

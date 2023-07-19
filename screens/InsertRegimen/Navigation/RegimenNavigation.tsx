@@ -11,7 +11,7 @@ import MainRegimen from "../Screens/MainRegimen";
 
 
 export default function RegimenNavigation(){
-
+ 
     const regimenArray: NavigationArrayProps[] =[
         {options: false, name: 'main-regimen', component: MainRegimen, backgroundColor: '', borderColor: '', fontColor: ''},
         {options: false, name: 'search', component: SearchRegimen, backgroundColor: '', borderColor: '', fontColor: ''},

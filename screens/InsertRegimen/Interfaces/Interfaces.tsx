@@ -16,3 +16,9 @@ export interface CriteriaMealInterface {
     key: string | undefined;
     resultsBoo: boolean;
   }
+
+  export interface MainRegimenButtonProps {
+    label: string;
+    onPress: any;
+    left: boolean;
+  }

@@ -1,14 +1,39 @@
-import Card from "../../components/Card/Card";
+import Card from "../../../components/Card/Card";
 import { StyleSheet } from "react-native";
 import { Text, View } from "react-native";
-import Meter from "../../components/Meter/Meter";
+import Meter from "../../../components/Meter/Meter";
 import { useEffect, useState } from "react";
 import { Dimensions } from "react-native";
-import { Text as SvgText, TextProps } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
-import { useSafeAreaFrame } from "react-native-safe-area-context";
-import PhoneButton from "../../components/Inputs/PhoneButton";
-import InsertRegimen from "../InsertRegimen/InsertRegimen";
+import PhoneButton from "../../../components/Inputs/PhoneButton";
+import ActivityModal from "../Components/Modal/ActivityModal";
+import RecentActivityImageButton from "../Components/Button/RecentActivityImageButton";
+import Jogging from "../../../images/cardimages/joggingstreet.jpeg";
+import Chicken from "../../../images/cardimages/chickenbreast.jpeg";
+import CardText from "../../../components/Card/CardHeader";
+import SetMargin from "../../../functions/SetMargin";
+import DateArrowButton from "../Components/Button/DateArrowButton";
+
+export interface ExerciseActivity {
+  Exercise: string | undefined;
+  Reps?: number | undefined;
+  Miles?: number | undefined;
+  Minutes?: number | undefined;
+  CaloriesBurned: number;
+  Image: any;
+}
+
+export interface MealActivity {
+  Meal: string;
+  Calories: number;
+  Protein: number;
+  Fat?: number;
+  Servings?: number;
+  ServingSize?: number;
+  Sodium?: number;
+  Cholesterol?: number;
+  Image: any;
+}
 
 const TodayScreen: React.FC = () => {
   /* Performance Percentages */
@@ -51,11 +76,49 @@ const TodayScreen: React.FC = () => {
   const [alterButtonStyle, setAlterButtonStyle] = useState<boolean>(true);
   const [standardButtonStyle, setStandardButtonStyle] = useState<boolean>(true);
 
+  const [modal, setModal] = useState<any>("");
+
   const windowWidth = Dimensions.get("window").width;
 
   const meterWidth = windowWidth * 0.9;
 
   const navigation = useNavigation();
+
+  const DUMMY_EXERCISE: ExerciseActivity[] = [
+    {
+      Exercise: "Jogging",
+      Miles: 3,
+      CaloriesBurned: 200,
+      Image: Jogging,
+    },
+    {
+      Exercise: "Push-ups",
+      Reps: 150,
+      CaloriesBurned: 200,
+      Image: Jogging,
+    },
+    {
+      Exercise: "Planks",
+      Minutes: 3,
+      CaloriesBurned: 100,
+      Image: Jogging,
+    },
+  ];
+
+  const DUMMY_MEALS: MealActivity[] = [
+    {
+      Meal: "Chicken",
+      Calories: 400,
+      Protein: 60,
+      Image: Chicken,
+      Sodium: 30,
+      Cholesterol: 40,
+      Servings: 3,
+      ServingSize: 30,
+    },
+    { Meal: "Taco", Calories: 100, Protein: 60, Image: Chicken },
+    { Meal: "Pizza", Calories: 400, Protein: 60, Image: Chicken },
+  ];
 
   const transScreen = (route: string) => {
     return navigation.navigate(route as never);
@@ -65,11 +128,11 @@ const TodayScreen: React.FC = () => {
     if (event === "Meals") {
       setAlterButtonStyle(false);
       setStandardButtonStyle(false);
-      setMealsDisplay(true)
+      setMealsDisplay(true);
     } else if (event === "Exercises") {
       setAlterButtonStyle(true);
       setStandardButtonStyle(true);
-      setMealsDisplay(false)
+      setMealsDisplay(false);
     }
     console.log(event);
   };
@@ -93,10 +156,28 @@ const TodayScreen: React.FC = () => {
     }
 
     const exerciseArray: Exercises[] = [
-      {label: 'Pushups', reps: 20, repsBoo: true, milesBoo: false, minutesBoo: false},
-      {label: 'Jog', miles: 3, repsBoo: false, milesBoo: true, minutesBoo: false},
-      {label: 'Plank', minutes: 4, milesBoo: false, repsBoo: false, minutesBoo: true}
-    ]
+      {
+        label: "Pushups",
+        reps: 20,
+        repsBoo: true,
+        milesBoo: false,
+        minutesBoo: false,
+      },
+      {
+        label: "Jog",
+        miles: 3,
+        repsBoo: false,
+        milesBoo: true,
+        minutesBoo: false,
+      },
+      {
+        label: "Plank",
+        minutes: 4,
+        milesBoo: false,
+        repsBoo: false,
+        minutesBoo: true,
+      },
+    ];
 
     const mealArray: Meals[] = [
       { label: "Steak", calories: 400, protein: 40, ounces: 10 },
@@ -105,16 +186,21 @@ const TodayScreen: React.FC = () => {
     ];
 
     setExerciseElements(
-      exerciseArray.map(value => {
+      exerciseArray.map((value) => {
         return (
           <Card scrollable={false} containerClass={styles.indicatorContainer}>
             <Text style={styles.label}>
-              {value.label}: {value.milesBoo ? `${value.miles} Miles` : value.repsBoo ? `${value.reps} Reps` : `${value.minutes} Minutes`}
+              {value.label}:{" "}
+              {value.milesBoo
+                ? `${value.miles} Miles`
+                : value.repsBoo
+                ? `${value.reps} Reps`
+                : `${value.minutes} Minutes`}
             </Text>
           </Card>
         );
       })
-    )
+    );
 
     setMealElements(
       mealArray.map((value) => {
@@ -175,8 +261,8 @@ const TodayScreen: React.FC = () => {
               data={value.data}
               strokeWidth={0}
               width={meterWidth}
-              height={70}
-              rectHeight={55}
+              height={30}
+              rectHeight={30}
               percentage={value.percentage}
               strokeLinecap={"round"}
               strokeProgress="#e6e6e6"
@@ -213,50 +299,67 @@ const TodayScreen: React.FC = () => {
   ]);
 
   return (
-    <Card scrollable={true} containerClass={styles.container}>
-      <Card scrollable={false} containerClass={styles.headerContainer}>
-        <Text style={styles.header}>Today's Progress</Text>
+    <Card scrollable={false} containerClass={styles.container}>
+      <Card scrollable={false} containerClass={styles.recentContainer}>
+        <CardText
+          text="Recent Activity"
+          textStyle={styles.recentHeader}
+          container={styles.recentHeaderContainer}
+        />
+        <Card scrollable={false} containerClass={styles.detailsContainer}>
+          <Card
+            scrollable={false}
+            containerClass={styles.recentImagesContainer}
+          >
+            {DUMMY_EXERCISE.map((value) => {
+              return (
+                <>
+                  <RecentActivityImageButton
+                    label={value.Exercise}
+                    source={value.Image}
+                    showModal={() => setModal(value.Exercise)}
+                  />
+                  <ActivityModal
+                    showHide={() => setModal("")}
+                    details={value}
+                    visible={modal === value.Exercise}
+                  />
+                </>
+              );
+            })}
+          </Card>
+        </Card>
+        <Card scrollable={false} containerClass={styles.detailsContainer}>
+          <Card
+            scrollable={false}
+            containerClass={styles.recentImagesContainer}
+          >
+            {DUMMY_MEALS.map((value) => {
+              return (
+                <>
+                  <RecentActivityImageButton
+                    label={value.Meal}
+                    source={value.Image}
+                    showModal={() => setModal(value.Meal)}
+                  />
+                  <ActivityModal
+                    showHide={() => setModal("")}
+                    details={value}
+                    visible={modal === value.Meal}
+                  />
+                </>
+              );
+            })}
+          </Card>
+        </Card>
       </Card>
       <Card scrollable={false} containerClass={styles.indicatorsContainer}>
+            <Card scrollable={false} containerClass={styles.dateContainer}>
+              <DateArrowButton />
+              <CardText text="Today"/>
+              <DateArrowButton />
+            </Card>
         {elements}
-      </Card>
-      <Card
-        scrollable={false}
-        containerClass={[styles.dataContainer, meterWidth]}
-      >
-        <Card scrollable={false} containerClass={styles.buttonsContainer}>
-          <PhoneButton
-            buttonContainerClass={
-              standardButtonStyle
-                ? styles.buttonContainerClass
-                : styles.alterButtonContainer
-            }
-            buttonClass={
-              standardButtonStyle ? styles.buttonClass : styles.alterButtonClass
-            }
-            textClass={
-              standardButtonStyle ? styles.textClass : styles.alterTextClass
-            }
-            text="Exercises"
-            onPress={() => handleButton("Exercises")}
-          />
-          <PhoneButton
-            buttonContainerClass={
-              alterButtonStyle
-                ? styles.alterButtonContainer
-                : styles.buttonContainerClass
-            }
-            buttonClass={
-              alterButtonStyle ? styles.alterButtonClass : styles.buttonClass
-            }
-            textClass={
-              alterButtonStyle ? styles.alterTextClass : styles.textClass
-            }
-            text="Meals"
-            onPress={() => handleButton("Meals")}
-          />
-        </Card>
-        {mealsDisplay ? mealElements : exerciseElements}
       </Card>
     </Card>
   );
@@ -307,8 +410,8 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     borderBottomWidth: 4,
-    borderStyle: 'solid',
-    borderColor: '#8c52ff'
+    borderStyle: "solid",
+    borderColor: "#8c52ff",
   },
   buttonContainerClass: {
     width: "50%",
@@ -336,6 +439,29 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
   },
+  detailsContainer: {
+    marginTop: SetMargin(0.01),
+    paddingBottom: 5,
+  },
+  recentContainer: {
+    marginTop: SetMargin(0.1),
+  },
+  recentImagesContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  recentHeaderContainer: {
+    alignSelf: "flex-start",
+    marginLeft: SetMargin(0.02),
+  },
+  recentHeader: {
+    fontSize: 32,
+    fontWeight: "bold",
+    letterSpacing: 1.2,
+  },
+  dateContainer: {
+
+  }
 });
 
 export default TodayScreen;

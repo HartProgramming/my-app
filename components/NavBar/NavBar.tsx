@@ -20,6 +20,12 @@ export default function NavBar({
 
   return (
     <Tab.Navigator
+    tabBarOptions={{
+      labelStyle: {
+        fontSize: 12,
+        letterSpacing: 1.02
+      } 
+    }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
           const button = buttonArr.find(

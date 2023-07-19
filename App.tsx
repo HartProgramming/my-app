@@ -5,10 +5,10 @@ import HomeScreen from "./screens/Home/HomeScreen";
 import SignUp from "./screens/SignUp/SignUp";
 import Details from "./screens/Details/Details";
 import NavBar from "./components/NavBar/NavBar";
-import TodayScreen from "./screens/TodayScreen/TodayScreen";
+import TodayScreen from "./screens/Activity/Screens/MainActivity";
 import InsertRegimen from "./screens/InsertRegimen/InsertRegimen";
 import { useState } from "react";
-import { AntDesign, Entypo, FontAwesome5 } from "@expo/vector-icons";
+import { AntDesign, Entypo, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import History from "./screens/History/History";
 import Settings from "./screens/Settings/Settings";
 import SettingNavigation from "./screens/Settings/SettingNav";
@@ -16,12 +16,14 @@ import UserColors from "./screens/Details/CustomColors";
 import StandardDetails from "./screens/Details/StandardDetails";
 import DetailsNavigation from "./screens/Details/Navigation/DetailsNavigation";
 import RegimenNavigation from "./screens/InsertRegimen/Navigation/RegimenNavigation";
+import {GoogleFonts} from 'react-native-google-fonts';
 
 
 const Stack = createNativeStackNavigator();
 
 interface NavBarInterface {
   label: string;
+  route: string;
   component: any;
   image: any;
   backgroundColor: string;
@@ -31,36 +33,40 @@ interface NavBarInterface {
 
 const navBarArray: NavBarInterface[] = [
   {
-    label: "Today",
+    label: "Activity",
     component: TodayScreen,
-    image: () => <Entypo name="progress-two" size={24} color={"#8c52ff"} />,
+    image: () => <FontAwesome5 name="running" size={24} color={"#8c52ff"} />,
     backgroundColor: "",
     fontColor: "",
     borderColor: "",
+    route: 'activity'
   },
   {
-    label: "Input Regimen",
+    label: "Journal",
     component: RegimenNavigation,
-    image: () => <AntDesign name="pluscircle" size={24} color={"#8c52ff"} />,
+    image: () => <Ionicons name="journal" size={24} color={"#8c52ff"} />,
     backgroundColor: "#191919",
     fontColor: "",
     borderColor: "",
+    route: 'journal'
   },
   {
-    label: "History",
+    label: "Program",
     component: History,
     image: () => <FontAwesome5 name="history" size={24} color={"#8c52ff"} />,
     backgroundColor: "",
     fontColor: "",
     borderColor: "",
+    route: 'program'
   },
   {
-    label: "Settings",
+    label: "Profile",
     component: Settings,
-    image: () => <AntDesign name="setting" size={24} color={"#8c52ff"} />,
+    image: () => <Ionicons name="person" size={24} color={"#8c52ff"} />,
     backgroundColor: "",
     fontColor: "",
     borderColor: "",
+    route: 'profile'
   },
 ];
 
