@@ -1,7 +1,8 @@
 import { StyleSheet, Image, Text } from "react-native";
 import PhoneButton from "../../../../components/Inputs/PhoneButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SetMargin from "../../../../functions/SetMargin";
+import * as Font from 'expo-font';
 
 interface CardImageProps {
   source: any;
@@ -45,13 +46,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     position: "absolute",
     color: "white",
-    fontWeight: "bold",
-    fontSize: 24,
+    fontSize: 20,
     backgroundColor: "rgba(0,0,0, .42)",
     width: "100%",
     height: SetMargin(0.035),
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
+    fontFamily: 'poppins-bold',
+    letterSpacing: 1.01
   },
   imageStyle: {
     height: SetMargin(0.13),

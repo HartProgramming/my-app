@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native"
 import PhoneButton from "../../components/Inputs/PhoneButton";
 import SetMargin from "../../functions/SetMargin";
+import { Text } from "react-native";
 
 interface MainButtonProps {
   label: string;
@@ -11,25 +12,25 @@ interface MainButtonProps {
   export default function MainButton({label, onPress}: MainButtonProps){
 
     return(
-        <PhoneButton onPress={onPress} text={label} buttonClass={styles.button} buttonContainerClass={styles.buttonContainer} textClass={styles.buttonText}/>
+        <PhoneButton semiBold={true} onPress={onPress} text={label} buttonClass={styles.button} buttonContainerClass={styles.buttonContainer} textClass={styles.buttonText}/>
     )
 }
 
 const styles = StyleSheet.create({
     buttonContainer: {
         alignItems: "center",
+        marginBottom: SetMargin(.02)
       },
       buttonText: {
         color: "white",
         textAlign: "center",
         fontSize: 24,
-        fontWeight: 'bold',
-        letterSpacing: 1.15
+        letterSpacing: 1.15,
       },
       button: {
         borderRadius: 50,
-        padding: 20,
-        backgroundColor: "green",
+        padding: 15,
+        backgroundColor: "#8c52ff",
         elevation: 5,
         width: '60%',
         shadowColor: 'gray',

@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 import cn from 'classnames'
 import { ViewStyle, TextStyle } from "react-native";
 import { StyleProp } from "react-native";
+import { Poppins_400Regular, Poppins_500Medium, useFonts } from "@expo-google-fonts/poppins";
 
 type keyboardType = 'default' | 'numeric' | 'email-address' | 'phone-pad' | 'number-pad'
 
@@ -20,18 +21,33 @@ interface PhoneInputProps {
   ref?: any;
   onFocus?: any;
   icon?: any;
+  regular?: boolean;
+  medium?: boolean;
 }
 
-const PhoneTextInput : React.FC<PhoneInputProps> = ({icon, onFocus, ref, children, keyboardType, secureTextEntry, onChange, placeholder, inputContainerClass, inputClass, textClass, value}) => {
+const PhoneTextInput : React.FC<PhoneInputProps> = ({medium, regular, icon, onFocus, ref, children, keyboardType, secureTextEntry, onChange, placeholder, inputContainerClass, inputClass, textClass, value}) => {
+
+  const [fontLoaded] = useFonts({
+    Poppins_400Regular, Poppins_500Medium
+  })
 
   return (
     <View style={inputContainerClass}>
       <TouchableOpacity style={inputClass}>
-        <TextInput onFocus={onFocus} ref={ref} keyboardType={keyboardType} secureTextEntry={secureTextEntry} onChangeText={onChange} placeholder={placeholder} value={value} style={textClass}></TextInput>
+        <TextInput onFocus={onFocus} ref={ref} keyboardType={keyboardType} secureTextEntry={secureTextEntry} onChangeText={onChange} placeholder={placeholder} value={value} style={[textClass, medium ? styles.medium : regular ? styles.regular : undefined]}></TextInput>
         {children}
       </TouchableOpacity>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  regular: {
+    fontFamily: 'Poppins_400Regular'
+  },
+  medium: {
+    fontFamily: 'Poppins_500Medium'
+  }
+})
 
 export default PhoneTextInput;

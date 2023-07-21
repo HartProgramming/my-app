@@ -4,21 +4,17 @@ import CardText from "../../../components/Card/CardHeader";
 import Navigation from "../../../objects/NavigationType";
 import { useNavigation } from "@react-navigation/native";
 import SetMargin from "../../../functions/SetMargin";
-
-import RecentActivityImageButton from "../../Activity/Components/Button/RecentActivityImageButton";
 import { useEffect, useState } from "react";
-import RegimenModal from "../../Activity/Components/Modal/ActivityModal";
 import MainRegimenButton from "../Components/Buttons/MainRegimenButton";
 import { Image, Text } from "react-native";
 import PhoneButton from "../../../components/Inputs/PhoneButton";
 import OnDeckButton from "../Components/Buttons/OnDeckButton";
-
+import Chicken from '../../../images/cardimages/chickenbreast.jpeg'
 
 
 export default function MainRegimen() {
   const navigation = useNavigation();
 
-  const [modal, setModal] = useState<any>();
   const [addImage, setAddImage] = useState<any>();
   const [imageHeader, setImageHeader] = useState<string>("");
 
@@ -26,16 +22,13 @@ export default function MainRegimen() {
 
   const handleOnDeckImage = (event: string) => {
     if (event === "Meal") {
-      setAddImage(Chicken);
       setImageHeader("Chicken");
     } else if (event === "Exercise") {
-      setAddImage(Jogging);
       setImageHeader("Jogging");
     }
   };
 
   useEffect(() => {
-    setAddImage(Jogging);
     setImageHeader("Chicken");
   }, []);
 
@@ -70,7 +63,7 @@ export default function MainRegimen() {
             textStyle={styles.imageHeader}
             text={imageHeader}
           />
-          <Image source={addImage} style={styles.onDeckImage} />
+          <Image source={Chicken} style={styles.onDeckImage} />
           <PhoneButton
             buttonContainerClass={styles.onDeckAddButtonContainer}
             buttonClass={styles.onDeckAddButton}

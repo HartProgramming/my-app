@@ -27,7 +27,7 @@ export default function HomeScreen() {
           label="Login"
         />
       </Card>
-    </Card>
+    </Card> 
   );
 }
 

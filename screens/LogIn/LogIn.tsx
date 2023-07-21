@@ -86,7 +86,7 @@ export default function LogIn({ handleLogin }: { handleLogin: handleLogin }) {
       <Card scrollable={false} containerClass={styles.headerContainer}>
         <Image source={logo}></Image>
       </Card>
-      <Card scrollable={false} containerClass={styles.containerButton}>
+      <Card scrollable={false} containerClass={styles.inputsContainer}>
         <Card scrollable={false} containerClass={styles.buttonsContainer}>
           <LoginInput
             keyboardType="email-address"
@@ -105,14 +105,14 @@ export default function LogIn({ handleLogin }: { handleLogin: handleLogin }) {
           />
           <PhoneButton
             onPress={() => togglePassword(hideShowText)}
-            textClass={hidePassword ? styles.hideText : styles.showText}
+            textClass={undefined}
             buttonContainerClass={styles.hideShowButtonContainer}
             buttonClass={hidePassword ? styles.hideButton : styles.showButton}
             text={""}
           />
         </Card>
         <Card scrollable={false} containerClass={styles.loginButtonContainer}>
-          <MainButton label="Login" onPress={setLogin} />
+          <PhoneButton bold={true} buttonContainerClass={styles.loginButtonContainer} buttonClass={styles.loginButton} textClass={styles.loginButtonText} text="Login" onPress={setLogin} />
         </Card>
 
         <Card scrollable={false} containerClass={styles.forgotContainer}>
@@ -150,29 +150,36 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 90,
   },
-  containerButton: {
+  buttonContainer: {
     marginTop: SetMargin(0.35),
     flexDirection: "column",
     justifyContent: "center",
     alignContent: "center",
     alignSelf: "center",
   },
-  header: {
-    fontWeight: "bold",
-    fontSize: 32,
-    color: "black",
+
+  loginButtonContainer: {
+    marginTop: SetMargin(.01),
+    width: '75%',
+    alignSelf: 'center',
   },
- 
-  loginButton: {},
+  loginButton: {
+    padding: 7.5,
+    width: '100%',
+    backgroundColor: '#8c52ff',
+    borderRadius: 25,
+  },
   loginButtonText: {
-    fontSize: 28,
-    fontWeight: "bold",
-    textAlign: "center",
+    fontSize: 26,
     letterSpacing: 1.15,
     color: "white",
+    textAlign: 'center'
   },
-  buttonContainer: {
+  inputsContainer: {
     alignItems: "center",
+    marginTop: SetMargin(.33),
+    width: '90%',
+    alignSelf: 'center'
   },
   buttonsContainer: {
     flexDirection: "row",
@@ -182,64 +189,42 @@ const styles = StyleSheet.create({
   },
   hideShowButtonContainer: {
     alignItems: "center",
-    width: "2%",
-    height: "2%",
+    height: SetMargin(.01),
+    width: SetMargin(.01),
     justifyContent: "center",
+    marginLeft: SetMargin(.033),
+    marginTop: SetMargin(.016)
   },
   hideButton: {
     backgroundColor: "#8c52ff",
-    color: "white",
     borderRadius: 50,
     alignItems: "center",
-    borderStyle: "solid",
-    borderColor: "#8c52ff",
-    borderWidth: 3,
+  
     justifyContent: "center",
     padding: 25,
-    marginRight: SetMargin(-0.1),
   },
   showButton: {
     backgroundColor: "white",
-    color: "purple",
     borderRadius: 50,
     alignItems: "center",
-    borderStyle: "solid",
-    borderColor: "#8c52ff",
-    borderWidth: 3,
+  
     justifyContent: "center",
     padding: 25,
-    marginRight: SetMargin(-0.1),
+    borderStyle: 'solid',
+    borderColor: '#8c52ff',
+    borderWidth: 5
   },
-  hideText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "white",
-  },
-  showText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#8c52ff",
-    textAlignVertical: "center",
-  },
+
   loginContainer: {
-    display: "flex",
     alignItems: "center",
   },
 
-  signUpButton: {
-    backgroundColor: "#8c52ff",
-    padding: 10,
-    borderRadius: 20,
-  },
-
-  signUpText: {
-    color: "green",
-  },
   forgotContainer: {
-    display: "flex",
     alignItems: "center",
+    marginTop: SetMargin(.02)
   },
   transText: {
     color: "blue",
+    fontSize: 16
   },
 });

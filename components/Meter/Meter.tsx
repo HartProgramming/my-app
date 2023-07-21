@@ -43,8 +43,8 @@ export default function Meter({
           fill={standardFill}
           height={rectHeight}
           width={standardPath}
-          rx={30}
-          ry={30}
+          rx={15}
+          ry={15}
           x={0}
           y={0}
           stroke={strokeStandard}
@@ -52,8 +52,8 @@ export default function Meter({
           strokeLinecap={strokeLinecap}
         />
         <Rect
-          rx={30}
-          ry={30}
+          rx={15}
+          ry={15}
           x={0}
           y={0}
           width={progressPath}
@@ -67,8 +67,8 @@ export default function Meter({
           <Text
             x={width / 2}
             y={rectHeight / 2}
-            fill={progressPath === standardPath ? 'white' : '#8c52ff'}
-            fontSize={22}
+            fill={progressPath === standardPath ? 'white' : 'white'}
+            fontSize={18}
             fontWeight={"bold"}
             textAnchor="middle"
             alignmentBaseline="central"
@@ -85,12 +85,10 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 10
   },
   groupClass: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: -5,
     paddingTop: 20
   },
 });

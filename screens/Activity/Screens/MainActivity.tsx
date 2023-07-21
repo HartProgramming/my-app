@@ -13,6 +13,9 @@ import Chicken from "../../../images/cardimages/chickenbreast.jpeg";
 import CardText from "../../../components/Card/CardHeader";
 import SetMargin from "../../../functions/SetMargin";
 import DateArrowButton from "../Components/Button/DateArrowButton";
+import { MaterialIcons } from "@expo/vector-icons";
+import DateWeekButton from "../Components/Button/DateWeekButton";
+import ResultsMeter from "../Components/ResultsMeter/ResultsMeter";
 
 export interface ExerciseActivity {
   Exercise: string | undefined;
@@ -36,6 +39,12 @@ export interface MealActivity {
 }
 
 const TodayScreen: React.FC = () => {
+  interface MeterDetails {
+    percentage: number;
+    data: string;
+    label: string;
+  }
+
   /* Performance Percentages */
   const [calorieIntakePercentage, setCalorieIntakePercentage] =
     useState<number>(0);
@@ -45,6 +54,17 @@ const TodayScreen: React.FC = () => {
   const [proteinTakenPercentage, setProteinTakenPercentage] =
     useState<number>(0);
   const [protcalPercentage, setProtcalPercentage] = useState<number>(0);
+  const [sodiumPercentage, setSodiumPercentage] = useState<number>(0);
+  const [cholesterolPercentage, setCholesterolPercentage] = useState<number>(0);
+  const [waterPercentage, setWaterPercentage] = useState<number>(0);
+  const [carbsPercentage, setCarbsPercentage] = useState<number>(0);
+  const [sugarPercentage, setSugarPercentage] = useState<number>(0);
+
+  const [sodiumData, setSodiumData] = useState<string>("");
+  const [cholesterolData, setCholesterolData] = useState<string>("");
+  const [waterData, setWaterData] = useState<string>("");
+  const [carbsData, setCarbsData] = useState<string>("");
+  const [sugarsData, setSugarsData] = useState<string>("");
 
   const [currentCalories, setCurrentCalories] = useState<number>(1040);
   const [maxCalories, setMaxCalories] = useState<number>(2220);
@@ -68,21 +88,55 @@ const TodayScreen: React.FC = () => {
   const [protcalData, setProtcalData] = useState<string>("");
 
   const [elements, setElements] = useState<any>();
-  const [mealElements, setMealElements] = useState<any>();
-  const [exerciseElements, setExerciseElements] = useState<any>();
-  const [mealsDisplay, setMealsDisplay] = useState<boolean>(false);
-  const [exerciseDisplay, setExerciseDisplay] = useState<boolean>(true);
 
-  const [alterButtonStyle, setAlterButtonStyle] = useState<boolean>(true);
-  const [standardButtonStyle, setStandardButtonStyle] = useState<boolean>(true);
+  const [datePosition, setDatePosition] = useState<number>(0);
+  const [dateArrayString, setDateArrayString] = useState<string>("");
+  const [weeklyArrayString, setWeeklyArrayString] = useState<string>("");
+  const [dailyWeeklyBoo, setDailyWeeklyBoo] = useState<boolean>(false);
+
+  const [moreInfoButton, setMoreInfoButton] = useState<boolean>(false);
 
   const [modal, setModal] = useState<any>("");
 
   const windowWidth = Dimensions.get("window").width;
 
-  const meterWidth = windowWidth * 0.9;
+  const meterWidth = windowWidth * 0.62;
 
-  const navigation = useNavigation();
+  const indicatorsArrayData1: MeterDetails[] = [
+    {
+      label: "kCal",
+      percentage: calorieIntakePercentage,
+      data: calorieData,
+    },
+    {
+      label: "Burned",
+      percentage: caloriesBurnedPercentage,
+      data: calorieBurnedData,
+    },
+    { label: "Steps", percentage: stepsTakenPercentage, data: stepsData },
+    {
+      label: "Protein",
+      percentage: proteinTakenPercentage,
+      data: proteinData,
+    },
+    {
+      label: "Protcal",
+      percentage: protcalPercentage,
+      data: protcalData,
+    },
+  ];
+
+  const indicatorsArrayData2: MeterDetails[] = [
+    { label: "Sodium", percentage: sodiumPercentage, data: sodiumData },
+    {
+      label: "Chol",
+      percentage: cholesterolPercentage,
+      data: cholesterolData,
+    },
+    { label: "Water", percentage: waterPercentage, data: waterData },
+    { label: "Carbs", percentage: carbsPercentage, data: carbsData },
+    { label: "Sugar", percentage: sugarPercentage, data: sugarsData },
+  ];
 
   const DUMMY_EXERCISE: ExerciseActivity[] = [
     {
@@ -120,161 +174,69 @@ const TodayScreen: React.FC = () => {
     { Meal: "Pizza", Calories: 400, Protein: 60, Image: Chicken },
   ];
 
-  const transScreen = (route: string) => {
-    return navigation.navigate(route as never);
+  const dateArray = ["Jan 1", "Dec 31", "Dec 30"];
+  const weeklyArray = ["1/1-1/7", "1/8-1/15", "1/22-1/29"];
+
+  const handlePreviousDate = () => {
+    setDatePosition((prev) => (prev += 1));
+    /* Async UseEffect to get dates */
   };
 
-  const handleButton = (event: string) => {
-    if (event === "Meals") {
-      setAlterButtonStyle(false);
-      setStandardButtonStyle(false);
-      setMealsDisplay(true);
-    } else if (event === "Exercises") {
-      setAlterButtonStyle(true);
-      setStandardButtonStyle(true);
-      setMealsDisplay(false);
-    }
-    console.log(event);
+  const handleNextDate = () => {
+    setDatePosition((prev) => (prev -= 1));
+    /* Async UseEffect to get dates */
   };
 
-  useEffect(() => {
-    interface Meals {
-      label: string;
-      calories: number;
-      protein: number;
-      ounces: number;
-    }
+  const handleDaily = () => {
+    setDailyWeeklyBoo(true);
+  };
 
-    interface Exercises {
-      label: string;
-      repsBoo: boolean;
-      milesBoo: boolean;
-      minutesBoo: boolean;
-      reps?: number;
-      miles?: number;
-      minutes?: number;
-    }
+  const handleWeekly = () => {
+    setDailyWeeklyBoo(false);
+  };
 
-    const exerciseArray: Exercises[] = [
-      {
-        label: "Pushups",
-        reps: 20,
-        repsBoo: true,
-        milesBoo: false,
-        minutesBoo: false,
-      },
-      {
-        label: "Jog",
-        miles: 3,
-        repsBoo: false,
-        milesBoo: true,
-        minutesBoo: false,
-      },
-      {
-        label: "Plank",
-        minutes: 4,
-        milesBoo: false,
-        repsBoo: false,
-        minutesBoo: true,
-      },
-    ];
-
-    const mealArray: Meals[] = [
-      { label: "Steak", calories: 400, protein: 40, ounces: 10 },
-      { label: "Greek Yogurt", calories: 100, protein: 20, ounces: 10 },
-      { label: "Eggs", calories: 200, protein: 10, ounces: 10 },
-    ];
-
-    setExerciseElements(
-      exerciseArray.map((value) => {
-        return (
-          <Card scrollable={false} containerClass={styles.indicatorContainer}>
-            <Text style={styles.label}>
-              {value.label}:{" "}
-              {value.milesBoo
-                ? `${value.miles} Miles`
-                : value.repsBoo
-                ? `${value.reps} Reps`
-                : `${value.minutes} Minutes`}
-            </Text>
-          </Card>
-        );
-      })
-    );
-
-    setMealElements(
-      mealArray.map((value) => {
-        return (
-          <Card scrollable={false} containerClass={styles.indicatorContainer}>
-            <Text style={styles.label}>
-              {value.label}: {value.calories} kcal {value.protein}g{" "}
-              {value.ounces}
-              oz
-            </Text>
-          </Card>
-        );
-      })
-    );
-  }, []);
-
-  useEffect(() => {
-    interface MeterDetails {
-      percentage: number;
-      data: string;
-      label: string;
-    }
-
-    const indicatorsArray: MeterDetails[] = [
-      {
-        label: "Current Calorie Intake",
-        percentage: calorieIntakePercentage,
-        data: calorieData,
-      },
-      {
-        label: "Calories Burned",
-        percentage: caloriesBurnedPercentage,
-        data: calorieBurnedData,
-      },
-      { label: "Steps", percentage: stepsTakenPercentage, data: stepsData },
-      {
-        label: "Protein Consumed",
-        percentage: proteinTakenPercentage,
-        data: proteinData,
-      },
-      {
-        label: "Protcal Levels",
-        percentage: protcalPercentage,
-        data: protcalData,
-      },
-    ];
-
-    setElements(
-      indicatorsArray.map((value) => {
-        return (
-          <Card
-            key={value.label}
-            scrollable={false}
-            containerClass={styles.indicatorContainer}
-          >
-            <Text style={styles.label}>{value.label}</Text>
-            <Meter
+  const handleMoreInfo = (event: string) => {
+    if (event === "More") {
+      setMoreInfoButton(true)
+      setElements(
+        indicatorsArrayData2.map((value) => {
+          return (
+            <ResultsMeter
+              label={value.label}
               data={value.data}
-              strokeWidth={0}
               width={meterWidth}
-              height={30}
-              rectHeight={30}
               percentage={value.percentage}
-              strokeLinecap={"round"}
-              strokeProgress="#e6e6e6"
-              progressFill="#ededed"
-              standardFill="#f6f6f6"
-              strokeStandard="#8c52ff"
-            ></Meter>
-          </Card>
-        );
-      })
-    );
+            />
+          );
+        })
+      );
 
+    } else if (event === "Less") {
+      setMoreInfoButton(false)
+      setElements(
+        indicatorsArrayData1.map((value) => {
+          return (
+            <ResultsMeter
+              label={value.label}
+              data={value.data}
+              width={meterWidth}
+              percentage={value.percentage}
+            />
+          );
+        })
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (dailyWeeklyBoo === true) {
+      setDateArrayString(dateArrayString[datePosition]);
+    } else if (dailyWeeklyBoo === false) {
+      setDateArrayString(weeklyArrayString[datePosition]);
+    }
+  }, [datePosition, dailyWeeklyBoo]);
+
+useEffect(() => {
     setCalorieIntakePercentage(currentCalories / maxCalories);
     setCaloriesBurnedPercentage(caloriesBurned / caloriesBurnedRecommend);
     setStepsPercentage(stepsTaken / stepsTakenRecommended);
@@ -285,6 +247,7 @@ const TodayScreen: React.FC = () => {
     setStepsData(`${stepsTaken}/${stepsTakenRecommended}`);
     setProtcalData(`${protcal}/${protcalRecommended}`);
     setProteinData(`${protein}/${proteinRecommended}`);
+    
   }, [
     calorieIntakePercentage,
     caloriesBurnedPercentage,
@@ -297,6 +260,14 @@ const TodayScreen: React.FC = () => {
     calorieData,
     stepsData,
   ]);
+
+  useEffect(() => {
+    setElements(indicatorsArrayData1.map((value) => {
+      return(
+        <ResultsMeter width={meterWidth} data={value.data} label={value.label} percentage={value.percentage} />
+      )
+    }))
+  }, [])
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
@@ -354,12 +325,60 @@ const TodayScreen: React.FC = () => {
         </Card>
       </Card>
       <Card scrollable={false} containerClass={styles.indicatorsContainer}>
-            <Card scrollable={false} containerClass={styles.dateContainer}>
-              <DateArrowButton />
-              <CardText text="Today"/>
-              <DateArrowButton />
-            </Card>
+        <Card scrollable={false} containerClass={styles.dateWeeklyContainer}>
+          <Card scrollable={false} containerClass={styles.dateContainer}>
+            <MaterialIcons
+              name="keyboard-arrow-left"
+              size={50}
+              color="black"
+              onPress={handlePreviousDate}
+            />
+
+            <CardText
+              container={styles.dateHeaderContainer}
+              textStyle={styles.dateHeader}
+              text={datePosition === 0 ? "Today" : dateArrayString}
+            />
+            {datePosition !== 0 && (
+              <MaterialIcons
+                name="keyboard-arrow-right"
+                size={50}
+                color="black"
+                onPress={handleNextDate}
+              />
+            )}
+          </Card>
+          <Card
+            scrollable={false}
+            containerClass={styles.dateWeekButtonsContainer}
+          >
+            <DateWeekButton left={false} onPress={handleDaily} label="Daily" />
+            <DateWeekButton left={true} onPress={handleWeekly} label="Weekly" />
+          </Card>
+        </Card>
+        <Card scrollable={false} containerClass={styles.indicatorsContainer}>
         {elements}
+        </Card>
+        <Card
+          scrollable={false}
+          containerClass={styles.moreInfoButtonsContainer}
+        >
+          {moreInfoButton === false ? (
+            <MaterialIcons
+              name="keyboard-arrow-right"
+              size={50}
+              color="black"
+              onPress={() => handleMoreInfo("More")}
+            />
+          ) : (
+            <MaterialIcons
+              onPress={() => handleMoreInfo("Less")}
+              name="keyboard-arrow-left"
+              size={50}
+              color="black"
+            />
+          )}
+        </Card>
       </Card>
     </Card>
   );
@@ -382,17 +401,8 @@ const styles = StyleSheet.create({
   },
   indicatorsContainer: {
     alignItems: "center",
-    marginTop: 20,
-    elevation: 5,
   },
-  indicatorContainer: {
-    marginTop: 10,
-  },
-  label: {
-    fontSize: 21,
-    fontWeight: "bold",
-    color: "#8c52ff",
-  },
+
   border: {
     color: "#2196f3",
   },
@@ -403,48 +413,12 @@ const styles = StyleSheet.create({
     width: "85%",
     alignSelf: "center",
   },
-  buttonsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    margin: "auto",
-    width: "100%",
-    alignItems: "center",
-    borderBottomWidth: 4,
-    borderStyle: "solid",
-    borderColor: "#8c52ff",
-  },
-  buttonContainerClass: {
-    width: "50%",
-  },
-  buttonClass: {
-    backgroundColor: "white",
-    alignItems: "center",
-    padding: 10,
-  },
-  textClass: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#8c52ff",
-  },
-  alterButtonContainer: {
-    width: "50%",
-  },
-  alterButtonClass: {
-    backgroundColor: "#8c52ff",
-    alignItems: "center",
-    padding: 10,
-  },
-  alterTextClass: {
-    color: "white",
-    fontSize: 24,
-    fontWeight: "bold",
-  },
   detailsContainer: {
     marginTop: SetMargin(0.01),
     paddingBottom: 5,
   },
   recentContainer: {
-    marginTop: SetMargin(0.1),
+    marginTop: SetMargin(0.115),
   },
   recentImagesContainer: {
     flexDirection: "row",
@@ -459,9 +433,41 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     letterSpacing: 1.2,
   },
+  dateWeeklyContainer: {
+    flexDirection: "row",
+    borderBottomColor: "black",
+    borderBottomWidth: 3,
+    borderStyle: "solid",
+    alignItems: "center",
+    width: "90%",
+    justifyContent: "space-around",
+  },
   dateContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: SetMargin(0.01),
+  },
+  dateHeaderContainer: {
+    alignItems: "center",
+    justifyContent: "space-around",
+    flexDirection: "row",
+  },
+  dateHeader: {
+    fontFamily: "Poppins",
+    fontSize: 28,
+    fontWeight: "bold",
+    letterSpacing: 1.05,
+  },
+  dateWeekButtonsContainer: {
+    flexDirection: "row",
+    marginTop: SetMargin(0.02),
+  },
 
-  }
+  moreInfoButtonsContainer: {
+    marginTop: SetMargin(0.01),
+    width: "80%",
+    alignItems: "flex-end",
+  },
 });
 
 export default TodayScreen;
