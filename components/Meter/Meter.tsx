@@ -3,6 +3,7 @@ import { ReactNode, startTransition } from "react";
 import Svg, { Path, Text, G, TextPath, TSpan, Rect } from "react-native-svg";
 import React from "react";
 import Card from "../Card/Card";
+import { Poppins_600SemiBold, Poppins_700Bold, useFonts } from "@expo-google-fonts/poppins";
 
 interface MeterProps {
   width: number;
@@ -29,15 +30,22 @@ export default function Meter({
   strokeStandard,
   rectHeight,
   progressFill,
-  standardFill
+  standardFill,
 }: MeterProps) {
   const radius = Math.min(width, height) / 2;
   const circumference = 2 * Math.PI * radius;
-  const progressPath = width * percentage < width ? width * percentage : width
+  const progressPath = width * percentage < width ? width * percentage : width;
   const standardPath = width;
 
+  const [fontLoaded] = useFonts({
+    Poppins_600SemiBold, Poppins_700Bold
+  });
+
   return (
-    <Card scrollable={false} containerClass={[styles.container, { width, height }]}>
+    <Card
+      scrollable={false}
+      containerClass={[styles.container, { width, height }]}
+    >
       <Svg width={width} height={height}>
         <Rect
           fill={standardFill}
@@ -59,7 +67,7 @@ export default function Meter({
           width={progressPath}
           height={rectHeight}
           strokeWidth={strokeWidth}
-          fill={progressPath === standardPath ? '#8c52ff' : progressFill}
+          fill={progressPath === standardPath ? "#8c52ff" : progressFill}
           stroke={strokeProgress}
           strokeLinecap={strokeLinecap}
         />
@@ -67,9 +75,9 @@ export default function Meter({
           <Text
             x={width / 2}
             y={rectHeight / 2}
-            fill={progressPath === standardPath ? 'white' : 'white'}
+            fill={progressPath === standardPath ? "white" : "white"}
             fontSize={18}
-            fontWeight={"bold"}
+            fontWeight={'bold'}
             textAnchor="middle"
             alignmentBaseline="central"
           >
@@ -83,12 +91,13 @@ export default function Meter({
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   groupClass: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 20
+    alignItems: "center",
+    justifyContent: "center",
+    paddingTop: 20,
+
   },
 });

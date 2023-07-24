@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 import Card from "../../../../components/Card/Card";
 import { Modal } from "react-native";
 import SetMargin from "../../../../functions/SetMargin";
-import CardText from "../../../../components/Card/CardHeader";
+import CardText from "../../../../components/Card/CardText";
 import { Image, Text } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
@@ -30,7 +30,7 @@ export default function ActivityModal({
     ([key]) => !keysNotToDisplay.includes(key)
   );
 
-  useEffect(() => {
+  useEffect(() => { 
     setFiltered(filteredEntries);
     console.log(filtered);
   }, []);

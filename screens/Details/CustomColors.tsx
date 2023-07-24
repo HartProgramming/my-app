@@ -13,7 +13,7 @@ import { customMode } from "../../objects/ColorClass";
 import PhoneButton from "../../components/Inputs/PhoneButton";
 import SetMargin from "../../functions/SetMargin";
 import Navigation from "../../objects/NavigationType";
-import CardText from "../../components/Card/CardHeader";
+import CardText from "../../components/Card/CardText";
 import { useNavigation } from "@react-navigation/native";
 
 export default function CustomColors() {
@@ -51,14 +51,13 @@ export default function CustomColors() {
   const handleReset = () => {
     setBackgroundColorBoo(false);
     setFontColorBoo(false);
-    console.log(fontColorBoo)
+    console.log(fontColorBoo);
   };
 
-  const handleSubmit = () => {
-  };
+  const handleSubmit = () => {};
 
   useEffect(() => {
-    console.log(fontColorBoo)
+    console.log(fontColorBoo);
   }, [backgroundColorBoo, fontColorBoo]);
 
   return (
@@ -151,8 +150,7 @@ export default function CustomColors() {
                 { color: fontColorBoo ? customMode.font : "#8c52ff" },
               ]}
               text="Submit"
-              onPress={Navigation({ navigation }, "physical-info")
-            }
+              onPress={Navigation({ navigation }, "physical-info")}
             />
           </Card>
         ) : (
@@ -236,13 +234,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     letterSpacing: 1.15,
     color: "white",
-    textAlign: 'center'
+    textAlign: "center",
   },
   submitResetContainer: {
     flexDirection: "row",
-    width: '100%',
-    justifyContent: 'space-around',
-    marginTop: SetMargin(.05)
+    width: "100%",
+    justifyContent: "space-around",
+    marginTop: SetMargin(0.05),
   },
   submitResetButtonContainer: {
     alignSelf: "center",
@@ -253,7 +251,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderStyle: "solid",
     borderWidth: 2,
-    alignItems: 'center',
-    width: '100%',
+    alignItems: "center",
+    width: "100%",
   },
 });

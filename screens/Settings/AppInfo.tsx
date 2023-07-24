@@ -4,6 +4,7 @@ import PhoneButton from "../../components/Inputs/PhoneButton";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import { Text } from "react-native";
+import NestedNavigation from "../../components/NavigationStack/NestedNavigation";
 
 export default function AppInfo() {
   const navigation = useNavigation();
@@ -32,8 +33,8 @@ export default function AppInfo() {
       <Card scrollable={false} containerClass={styles.buttonsContainer}>
         <PhoneButton
           image={<AntDesign name="back" size={28} color="#8c52ff" />}
-          onPress={() => transScreen("Settings")}
-          text="Go Back"
+          onPress={() => transScreen("Profile")}
+          text="Go Back" 
           buttonClass={styles.button}
           buttonContainerClass={styles.buttonContainer}
           textClass={styles.buttonText}

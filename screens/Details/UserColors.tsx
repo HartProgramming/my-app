@@ -1,5 +1,5 @@
 import Card from "../../components/Card/Card";
-import CardText from "../../components/Card/CardHeader";
+import CardText from "../../components/Card/CardText";
 import { StyleSheet } from "react-native";
 import PhoneButton from "../../components/Inputs/PhoneButton";
 import { useNavigation } from "@react-navigation/native";
@@ -15,16 +15,24 @@ export default function UserColors() {
   const navigation = useNavigation();
 
   const dark: ColorInterface[] = [
-    {backgroundColor: darkMode.background, color: darkMode.font, borderColor: darkMode.border}
-  ]
+    {
+      backgroundColor: darkMode.background,
+      color: darkMode.font,
+      borderColor: darkMode.border,
+    },
+  ];
 
   const light: ColorInterface[] = [
-    {backgroundColor: lightMode.background, color: lightMode.font, borderColor: lightMode.border}
-  ]
+    {
+      backgroundColor: lightMode.background,
+      color: lightMode.font,
+      borderColor: lightMode.border,
+    },
+  ];
 
   useEffect(() => {
-    console.log(darkMode.background)
-  }, [])
+    console.log(darkMode.background);
+  }, []);
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
@@ -42,31 +50,41 @@ export default function UserColors() {
         />
         <Card scrollable={false} containerClass={styles.buttonsContainer}>
           <PhoneButton
-            buttonClass={[styles.button, {backgroundColor: darkMode.background, borderColor: darkMode.border}]}
+            buttonClass={[
+              styles.button,
+              {
+                backgroundColor: darkMode.background,
+                borderColor: darkMode.border,
+              },
+            ]}
             buttonContainerClass={styles.buttonContainer}
-            textClass={[styles.buttonText, {color: darkMode.font}]}
+            textClass={[styles.buttonText, { color: darkMode.font }]}
             text="Dark Mode"
             onPress={Navigation({ navigation }, "physical-info", dark)}
           />
           <PhoneButton
             buttonClass={[
-              styles.button,{backgroundColor:
-              lightMode.background, borderColor:
-              lightMode.border,
-            }]}
+              styles.button,
+              {
+                backgroundColor: lightMode.background,
+                borderColor: lightMode.border,
+              },
+            ]}
             buttonContainerClass={styles.buttonContainer}
-            textClass={[styles.buttonText, {color: lightMode.font}]}
+            textClass={[styles.buttonText, { color: lightMode.font }]}
             text="Light Mode"
             onPress={Navigation({ navigation }, "physical-info", light)}
           />
           <PhoneButton
             buttonClass={[
-              styles.button,{backgroundColor:
-              customMode.background, borderColor:
-              customMode.border,
-            }]}
+              styles.button,
+              {
+                backgroundColor: customMode.background,
+                borderColor: customMode.border,
+              },
+            ]}
             buttonContainerClass={styles.buttonContainer}
-            textClass={[styles.buttonText, {color: customMode.font}]}
+            textClass={[styles.buttonText, { color: customMode.font }]}
             text="Custom Color Scheme"
             onPress={Navigation({ navigation }, "custom-colors")}
           />

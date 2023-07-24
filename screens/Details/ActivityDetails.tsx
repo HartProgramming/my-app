@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import PhoneButton from "../../components/Inputs/PhoneButton";
 import { useNavigation } from "@react-navigation/native";
 import { lifestyleDetails } from "./Classes/Details";
-import CardText from "../../components/Card/CardHeader";
+import CardText from "../../components/Card/CardText";
 import SetMargin from "../../functions/SetMargin";
 import Navigation from "../../objects/NavigationType";
 
@@ -14,13 +14,13 @@ export default function ActivityDetails() {
   const [itemsArray, setItemsArray] = useState<SelectorArray[]>([]);
   const [weightGoal, setWeightGoal] = useState<number>(0);
   const [muscleGoal, setMuscleGoal] = useState<string>("");
-  const [data, setData] = useState<any>([{weightGoal: '', muscleGoal: ''}]);
+  const [data, setData] = useState<any>([{ weightGoal: "", muscleGoal: "" }]);
   const [dataObj, setDataObj] = useState<any>();
 
   const navigation = useNavigation();
 
   const handleTrans = (event: string) => {
-   Navigation({navigation}, '')
+    Navigation({ navigation }, "");
     console.log(dataObj);
   };
 
@@ -31,7 +31,11 @@ export default function ActivityDetails() {
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
-      <CardText text="Step 3 of 5" textStyle={styles.header} container={styles.headerContainer}/>
+      <CardText
+        text="Step 3 of 5"
+        textStyle={styles.header}
+        container={styles.headerContainer}
+      />
       <ReusableDetails
         data={setData}
         header="Lifestyle Details"
@@ -53,31 +57,30 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerContainer: {
-    alignItems: 'center',
-    marginBottom: SetMargin(-.1),
-    marginTop: SetMargin(.15)
+    alignItems: "center",
+    marginBottom: SetMargin(-0.1),
+    marginTop: SetMargin(0.15),
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   buttonContainer: {
     width: "30%",
     alignSelf: "center",
-    marginTop: SetMargin(.03)
+    marginTop: SetMargin(0.03),
   },
   button: {
     backgroundColor: "blue",
     alignItems: "center",
     padding: 15,
     borderRadius: 15,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 2,
-    
   },
   text: {
     fontSize: 24,
     fontWeight: "bold",
-    letterSpacing: 1.15
+    letterSpacing: 1.15,
   },
 });

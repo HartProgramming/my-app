@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 import Card from "../../../../components/Card/Card";
 import PhoneTextInput from "../../../../components/Inputs/PhoneTextInput";
 import { useEffect, useState } from "react";
-import CardText from "../../../../components/Card/CardHeader";
+import CardText from "../../../../components/Card/CardText";
 import { FontAwesome } from "@expo/vector-icons";
 import SetMargin from "../../../../functions/SetMargin";
 import SearchResultText from "../../../../components/Inputs/SearchResultText";
@@ -32,8 +32,8 @@ export default function SearchInput({
   };
 
   const handleResult = () => {
-    resultObject(resultsDataObj)
-    setInputValue('')
+    resultObject(resultsDataObj);
+    setInputValue("");
   };
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export default function SearchInput({
           : [{ name: "No Results", index: "No Results" }]
         : [{ name: "No Results" }]
     );
-    setResultsDataObj(displaySearchResults)
+    setResultsDataObj(displaySearchResults);
   }, [inputValue]);
 
   const searchIcon = (

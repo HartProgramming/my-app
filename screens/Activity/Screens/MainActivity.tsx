@@ -10,7 +10,7 @@ import ActivityModal from "../Components/Modal/ActivityModal";
 import RecentActivityImageButton from "../Components/Button/RecentActivityImageButton";
 import Jogging from "../../../images/cardimages/joggingstreet.jpeg";
 import Chicken from "../../../images/cardimages/chickenbreast.jpeg";
-import CardText from "../../../components/Card/CardHeader";
+import CardText from "../../../components/Card/CardText";
 import SetMargin from "../../../functions/SetMargin";
 import DateArrowButton from "../Components/Button/DateArrowButton";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -22,8 +22,8 @@ export interface ExerciseActivity {
   Reps?: number | undefined;
   Miles?: number | undefined;
   Minutes?: number | undefined;
-  CaloriesBurned: number;
-  Image: any;
+  CaloriesBurned?: number;
+  Image?: any;
 }
 
 export interface MealActivity {
@@ -35,7 +35,7 @@ export interface MealActivity {
   ServingSize?: number;
   Sodium?: number;
   Cholesterol?: number;
-  Image: any;
+  Image?: any;
 }
 
 const TodayScreen: React.FC = () => {
@@ -146,7 +146,7 @@ const TodayScreen: React.FC = () => {
       Image: Jogging,
     },
     {
-      Exercise: "Push-ups",
+      Exercise: "Pushups",
       Reps: 150,
       CaloriesBurned: 200,
       Image: Jogging,
@@ -197,7 +197,7 @@ const TodayScreen: React.FC = () => {
 
   const handleMoreInfo = (event: string) => {
     if (event === "More") {
-      setMoreInfoButton(true)
+      setMoreInfoButton(true);
       setElements(
         indicatorsArrayData2.map((value) => {
           return (
@@ -210,9 +210,8 @@ const TodayScreen: React.FC = () => {
           );
         })
       );
-
     } else if (event === "Less") {
-      setMoreInfoButton(false)
+      setMoreInfoButton(false);
       setElements(
         indicatorsArrayData1.map((value) => {
           return (
@@ -236,7 +235,7 @@ const TodayScreen: React.FC = () => {
     }
   }, [datePosition, dailyWeeklyBoo]);
 
-useEffect(() => {
+  useEffect(() => {
     setCalorieIntakePercentage(currentCalories / maxCalories);
     setCaloriesBurnedPercentage(caloriesBurned / caloriesBurnedRecommend);
     setStepsPercentage(stepsTaken / stepsTakenRecommended);
@@ -247,7 +246,6 @@ useEffect(() => {
     setStepsData(`${stepsTaken}/${stepsTakenRecommended}`);
     setProtcalData(`${protcal}/${protcalRecommended}`);
     setProteinData(`${protein}/${proteinRecommended}`);
-    
   }, [
     calorieIntakePercentage,
     caloriesBurnedPercentage,
@@ -262,12 +260,19 @@ useEffect(() => {
   ]);
 
   useEffect(() => {
-    setElements(indicatorsArrayData1.map((value) => {
-      return(
-        <ResultsMeter width={meterWidth} data={value.data} label={value.label} percentage={value.percentage} />
-      )
-    }))
-  }, [])
+    setElements(
+      indicatorsArrayData1.map((value) => {
+        return (
+          <ResultsMeter
+            width={meterWidth}
+            data={value.data}
+            label={value.label}
+            percentage={value.percentage}
+          />
+        );
+      })
+    );
+  }, []);
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
@@ -276,6 +281,7 @@ useEffect(() => {
           text="Recent Activity"
           textStyle={styles.recentHeader}
           container={styles.recentHeaderContainer}
+          semiBold={true}
         />
         <Card scrollable={false} containerClass={styles.detailsContainer}>
           <Card
@@ -318,13 +324,13 @@ useEffect(() => {
                     details={value}
                     visible={modal === value.Meal}
                   />
-                </>
-              );
+                </> 
+              );  
             })}
           </Card>
         </Card>
       </Card>
-      <Card scrollable={false} containerClass={styles.indicatorsContainer}>
+      <Card scrollable={false} containerClass={styles.activityContainer}>
         <Card scrollable={false} containerClass={styles.dateWeeklyContainer}>
           <Card scrollable={false} containerClass={styles.dateContainer}>
             <MaterialIcons
@@ -337,6 +343,7 @@ useEffect(() => {
             <CardText
               container={styles.dateHeaderContainer}
               textStyle={styles.dateHeader}
+              semiBold={true}
               text={datePosition === 0 ? "Today" : dateArrayString}
             />
             {datePosition !== 0 && (
@@ -357,25 +364,43 @@ useEffect(() => {
           </Card>
         </Card>
         <Card scrollable={false} containerClass={styles.indicatorsContainer}>
-        {elements}
+          {elements}
         </Card>
         <Card
           scrollable={false}
           containerClass={styles.moreInfoButtonsContainer}
         >
           {moreInfoButton === false ? (
-            <MaterialIcons
-              name="keyboard-arrow-right"
-              size={50}
-              color="black"
+            <PhoneButton
+              text="Next"
+              semiBold={true}
+              image={
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={50}
+                  color="black"
+                />
+              }
               onPress={() => handleMoreInfo("More")}
+              buttonContainerClass={styles.nextBackInfoButtonContainer}
+              buttonClass={styles.nextTextContainer}
+              textClass={styles.nextBackTextStyle}
             />
           ) : (
-            <MaterialIcons
+            <PhoneButton
+              text="Prev"
+              semiBold={true}
+              image={
+                <MaterialIcons
+                  name="keyboard-arrow-left"
+                  size={50}
+                  color="black"
+                />
+              }
               onPress={() => handleMoreInfo("Less")}
-              name="keyboard-arrow-left"
-              size={50}
-              color="black"
+              buttonContainerClass={styles.nextBackInfoButtonContainer}
+              buttonClass={styles.prevTextContainer}
+              textClass={styles.nextBackTextStyle}
             />
           )}
         </Card>
@@ -395,9 +420,12 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 32,
-    fontWeight: "bold",
     letterSpacing: 1.2,
     color: "#8c52ff",
+  },
+  activityContainer: {
+    alignItems: 'center',
+    marginTop: SetMargin(-.01)
   },
   indicatorsContainer: {
     alignItems: "center",
@@ -430,8 +458,7 @@ const styles = StyleSheet.create({
   },
   recentHeader: {
     fontSize: 32,
-    fontWeight: "bold",
-    letterSpacing: 1.2,
+    letterSpacing: 0.8,
   },
   dateWeeklyContainer: {
     flexDirection: "row",
@@ -453,9 +480,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   dateHeader: {
-    fontFamily: "Poppins",
     fontSize: 28,
-    fontWeight: "bold",
     letterSpacing: 1.05,
   },
   dateWeekButtonsContainer: {
@@ -464,9 +489,26 @@ const styles = StyleSheet.create({
   },
 
   moreInfoButtonsContainer: {
-    marginTop: SetMargin(0.01),
     width: "80%",
-    alignItems: "flex-end",
+  },
+  nextBackInfoButtonContainer: {
+    width: "40%",
+    alignSelf: "center",
+  },
+  nextTextContainer: {
+    width: "100%",
+    flexDirection: "row-reverse",
+    alignItems: "center",
+  },
+  prevTextContainer: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  nextBackTextStyle: {
+    fontSize: 24,
+    color: "black",
+    marginTop: SetMargin(0.008),
   },
 });
 

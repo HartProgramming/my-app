@@ -93,6 +93,7 @@ export default function LogIn({ handleLogin }: { handleLogin: handleLogin }) {
             value={setUser}
             secureEntry={false}
             placeholder="Email/Username"
+            
           />
         </Card>
 

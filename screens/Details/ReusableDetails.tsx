@@ -2,7 +2,7 @@ import MobileSelector from "../../components/Inputs/MobileSelector";
 import { StyleSheet, Text } from "react-native";
 import Card from "../../components/Card/Card";
 import { MobileSelectorInterface } from "../../components/Inputs/MobileSelector";
-import CardText from "../../components/Card/CardHeader";
+import CardText from "../../components/Card/CardText";
 import { useEffect, useState } from "react";
 import { Dimensions } from "react-native";
 
@@ -12,8 +12,7 @@ interface ReusableDetails {
   selectorArray: MobileSelectorInterface[];
 }
 
-const containerMargin = Dimensions.get('window').height * .2
-
+const containerMargin = Dimensions.get("window").height * 0.2;
 
 export interface SelectorArray extends MobileSelectorInterface {
   label: string;
@@ -27,7 +26,6 @@ export default function ReusableDetails({
   const [pickerValue, setPickerValue] = useState<string>("");
   const [dataObj, setDataObj] = useState<any>([]);
   const [focus, setFocus] = useState<string>("");
-
 
   const handlePicker = (value: string) => {
     setPickerValue(value);
@@ -114,7 +112,7 @@ const styles = StyleSheet.create({
   },
   labelContainer: {
     alignItems: "center",
-    padding: 15
+    padding: 15,
   },
   label: {
     fontSize: 24,

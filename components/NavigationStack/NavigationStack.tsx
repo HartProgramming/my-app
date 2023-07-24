@@ -9,14 +9,14 @@ interface NavigationProps {
 export interface NavigationArrayProps {
     name: string;
     component: any;
-    backgroundColor: string;
-    fontColor: string;
-    borderColor: string;
+    backgroundColor?: string;
+    fontColor?: string;
+    borderColor?: string;
     options: boolean;
 }
 
 export default function NavigationStack({navArray}: NavigationProps){
-
+ 
   const navStack = createStackNavigator();
 
 

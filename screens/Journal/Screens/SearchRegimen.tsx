@@ -4,14 +4,18 @@ import RegimenButton from "../Components/Buttons/RegimenButton";
 import { StyleSheet } from "react-native";
 import Navigation from "../../../objects/NavigationType";
 import { useNavigation } from "@react-navigation/native";
-import CardText from "../../../components/Card/CardHeader";
+import CardText from "../../../components/Card/CardText";
 
 export default function SearchRegimen() {
   const navigation = useNavigation();
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
-        <CardText container={styles.headerContainer} textStyle={styles.header} text="Search"/>
+      <CardText
+        container={styles.headerContainer}
+        textStyle={styles.header}
+        text="Search"
+      />
       <Card scrollable={false} containerClass={styles.buttonsContainer}>
         <RegimenButton
           label="Exercise"
@@ -38,13 +42,13 @@ const styles = StyleSheet.create({
     marginTop: SetMargin(0.35),
   },
   headerContainer: {
-    alignSelf: 'center',
-    marginTop: SetMargin(.14),
-    marginBottom: SetMargin(-.2)
+    alignSelf: "center",
+    marginTop: SetMargin(0.14),
+    marginBottom: SetMargin(-0.2),
   },
   header: {
     fontSize: 34,
-    fontWeight: 'bold',
-    letterSpacing: 1.15
-  }
+    fontWeight: "bold",
+    letterSpacing: 1.15,
+  },
 });

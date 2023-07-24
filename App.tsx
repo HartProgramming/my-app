@@ -12,12 +12,13 @@ import SettingNavigation from "./screens/Settings/SettingNav";
 import UserColors from "./screens/Details/CustomColors";
 import DetailsNavigation from "./screens/Details/Navigation/DetailsNavigation";
 import RegimenNavigation from "./screens/Journal/Navigation/RegimenNavigation";
-import MainProgram from "./screens/History/Screens/MainProgram";
+import MainProgram from "./screens/Program/Screens/MainProgram";
+import ProgramNavigation from "./screens/Program/Navigation/ProgramNavigation";
 
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<any>();
 
-interface NavBarInterface {
+export interface NavBarInterface {
   label: string;
   route: string;
   component: any;
@@ -26,45 +27,6 @@ interface NavBarInterface {
   fontColor: string;
   borderColor: string;
 }
-
-const navBarArray: NavBarInterface[] = [
-  {
-    label: "Activity",
-    component: TodayScreen,
-    image: () => <FontAwesome5 name="running" size={24} color={"#8c52ff"} />,
-    backgroundColor: "",
-    fontColor: "",
-    borderColor: "",
-    route: "activity",
-  },
-  {
-    label: "Journal",
-    component: RegimenNavigation,
-    image: () => <Ionicons name="journal" size={24} color={"#8c52ff"} />,
-    backgroundColor: "#191919",
-    fontColor: "",
-    borderColor: "",
-    route: "journal",
-  },
-  {
-    label: "Program",
-    component: MainProgram,
-    image: () => <FontAwesome5 name="history" size={24} color={"#8c52ff"} />,
-    backgroundColor: "",
-    fontColor: "",
-    borderColor: "",
-    route: "program",
-  },
-  {
-    label: "Profile",
-    component: Settings,
-    image: () => <Ionicons name="person" size={24} color={"#8c52ff"} />,
-    backgroundColor: "",
-    fontColor: "",
-    borderColor: "",
-    route: "profile",
-  },
-];
 
 const App: React.FC = () => {
 
@@ -99,7 +61,7 @@ const App: React.FC = () => {
                 >
                   {(props) => <DetailsNavigation />}
                 </Stack.Screen>
-                <Stack.Screen name="Setting" options={{ headerShown: false }}>
+                <Stack.Screen name="Setting Navigation" options={{ headerShown: false }}>
                   {(props) => <SettingNavigation />}
                 </Stack.Screen>
                 <Stack.Screen
@@ -111,9 +73,12 @@ const App: React.FC = () => {
             ) : (
               <>
                 <Stack.Screen name="Main" options={{ headerShown: false }}>
-                  {(props) => <NavBar {...props} buttonArr={navBarArray} />}
+                  {(props) => <NavBar />}
                 </Stack.Screen>
-                <Stack.Screen name="Setting" options={{ headerShown: false }}>
+                <Stack.Screen name='Program Navigation' options={{headerShown: false}}>
+                  {(props) => <ProgramNavigation />}
+                </Stack.Screen>
+                <Stack.Screen name="Setting Navigation" options={{ headerShown: false }}>
                   {(props) => <SettingNavigation />}
                 </Stack.Screen>
               </>

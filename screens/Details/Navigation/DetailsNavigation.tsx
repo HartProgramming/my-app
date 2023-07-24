@@ -14,8 +14,8 @@ export default function DetailsNavigation() {
     { options: false, component: StandardDetails, name: "physical-info", backgroundColor: '', fontColor: '', borderColor: '' },
     { options: false, component: HealthGoalsDetails, name: "fitness-goals", backgroundColor: '', fontColor: '', borderColor: '' },
     { options: false, component: ActivityDetails, name: "current-activity", backgroundColor: '', fontColor: '', borderColor: '' },
-  ];
-
+  ]; 
+ 
   return (
     <>
       <NavigationStack navArray={navigationArray} />

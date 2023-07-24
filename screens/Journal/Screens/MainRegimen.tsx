@@ -1,6 +1,6 @@
 import Card from "../../../components/Card/Card";
 import { StyleSheet } from "react-native";
-import CardText from "../../../components/Card/CardHeader";
+import CardText from "../../../components/Card/CardText";
 import Navigation from "../../../objects/NavigationType";
 import { useNavigation } from "@react-navigation/native";
 import SetMargin from "../../../functions/SetMargin";
@@ -9,8 +9,7 @@ import MainRegimenButton from "../Components/Buttons/MainRegimenButton";
 import { Image, Text } from "react-native";
 import PhoneButton from "../../../components/Inputs/PhoneButton";
 import OnDeckButton from "../Components/Buttons/OnDeckButton";
-import Chicken from '../../../images/cardimages/chickenbreast.jpeg'
-
+import Chicken from "../../../images/cardimages/chickenbreast.jpeg";
 
 export default function MainRegimen() {
   const navigation = useNavigation();

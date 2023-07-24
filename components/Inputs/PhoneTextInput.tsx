@@ -23,9 +23,10 @@ interface PhoneInputProps {
   icon?: any;
   regular?: boolean;
   medium?: boolean;
+  placeholderContainer?: StyleProp<ViewStyle>;
 }
 
-const PhoneTextInput : React.FC<PhoneInputProps> = ({medium, regular, icon, onFocus, ref, children, keyboardType, secureTextEntry, onChange, placeholder, inputContainerClass, inputClass, textClass, value}) => {
+const PhoneTextInput : React.FC<PhoneInputProps> = ({placeholderContainer, medium, regular, icon, onFocus, ref, children, keyboardType, secureTextEntry, onChange, placeholder, inputContainerClass, inputClass, textClass, value}) => {
 
   const [fontLoaded] = useFonts({
     Poppins_400Regular, Poppins_500Medium
@@ -34,7 +35,7 @@ const PhoneTextInput : React.FC<PhoneInputProps> = ({medium, regular, icon, onFo
   return (
     <View style={inputContainerClass}>
       <TouchableOpacity style={inputClass}>
-        <TextInput onFocus={onFocus} ref={ref} keyboardType={keyboardType} secureTextEntry={secureTextEntry} onChangeText={onChange} placeholder={placeholder} value={value} style={[textClass, medium ? styles.medium : regular ? styles.regular : undefined]}></TextInput>
+        <TextInput textAlignVertical="center" onFocus={onFocus} ref={ref} keyboardType={keyboardType} secureTextEntry={secureTextEntry} onChangeText={onChange} placeholder={placeholder} value={value} style={[textClass, medium ? styles.medium : regular ? styles.regular : undefined]}></TextInput>
         {children}
       </TouchableOpacity>
     </View>

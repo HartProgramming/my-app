@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import Card from "../../../../components/Card/Card";
-import CardText from "../../../../components/Card/CardHeader";
+import CardText from "../../../../components/Card/CardText";
 import Meter from "../../../../components/Meter/Meter";
 
 interface ResultsMeterProps {
@@ -26,6 +26,7 @@ export default function ResultsMeter({
         container={styles.performanceLabelContainer}
         textStyle={styles.performanceLabel}
         text={label}
+        medium={true}
       />
       <Meter
         data={data}
@@ -48,19 +49,20 @@ const styles = StyleSheet.create({
   indicatorContainer: {
     flexDirection: "row",
     width: "85%",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     alignItems: "center",
     borderColor: "black",
     borderBottomWidth: 2,
     borderStyle: "solid",
-    padding: 17,
+    padding: 14,
   },
   performanceLabelContainer: {
-    width: "20%",
+    width: "32%",
+
   },
   performanceLabel: {
     fontSize: 18,
     color: "black",
-    fontFamily: "poppins-medium",
+    letterSpacing: .8
   },
 });

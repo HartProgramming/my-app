@@ -3,7 +3,7 @@ import Card from "../../components/Card/Card";
 import { StyleSheet } from "react-native";
 import ReusableDetails, { SelectorArray } from "./ReusableDetails";
 import { RefObject, useEffect, useRef, useState } from "react";
-import CardText from "../../components/Card/CardHeader";
+import CardText from "../../components/Card/CardText";
 import PhoneButton from "../../components/Inputs/PhoneButton";
 import { useNavigation } from "@react-navigation/native";
 import { physicalDetails } from "./Classes/Details";
@@ -29,7 +29,7 @@ export default function StandardDetails({ route }: any) {
   const navigation = useNavigation();
 
   const handleTrans = () => {
-    setModalVisible(true)
+    setModalVisible(true);
   };
 
   const handleClose = () => {
@@ -50,7 +50,11 @@ export default function StandardDetails({ route }: any) {
           header={"Your Physical Info."}
         />
         <PhoneButton
-          onPress={data.length === 3 ? () => Navigation({navigation}, 'fitness-goals') : handleTrans}
+          onPress={
+            data.length === 3
+              ? () => Navigation({ navigation }, "fitness-goals")
+              : handleTrans
+          }
           buttonClass={styles.button}
           buttonContainerClass={styles.buttonContainer}
           text="Next"

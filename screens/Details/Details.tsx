@@ -136,7 +136,7 @@ export default function Details({
   const [calories, setCalories] = useState<number>(0);
   const [protcal, setProtcal] = useState<number>(0);
   const [lowestLevelCalories, setLowestLevelCalories] = useState<number>(0);
-  const [checked, setChecked] = useState<boolean>(false);
+  const [checked, setChecked] = useState<boolean>(false); 
   const [checkboxArr, setCheckBoxArr] = useState<any[]>(checkboxDaysArr);
   const [currentDay, setCurrentDay] = useState<any>("");
   const [checkboxElement, setCheckboxElement] = useState<any>();

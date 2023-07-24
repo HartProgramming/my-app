@@ -31,6 +31,7 @@ export default function RecentActivityImageButton({
       buttonClass={styles.button}
       textClass={styles.buttonText}
       text={label}
+      semiBold={true}
     />
   );
 }
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
     fontFamily: 'poppins-bold',
-    letterSpacing: 1.01
+    letterSpacing: .7
   },
   imageStyle: {
     height: SetMargin(0.13),

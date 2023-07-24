@@ -7,7 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { fitnessGoals } from "./Classes/Details";
 import Navigation from "../../objects/NavigationType";
 import SetMargin from "../../functions/SetMargin";
-import CardText from "../../components/Card/CardHeader";
+import CardText from "../../components/Card/CardText";
 
 export default function HealthGoalsDetails() {
   const [weightGoal, setWeightGoal] = useState<number>(0);
@@ -18,30 +18,37 @@ export default function HealthGoalsDetails() {
   const navigation = useNavigation();
 
   const handleTrans = (param: any, event: string) => {
-   return Navigation({param}, event)
-   console.log(dataObj)
+    return Navigation({ param }, event);
+    console.log(dataObj);
   };
 
   useEffect(() => {
-    fitnessGoals[0].selectedValue = weightGoal
-    fitnessGoals[1].selectedValue = muscleGoal
-
-  }, [])
+    fitnessGoals[0].selectedValue = weightGoal;
+    fitnessGoals[1].selectedValue = muscleGoal;
+  }, []);
 
   useEffect(() => {
-    console.log(data)
-    setDataObj(data)
-}, [data])
+    console.log(data);
+    setDataObj(data);
+  }, [data]);
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
-      <CardText text='Step 3 of 5' textStyle={styles.header} container={styles.headerContainer}/>
-      <ReusableDetails data={setData} header="Fitness Goals" selectorArray={fitnessGoals} />
+      <CardText
+        text="Step 3 of 5"
+        textStyle={styles.header}
+        container={styles.headerContainer}
+      />
+      <ReusableDetails
+        data={setData}
+        header="Fitness Goals"
+        selectorArray={fitnessGoals}
+      />
       <PhoneButton
         text="Next"
         buttonClass={[styles.button, { backgroundColor: "red" }]}
         buttonContainerClass={styles.buttonContainer}
-        onPress={() => handleTrans({navigation}, 'current-activity')}
+        onPress={() => handleTrans({ navigation }, "current-activity")}
         textClass={styles.text}
       />
     </Card>
@@ -53,13 +60,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerContainer: {
-    marginTop: SetMargin(.15),
-    marginBottom: SetMargin(-.15),
-    alignItems: 'center'
+    marginTop: SetMargin(0.15),
+    marginBottom: SetMargin(-0.15),
+    alignItems: "center",
   },
   header: {
     fontSize: 24,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   buttonContainer: {
     width: "30%",
@@ -70,9 +77,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 15,
     borderRadius: 15,
-    borderStyle: 'solid',
+    borderStyle: "solid",
     borderWidth: 2,
-    marginTop: SetMargin(.05)
+    marginTop: SetMargin(0.05),
   },
   text: {
     fontSize: 24,

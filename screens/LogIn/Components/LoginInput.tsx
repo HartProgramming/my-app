@@ -3,7 +3,6 @@ import PhoneTextInput from "../../../components/Inputs/PhoneTextInput";
 import { useEffect, useState } from "react";
 import SetMargin from "../../../functions/SetMargin";
 
-
 interface LoginInputProps {
   placeholder: string;
   secureEntry: boolean;
@@ -16,7 +15,6 @@ export default function LoginInput({
   value,
   placeholder,
   secureEntry,
-
 }: LoginInputProps) {
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -39,28 +37,31 @@ export default function LoginInput({
       textClass={styles.text}
       inputClass={styles.input}
       inputContainerClass={styles.inputContainer}
+      regular={true}
     />
   );
 }
 
 const styles = StyleSheet.create({
   inputContainer: {
-    width: '100%',  
-    marginTop: SetMargin(.016)
+    width: "100%",
+    marginTop: SetMargin(0.016),
+    alignItems: "center",
+    justifyContent: "center",
   },
+
   input: {
     borderRadius: 50,
     backgroundColor: "#f7f7f7",
     width: "100%",
-    height: SetMargin(0.08),
     borderStyle: "solid",
     borderColor: "#8c52ff",
     borderWidth: 2,
     justifyContent: "center",
+    height: SetMargin(0.08),
   },
   text: {
-    fontSize: 21,
-    textAlign: 'left',
-    marginLeft: SetMargin(.02)
+    fontSize: 20,
+    justifyContent: "center",
   },
 });

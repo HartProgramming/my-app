@@ -16,6 +16,9 @@ import ChangeEmail from "./ChangeEmail";
 import ChangeInfo from "./ChangeInfo";
 import AppInfo from "./AppInfo";
 import LogOut from "./LogOut";
+import { NestedInterface } from "../../components/NavigationStack/NestedInterface";
+import Navigation from "../../objects/NavigationType";
+
 
 export default function Settings() {
   const Stack = createStackNavigator();
@@ -25,24 +28,19 @@ export default function Settings() {
   type ScreenParam = {
     screen: {id: number} | undefined
   }
-
+ 
   const transScreen = (standard: any, screenName: string) => {
     navigation.navigate(standard as any, {screen: screenName} as any);
   };
 
-  interface SettingTabs {
-    label: string;
-    route: string;
-    icon: any;
-    component: any;
-  }
-
-  const settingTabsArray: SettingTabs[] = [
+  const settingTabsArray: NestedInterface[] = [
     {
       label: "App Information",
       route: "app-info",
       icon: <MaterialIcons name="app-settings-alt" size={24} color="#8c52ff" />,
       component: { AppInfo },
+      mainRoute: 'Setting Navigation'
+
     },
     {
       label: "Change Email/Password",
@@ -51,24 +49,28 @@ export default function Settings() {
         <MaterialCommunityIcons name="key-change" size={28} color="#8c52ff" />
       ),
       component: { ChangeEmail },
+      mainRoute: 'Setting Navigation'
     },
     {
       label: "Change Info",
       route: "change-info",
       icon: <Ionicons name="information-circle" size={28} color="#8c52ff" />,
       component: { ChangeInfo },
+      mainRoute: 'Setting Navigation'
     },
     {
       label: "Log Out",
       route: "log-out",
       icon: <AntDesign name="logout" size={28} color="#8c52ff" />,
       component: { LogOut },
+      mainRoute: 'Setting Navigation'
     },
     {
       label: "Delete Account",
       route: "delete-account",
       icon: <AntDesign name="delete" size={28} color="#8c52ff" />,
       component: { DeleteAccount },
+      mainRoute: 'Setting Navigation'
     },
   ];
 
@@ -77,7 +79,7 @@ export default function Settings() {
       <Card scrollable={true} containerClass={styles.scrollContainer}>
         <Card scrollable={false} containerClass={styles.tabsContainer}>
           {settingTabsArray.map((value: any) => (
-            <PhoneButton image={value.icon} onPress={() => transScreen('Setting', value.route)} text={value.label} textClass={styles.settingTabsTextClass} buttonClass={styles.settingTabsButton} buttonContainerClass={styles.settingTabsButtonContainer}/>
+            <PhoneButton image={value.icon} onPress={() => transScreen(value.mainRoute, value.route)} text={value.label} textClass={styles.settingTabsTextClass} buttonClass={styles.settingTabsButton} buttonContainerClass={styles.settingTabsButtonContainer}/>
           ))}
         </Card>
       </Card>

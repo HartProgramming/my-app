@@ -1,6 +1,6 @@
 import Card from "../../../components/Card/Card";
 import { StyleSheet } from "react-native";
-import CardText from "../../../components/Card/CardHeader";
+import CardText from "../../../components/Card/CardText";
 import RegimenButton from "../Components/Buttons/RegimenButton";
 import SetMargin from "../../../functions/SetMargin";
 import SearchInput from "../Components/Input/SearchInput";
@@ -60,8 +60,10 @@ export default function SearchExercise() {
                     container={styles.resultsHeaderContainer}
                   />
                 </Card>
-                <Card scrollable={false} containerClass={styles.resultsText}>
-                </Card>
+                <Card
+                  scrollable={false}
+                  containerClass={styles.resultsText}
+                ></Card>
               </>
             );
           })}
@@ -85,7 +87,7 @@ const styles = StyleSheet.create({
     borderColor: "red",
     alignSelf: "center",
     marginTop: SetMargin(0.06),
-    flexDirection: 'column'
+    flexDirection: "column",
   },
   resultsHeaderContainer: {},
   resultsHeader: {
@@ -102,7 +104,5 @@ const styles = StyleSheet.create({
     height: 50,
     width: 50,
   },
-  resultsText: {
-
-  }
+  resultsText: {},
 });

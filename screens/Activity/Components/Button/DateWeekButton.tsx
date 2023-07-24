@@ -23,6 +23,7 @@ export default function DateWeekButton({
         left ? styles.borderLeft : styles.borderRight,
       ]}
       textClass={styles.text}
+      semiBold={true}
     />
   );
 }
@@ -35,10 +36,9 @@ const styles = StyleSheet.create({
 },
   text: {
     fontSize: 22,
-    fontFamily: "Poppins",
-    fontWeight: "bold",
     marginLeft: 5,
-    marginRight: 5
+    marginRight: 5,
+    letterSpacing: .5
 },
   borderLeft: {
     borderLeftColor: "black",
