@@ -6,13 +6,10 @@ import PhoneTextInput from "../../components/Inputs/PhoneTextInput";
 import { FunctionComponentElement } from "react";
 import Picker from "react-native-picker-select";
 import Details from "../Details/Details";
+import Navigation from "../../objects/NavigationType";
 
 export default function ChangeInfo() {
   const navigation = useNavigation();
-
-  const transScreen = (event: string) => {
-    navigation.navigate(event as never);
-  };
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
@@ -24,7 +21,7 @@ export default function ChangeInfo() {
         button={
           <PhoneButton
             text="Go Back"
-            onPress={() => transScreen("Settings")}
+            onPress={() => Navigation({navigation},'Profile')}
             buttonClass={styles.button}
             buttonContainerClass={styles.buttonContainer}
             textClass={styles.buttonText}

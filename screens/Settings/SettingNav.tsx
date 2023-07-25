@@ -4,37 +4,65 @@ import ChangeInfo from "./ChangeInfo";
 import LogOut from "./LogOut";
 import DeleteAccount from "./DeleteAccount";
 import AppInfo from "./AppInfo";
+import NavigationStack from "../../components/NavigationStack/NavigationStack";
+import { NavigationArrayProps } from "../../components/NavigationStack/NavigationStack";
+import Settings from "./Settings";
 
 export default function SettingNavigation() {
-  const SettingsStack = createStackNavigator();
+
+  const settingTabsArray: NavigationArrayProps[] = [
+    {
+      name: 'main-settings',
+      component: Settings,
+      options: false,
+      backgroundColor: '',
+      borderColor: '',
+      fontColor: ''
+    },
+    {
+      name: "app-info",
+      options: false,
+      component: AppInfo,
+      backgroundColor: '',
+      borderColor: '',
+      fontColor: ''
+    },
+    {
+      name: "change-email-password",
+      options: false,
+      component: ChangeEmail,
+      backgroundColor: '',
+      borderColor: '',
+      fontColor: ''
+      
+    },
+    {
+      name: "change-info",
+      options: false,
+      component: ChangeInfo,
+      backgroundColor: '',
+      borderColor: '',
+      fontColor: ''
+    },
+    {
+      name: "log-out",
+      options: false,
+      component: LogOut,
+      backgroundColor: '',
+      borderColor: '',
+      fontColor: ''
+    },
+    {
+      name: "delete-account",
+      options: false,
+      component: DeleteAccount,
+      backgroundColor: '',
+      borderColor: '',
+      fontColor: ''
+    },
+  ];
 
   return (
-    <SettingsStack.Navigator>
-      <SettingsStack.Screen
-        options={{ headerShown: false }}
-        name="app-info"
-        component={AppInfo}
-      />
-      <SettingsStack.Screen
-        options={{ headerShown: false }}
-        name="change-email-password"
-        component={ChangeEmail}
-      />
-      <SettingsStack.Screen
-        options={{ headerShown: false }}
-        name="change-info"
-        component={ChangeInfo}
-      />
-      <SettingsStack.Screen
-        options={{ headerShown: false }}
-        name="log-out"
-        component={LogOut}
-      />
-      <SettingsStack.Screen
-        options={{ headerShown: false }}
-        name="delete-account"
-        component={DeleteAccount}
-      />
-    </SettingsStack.Navigator>
+    <NavigationStack navArray={settingTabsArray}/>
   );
 }

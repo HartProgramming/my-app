@@ -6,25 +6,25 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import TodayScreen from "../../screens/Activity/Screens/MainActivity";
 import RegimenNavigation from "../../screens/Journal/Navigation/RegimenNavigation";
-import MainProgram from "../../screens/Program/Screens/MainProgram";
-import Settings from "../../screens/Settings/Settings";
 import { NavBarInterface } from "../../App";
+import ProgramNavigation from "../../screens/Program/Navigation/ProgramNavigation";
+import SettingNavigation from "../../screens/Settings/SettingNav";
 
 export default function NavBar() {
   const navBarArray: NavBarInterface[] = [
     {
       label: "Activity",
       component: TodayScreen,
-      image: () => <FontAwesome5 name="running" size={24} color={"#8c52ff"} />,
+      image: () => <FontAwesome5 name="running" size={24} color={"black"} />,
       backgroundColor: "",
       fontColor: "",
-      borderColor: "",
+      borderColor: "", 
       route: "activity",
     },
     {
       label: "Journal",
       component: RegimenNavigation,
-      image: () => <Ionicons name="journal" size={24} color={"#8c52ff"} />,
+      image: () => <Ionicons name="journal" size={24} color={"black"} />,
       backgroundColor: "#191919",
       fontColor: "",
       borderColor: "",
@@ -32,8 +32,8 @@ export default function NavBar() {
     },
     {
       label: "Program",
-      component: MainProgram,
-      image: () => <FontAwesome5 name="history" size={24} color={"#8c52ff"} />,
+      component: ProgramNavigation,
+      image: () => <FontAwesome5 name="history" size={24} color={"black"} />,
       backgroundColor: "",
       fontColor: "",
       borderColor: "",
@@ -41,8 +41,8 @@ export default function NavBar() {
     },
     {
       label: "Profile",
-      component: Settings,
-      image: () => <Ionicons name="person" size={24} color={"#8c52ff"} />,
+      component: SettingNavigation,
+      image: () => <Ionicons name="person" size={24} color={"black"} />,
       backgroundColor: "",
       fontColor: "",
       borderColor: "",
@@ -57,6 +57,7 @@ export default function NavBar() {
         labelStyle: {
           fontSize: 12,
           letterSpacing: 1.02,
+          color: 'black'
         },
       }}
       screenOptions={({ route }) => ({

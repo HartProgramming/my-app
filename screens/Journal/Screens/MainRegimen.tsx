@@ -12,7 +12,7 @@ import OnDeckButton from "../Components/Buttons/OnDeckButton";
 import Chicken from "../../../images/cardimages/chickenbreast.jpeg";
 
 export default function MainRegimen() {
-  const navigation = useNavigation();
+  const navigation = useNavigation(); 
 
   const [addImage, setAddImage] = useState<any>();
   const [imageHeader, setImageHeader] = useState<string>("");
@@ -83,7 +83,7 @@ export default function MainRegimen() {
           left={true}
           onPress={Navigation({ navigation }, "create")}
         />
-      </Card>
+      </Card> 
     </Card>
   );
 }

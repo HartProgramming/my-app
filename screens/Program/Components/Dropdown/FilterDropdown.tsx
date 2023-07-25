@@ -28,7 +28,7 @@ export default function FilterDropdown({ label, filterArray, checkedArray }: Dro
         return checkbox;
       })
     );
-  };
+  }; 
 
   const handleShow = () => {
     console.log(showFilter);

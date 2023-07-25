@@ -23,7 +23,9 @@ export interface ExerciseActivity {
   Miles?: number | undefined;
   Minutes?: number | undefined;
   CaloriesBurned?: number;
-  Image?: any;
+  Image?: any; 
+  Sets?: number | undefined;
+  Weight?: number | undefined;
 }
 
 export interface MealActivity {

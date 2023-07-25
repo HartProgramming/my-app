@@ -10,7 +10,7 @@ export default function ProgramNavigation() {
     {
       options: false,
       component: MainProgram,
-      name: "main-program",
+      name: "main-program", 
       backgroundColor: "",
       fontColor: "",
       borderColor: "",

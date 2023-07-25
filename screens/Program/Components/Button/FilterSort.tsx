@@ -24,11 +24,11 @@ export default function FilterSort({showFilterModal, showSortModal}: FilterSortP
         console.log('sort')
         showSortModal(true)
     }
-
+ 
     return(
         <Card scrollable={false} containerClass={styles.container}>
-            <PhoneButton semiBold image={<FontAwesome name="filter" size={24} color={'black'} />} text="Filter" onPress={handleFilterModal} buttonClass={styles.button} buttonContainerClass={styles.buttonContainer} textClass={styles.text} />
-            <PhoneButton semiBold image={<FontAwesome5 name='sort' size={24} color={'black'} />} text="Sort" onPress={handleSortModal} buttonClass={styles.button} buttonContainerClass={styles.buttonContainer} textClass={styles.text}/>
+            <PhoneButton semiBold image={<FontAwesome name="filter" size={24} color={'white'} />} text="Filter" onPress={handleFilterModal} buttonClass={[styles.button, styles.borderRight]} buttonContainerClass={styles.buttonContainer} textClass={styles.text} />
+            <PhoneButton semiBold image={<FontAwesome5 name='sort' size={24} color={'white'} />} text="Sort" onPress={handleSortModal} buttonClass={[styles.button, styles.borderLeft]} buttonContainerClass={styles.buttonContainer} textClass={styles.text}/>
         </Card>
     )
 }
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         flexDirection: 'row',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
     },
     buttonContainer: {
         flexDirection: 'row',
@@ -46,16 +46,26 @@ const styles = StyleSheet.create({
         width: '50%'
     },
     button: {
-        borderColor: 'black',
-        borderStyle: 'solid',
-        borderWidth: 2,
         width: '100%',
         flexDirection: 'row-reverse',
         justifyContent: 'space-evenly',
-        alignItems: 'center'
+        alignItems: 'center',
+        padding: 5,
+        backgroundColor: 'black'
     },
     text: {
         fontSize: 26,
-        letterSpacing: .8
+        letterSpacing: 1.1,
+        color: 'white'
+    },
+    borderLeft: {
+        borderLeftColor: 'white',
+        borderLeftStyle: 'solid',
+        borderLeftWidth: 2,
+    },
+    borderRight: {
+        borderRightColor: 'white',
+        borderRightStyle: 'solid',
+        borderRightWidth: 2,
     }
 })

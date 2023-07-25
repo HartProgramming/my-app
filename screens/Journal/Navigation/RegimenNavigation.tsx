@@ -9,7 +9,7 @@ import SearchRegimen from "../Screens/SearchRegimen";
 import CreateRegimen from "../Screens/CreateRegimen";
 import MainRegimen from "../Screens/MainRegimen";
 
-
+ 
 export default function RegimenNavigation(){
  
     const regimenArray: NavigationArrayProps[] =[
@@ -25,4 +25,4 @@ export default function RegimenNavigation(){
     return(
         <NavigationStack navArray={regimenArray} />
     )
-}
+} 

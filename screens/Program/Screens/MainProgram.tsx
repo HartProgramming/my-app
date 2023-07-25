@@ -16,27 +16,20 @@ import ProgramNavigation from "../Navigation/ProgramNavigation";
 import NestedNavigation from "../../../components/NavigationStack/NestedNavigation";
 import AvailablePrograms from "./AvailablePrograms";
 import CreateProgram from "./CreateProgram";
+import PhoneButton from "../../../components/Inputs/PhoneButton";
 
- 
 export default function MainProgram() {
   const [programArray, setProgramArray] = useState<any>([]);
   const [programElement, setProgramElement] = useState<any>([]);
   const [counter, setCounter] = useState<number>(0);
   const [currentProgramObject, setCurrentProgramObject] = useState<any>({});
   const [currentProgramCard, setCurrentProgramCard] = useState<any>();
+  const [displayDetailsModal, setDisplayDetailsModal] = useState<any>();
 
   const navigation = useNavigation();
 
   useEffect(() => {
-    setCurrentProgramObject({
-      id: "M8",
-      title: "ProteinMuscle",
-      image: Chicken,
-      cycle: "1 Week",
-      author: "Melissa Barnes",
-      info: "This is a meal/exercise program designed specifically for beginners. Meals are affordable and exercises are hard enough to lose the weight...",
-      price: "9.99",
-    });
+    setCurrentProgramObject(programDetailsArray[0]);
   }, []);
 
   useEffect(() => {
@@ -48,8 +41,13 @@ export default function MainProgram() {
         price={currentProgramObject.price}
         container={styles.programCardContainer}
         cycle={currentProgramObject.cycle}
-        cardImage={currentProgramObject.image}
+        cardImage={currentProgramObject.cardImage}
         title={currentProgramObject.title}
+        detailsModal={currentProgramObject.detailsModal}
+        review={currentProgramObject.review}
+        budget={currentProgramObject.budget}
+        programType={currentProgramObject.programType}
+        userType={currentProgramObject.userType}
       />
     );
   }, [currentProgramObject]);
@@ -61,59 +59,82 @@ export default function MainProgram() {
   }, []);
 
   const programDetailsArray: ProgramCardProps[] = [
-    {
+    { 
       cardImage: Jogging,
       title: "Supreme Lean",
-      cycle: "1 Week",
+      cycle: 2,
       container: styles.programCardContainer,
-      price: "14.99",
+      price: 14.99,
       info: "This is a combination program with a meal and exercise scheduled that is designed to optimize weight loss and building some tone.",
       author: "Melinda Ross",
       id: "M1",
+      budget: 3,
+      review: 3,
+      userType: "User",
+      programType: "Complete",
+      detailsModal: displayDetailsModal,
     },
     {
       cardImage: Chicken,
       title: "Tone Up",
-      cycle: "2 Week",
+      cycle: 7,
       container: styles.programCardContainer,
-      price: "4.99",
+      price: 4.99,
       info: "This is a combination program with a meal and exercise scheduled that is designed to optimize weight loss and building some tone.",
       author: "Melinda Ross",
       id: "M2",
+      budget: 3,
+      review: 3,
+      userType: "User",
+      programType: "Complete",
+      detailsModal: displayDetailsModal,
     },
     {
       cardImage: Jogging,
       title: "Supreme Lean",
-      cycle: "1 Week",
+      cycle: 7,
       container: styles.programCardContainer,
-      price: "4.99",
+      price: 3.99,
       info: "This is a combination program with a meal and exercise scheduled that is designed to optimize weight loss and building some tone.",
       author: "Frank Castle",
       id: "M3",
+      budget: 3,
+      review: 3,
+      userType: "User",
+      programType: "Complete",
+      detailsModal: displayDetailsModal,
     },
     {
       cardImage: Chicken,
       title: "Heavy Protein",
-      cycle: "1 Week",
+      cycle: 7,
       container: styles.programCardContainer,
-      price: "2.99",
+      price: 2.99,
       info: "This is a combination program with a meal and exercise scheduled that is designed to optimize weight loss and building some tone.",
       author: "Melinda Ross",
       id: "M4",
+      budget: 3,
+      review: 3,
+      userType: "User",
+      programType: "Complete",
+      detailsModal: displayDetailsModal,
     },
     {
       cardImage: Jogging,
       title: "Supreme Lean",
-      cycle: "3 Days",
+      cycle: 7,
       container: styles.programCardContainer,
-      price: "1.99",
+      price: 1.99,
       info: "This is a combination program with a meal and exercise scheduled that is designed to optimize weight loss and building some tone.",
       author: "Dipshit Believer",
       id: "M5",
+      budget: 3,
+      review: 3,
+      userType: "User",
+      programType: "Complete",
+      detailsModal: displayDetailsModal,
     },
   ];
-
-
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
@@ -133,11 +154,13 @@ export default function MainProgram() {
           textStyle={styles.currentHeader}
           text="Current"
         />
-        {currentProgramCard}
+        <Card scrollable={false} containerClass={styles.highlightedContainer}>
+          {currentProgramCard}
+        </Card>
       </Card>
       <Card scrollable={false} containerClass={styles.buttonsContainer}>
-        <NestedNavigation fontType="semiBold" route='available-programs' mainRoute={'Program Navigation'} component={AvailablePrograms} container={styles.nestedContainer} button={styles.nestedButton} textStyle={styles.nestedText} label="Available" />
-        <NestedNavigation fontType="semiBold" route='create-program' mainRoute="Program Navigation" component={CreateProgram} container={styles.nestedContainer} button={styles.nestedButton} textStyle={styles.nestedText} label="Create" />
+       <PhoneButton semiBold onPress={Navigation({navigation}, 'available-programs')} buttonContainerClass={styles.nestedContainer} buttonClass={styles.nestedButton} textClass={styles.nestedText} text="Available" />
+       <PhoneButton semiBold onPress={Navigation({navigation}, 'create-program')} buttonContainerClass={styles.nestedContainer} buttonClass={styles.nestedButton} textClass={styles.nestedText} text="Create" />
       </Card>
     </Card>
   );
@@ -181,25 +204,26 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   buttonsContainer: {
-    flexDirection: 'column'
   },
   nestedContainer: {
-    alignSelf: 'center',
-    width: '100%',
-    alignItems: 'center',
+    alignSelf: "center",
+    width: "100%",
+    alignItems: "center",
     borderBottomWidth: 2,
-    borderStyle: 'solid',
-    borderColor: 'black'
-},
-nestedButton: {
-    height: SetMargin(.17),
-    width: '80%',
-    alignItems: 'center',
-    justifyContent: 'center'
-},
-nestedText: {
+    borderStyle: "solid",
+    borderColor: "black",
+  },
+  nestedButton: {
+    height: SetMargin(0.17),
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 5,
+    backgroundColor: 'white'
+  },
+  nestedText: {
     fontSize: 30,
-    color: 'black',
-    letterSpacing: 1
-}
+    color: "black",
+    letterSpacing: 1,
+  },
 });

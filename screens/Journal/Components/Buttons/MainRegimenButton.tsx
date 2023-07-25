@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   button: {
-    backgroundColor: "blue",
+    backgroundColor: "black",
     height: SetMargin(0.08),
     alignItems: "center",
     justifyContent: "center",

@@ -10,7 +10,7 @@ export interface ProgramDetailsInterface {
 export interface MealDetailsArray extends MealActivity {
   time: string;
 }
-
+ 
 export interface ExerciseDetailsArray extends ExerciseActivity {}
 
 

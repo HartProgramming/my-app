@@ -8,21 +8,22 @@ import { useEffect, useState } from "react";
 import SetMargin from "../../../../functions/SetMargin";
 import PhoneButton from "../../../../components/Inputs/PhoneButton";
 import { SetStateAction } from "react";
+import { TouchableOpacity, Text } from "react-native";
 
 export interface ProgramCardProps {
   container?: StyleProp<ViewStyle>;
   title: string;
-  review?: 1 | 2 | 3 | 4 | 5 | undefined;
+  review: 1 | 2 | 3 | 4 | 5;
   price: number;
   info: string;
   author: string;
-  budget?: "expensive" | "average" | "affordable";
+  budget: 0 | 1 | 2 | 3;
   cycle: number;
   cardImage: any;
   id: string;
   programType: "Exercise" | "Meal" | "Complete";
-  userType: 'Trainer' | 'User';
-  buy: any;
+  userType: "Trainer" | "User";
+  detailsModal: any;
 }
 
 export default function ProgramCard({
@@ -35,124 +36,121 @@ export default function ProgramCard({
   info,
   programType,
   userType,
-  buy
+  detailsModal,
+  review,
+  budget,
 }: ProgramCardProps) {
   const [budgetArray, setBudgetArray] = useState<any>([]);
 
   const [reviewArray, setReviewArray] = useState<any>([]);
-
-  const [budget, setBudget] = useState<any>();
-  const [review, setReview] = useState<any>();
+  const [reviewLength, setReviewLength] = useState<number>(review);
+  const [budgetLength, setBudgetLength] = useState<number>(0);
+  const [budgetElements, setBudgetElements] = useState<any>();
+  const [reviewElements, setReviewElements] = useState<any>();
 
   const handleMore = () => {
-    console.log('hi')
-    buy(true)
+    detailsModal(true);
   };
 
   useEffect(() => {
-    setReview(
-      <Card scrollable={false} containerClass={styles.card}>
-        <AntDesign name="star" size={14} color="black" />,
-        <AntDesign name="star" size={14} color="black" />,
-        <AntDesign name="star" size={14} color="black" />,
-        <AntDesign name="star" size={14} color="black" />,
-        <AntDesign name="star" size={14} color="black" />,
-      </Card>
-    );
-    setBudget(
-      <Card scrollable={false} containerClass={styles.card}>
-        <FontAwesome name="dollar" size={14} color={"black"} />,
-        <FontAwesome name="dollar" size={14} color={"black"} />,
-        <FontAwesome name="dollar" size={14} color={"black"} />,
-      </Card>
-    );
+    const reviewArray: JSX.Element[] = [];
+    for (let i = 0; i < review; i++) {
+      reviewArray.push(<AntDesign name="star" size={20} color="black" />);
+    }
+
+    const budgetArray: JSX.Element[] = [];
+    for (let i = 0; i < budget; i++) {
+      budgetArray.push(<FontAwesome name="dollar" size={16} color="black" />);
+    }
+
+    setReviewElements(reviewArray);
+    setBudgetElements(budgetArray);
   }, []);
 
   return (
     <Card scrollable={false} containerClass={container}>
-      <Card scrollable={false} containerClass={styles.topContainer}>
-        <Image style={styles.image} source={cardImage} />
-        <Card scrollable={false} containerClass={styles.detailsContainer}>
-          <Card scrollable={false} containerClass={styles.headerContainer}>
-            <Card
-              scrollable={false}
-              containerClass={styles.headerReviewContainer}
-            >
-              <CardText
-                semiBold
-                text={title}
-                container={styles.titleContainer}
-                textStyle={styles.title}
-              />
+      <TouchableOpacity onPress={handleMore}>
+        <Card scrollable={false} containerClass={styles.topContainer}>
+          <Image style={styles.image} source={cardImage} />
+          <Card scrollable={false} containerClass={styles.detailsContainer}>
+            <Card scrollable={false} containerClass={styles.headerContainer}>
               <Card
                 scrollable={false}
-                containerClass={styles.reviewCycleContainer}
+                containerClass={styles.headerReviewContainer}
               >
+                <CardText
+                  semiBold
+                  text={title}
+                  container={styles.titleContainer}
+                  textStyle={styles.title}
+                />
                 <Card
                   scrollable={false}
-                  containerClass={styles.reviewContainer}
+                  containerClass={styles.reviewCycleContainer}
                 >
-                  <AntDesign name="star" size={14} color="black" />
-                  <AntDesign name="star" size={14} color="black" />
-                  <AntDesign name="star" size={14} color="black" />
-                  <AntDesign name="star" size={14} color="black" />
-                  <AntDesign name="star" size={14} color="black" />
+                  <Card
+                    scrollable={false}
+                    containerClass={styles.reviewContainer}
+                  >
+                    {reviewElements}
+                  </Card>
+                  <CardText
+                    medium
+                    text={`${cycle} Day`}
+                    container={styles.cycleContainer}
+                    textStyle={styles.cycle}
+                  />
                 </Card>
-                <CardText
-                  medium
-                  text={`${cycle} Day`}
-                  container={styles.cycleContainer}
-                  textStyle={styles.cycle}
-                />
               </Card>
+
+              <CardText
+                bold={true}
+                text={`${price}`}
+                container={styles.priceContainer}
+                textStyle={styles.price}
+              />
             </Card>
 
-            <CardText
-              bold={true}
-              text={`${price}`}
-              container={styles.priceContainer}
-              textStyle={styles.price}
-            />
-          </Card>
-
-          <Card scrollable={false} containerClass={styles.infoContainer}>
-            <CardText
-              medium
-              container={styles.infoDetailsContainer}
-              textStyle={styles.infoDetails}
-              text={info}
-            />
+            <Card scrollable={false} containerClass={styles.infoContainer}>
+              <CardText
+                medium
+                container={styles.infoDetailsContainer}
+                textStyle={styles.infoDetails}
+                text={info}
+              />
+            </Card>
           </Card>
         </Card>
-      </Card>
 
-      <Card scrollable={false} containerClass={styles.bottomContainer}>
-        <CardText
-          medium
-          text={userType}
-          container={styles.authorContainer}
-          textStyle={styles.author}
-        />
-        <PhoneButton
-          medium
-          onPress={handleMore}
-          buttonContainerClass={styles.moreButtonContainer}
-          buttonClass={styles.moreButton}
-          textClass={styles.moreButtonText}
-          text="More"
-        />
-        <Card
-          scrollable={false}
-          containerClass={styles.programTypeCardContainer}
-        >
+        <Card scrollable={false} containerClass={styles.bottomContainer}>
           <CardText
             medium
-            textStyle={styles.programType}
-            container={styles.programTypeContainer}
-            text={`Type: ${programType}`}
+            text={`Cert: ${userType}`}
+            container={styles.authorContainer}
+            textStyle={styles.author}
           />
+          <Card scrollable={false} containerClass={styles.programTypeCardContainer}>
+            <CardText
+              medium
+              textStyle={styles.programType}
+              container={styles.programTypeContainer}
+              text={`Type: ${programType}`}
+            />
+            <Card
+              scrollable={false}
+              containerClass={styles.budgetContainer}
+            >
+              <CardText
+                medium
+                text={budget > 0 ? `Budget: ` : ""}
+                container={styles.budgetLabelContainer}
+                textStyle={styles.budgetLabel}
+              />
+              {budgetElements}
+            </Card>
+          </Card>
         </Card>
-      </Card>
+      </TouchableOpacity>
     </Card>
   );
 }
@@ -184,8 +182,8 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
     justifyContent: "flex-start",
-    height: SetMargin(.05),
-    marginBottom: SetMargin(.015)
+    height: SetMargin(0.05),
+    marginBottom: SetMargin(0.015),
   },
   titleContainer: {},
   title: {
@@ -210,7 +208,7 @@ const styles = StyleSheet.create({
   },
   cycle: {
     fontSize: 14,
-    marginTop: SetMargin(.005)
+    marginTop: SetMargin(0.005),
   },
   priceContainer: {
     backgroundColor: "black",
@@ -240,50 +238,47 @@ const styles = StyleSheet.create({
   bottomContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around",
-    marginTop: SetMargin(.002)
+    justifyContent: "flex-start",
+    marginTop: SetMargin(0.002),
+    width: '100%'
   },
   authorContainer: {
-    width: "45%",
+    width: "35%",
     alignItems: "center",
-    justifyContent: 'flex-start',
-    flexDirection: 'row'
+    justifyContent: "flex-start",
+    flexDirection: "row",
+
   },
   author: {
     fontSize: 16,
-    marginLeft: SetMargin(.01)
+    marginLeft: SetMargin(0.01),
   },
-  moreButtonContainer: {
-    backgroundColor: "black",
-    width: "20%",
-    height: SetMargin(0.033),
-    justifyContent: "center",
-    borderTopRightRadius: 15,
-    borderTopLeftRadius: 15,
+  budgetContainer: {
+    flexDirection: "row",
+    justifyContent: 'flex-end',
     alignItems: "center",
+    width: '75%'
   },
-  moreButton: {
+  budgetLabelContainer: {
     alignItems: "center",
-    justifyContent: "center",
-    padding: 4,
+    justifyContent: "flex-end",
+  
   },
-  moreButtonText: {
-    color: "white",
-    fontSize: 14,
-    justifyContent: "center",
-    letterSpacing: 0.8,
+  budgetLabel: {
+    fontSize: 16,
   },
   programTypeCardContainer: {
     flexDirection: "row",
     width: "35%",
+
   },
   programTypeContainer: {
     flexDirection: "row",
     width: "100%",
-    justifyContent: 'flex-end'
+    justifyContent: "flex-start",
   },
   programType: {
-    fontSize: 14,
-    marginRight: SetMargin(.01)
+    fontSize: 16,
+    marginRight: SetMargin(0.01),
   },
 });

@@ -9,77 +9,77 @@ import {
   AntDesign,
 } from "@expo/vector-icons";
 import PhoneButton from "../../components/Inputs/PhoneButton";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import DeleteAccount from "./DeleteAccount";
-import ChangeEmail from "./ChangeEmail";
-import ChangeInfo from "./ChangeInfo";
-import AppInfo from "./AppInfo";
-import LogOut from "./LogOut";
-import { NestedInterface } from "../../components/NavigationStack/NestedInterface";
+import CardText from "../../components/Card/CardText";
 import Navigation from "../../objects/NavigationType";
-
+import { useState } from "react";
+import SetMargin from "../../functions/SetMargin";
 
 export default function Settings() {
-  const Stack = createStackNavigator();
-
-  const navigation = useNavigation<StackNavigationProp<ScreenParam>>();
-
-  type ScreenParam = {
-    screen: {id: number} | undefined
+  interface SettingNavInterface {
+    label: string;
+    route: string;
+    icon: JSX.Element;
   }
- 
-  const transScreen = (standard: any, screenName: string) => {
-    navigation.navigate(standard as any, {screen: screenName} as any);
-  };
 
-  const settingTabsArray: NestedInterface[] = [
+  interface UserProps {
+    username: string;
+    email: string;
+  }
+
+  const userDetails: UserProps = {
+    username: 'Ed', email: 'hart@yahoo.com'
+  }
+
+  const [userInfo, setUserInfo] = useState<UserProps>(userDetails)
+
+  const navigation = useNavigation();
+
+  const settingTabsArray: SettingNavInterface[] = [
     {
       label: "App Information",
       route: "app-info",
-      icon: <MaterialIcons name="app-settings-alt" size={24} color="#8c52ff" />,
-      component: { AppInfo },
-      mainRoute: 'Setting Navigation'
-
+      icon: <MaterialIcons name="app-settings-alt" size={24} color="black" />,
     },
     {
       label: "Change Email/Password",
       route: "change-email-password",
       icon: (
-        <MaterialCommunityIcons name="key-change" size={28} color="#8c52ff" />
+        <MaterialCommunityIcons name="key-change" size={28} color="black" />
       ),
-      component: { ChangeEmail },
-      mainRoute: 'Setting Navigation'
     },
     {
       label: "Change Info",
       route: "change-info",
-      icon: <Ionicons name="information-circle" size={28} color="#8c52ff" />,
-      component: { ChangeInfo },
-      mainRoute: 'Setting Navigation'
+      icon: <Ionicons name="information-circle" size={28} color="black" />,
     },
     {
       label: "Log Out",
       route: "log-out",
-      icon: <AntDesign name="logout" size={28} color="#8c52ff" />,
-      component: { LogOut },
-      mainRoute: 'Setting Navigation'
+      icon: <AntDesign name="logout" size={28} color="black" />,
     },
     {
       label: "Delete Account",
       route: "delete-account",
-      icon: <AntDesign name="delete" size={28} color="#8c52ff" />,
-      component: { DeleteAccount },
-      mainRoute: 'Setting Navigation'
+      icon: <AntDesign name="delete" size={28} color="black" />,
     },
   ];
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
-      <Card scrollable={true} containerClass={styles.scrollContainer}>
+      <Card scrollable={false} containerClass={styles.scrollContainer}>
+        <CardText semiBold container={styles.userInfoTextContainer} textStyle={styles.userInfoText} text={`Username: ${userInfo.username}`} />
+        <CardText semiBold container={styles.userInfoTextContainer} textStyle={styles.userInfoText} text={`Email: ${userInfo.email}`} />
         <Card scrollable={false} containerClass={styles.tabsContainer}>
           {settingTabsArray.map((value: any) => (
-            <PhoneButton image={value.icon} onPress={() => transScreen(value.mainRoute, value.route)} text={value.label} textClass={styles.settingTabsTextClass} buttonClass={styles.settingTabsButton} buttonContainerClass={styles.settingTabsButtonContainer}/>
+            <PhoneButton
+              semiBold
+              image={value.icon}
+              onPress={Navigation({ navigation }, value.route)}
+              text={value.label}
+              textClass={styles.settingTabsTextClass}
+              buttonClass={styles.settingTabsButton}
+              buttonContainerClass={styles.settingTabsButtonContainer}
+            />
           ))}
         </Card>
       </Card>
@@ -90,35 +90,47 @@ export default function Settings() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white'
   },
   scrollContainer: {
     backgroundColor: "white",
-    flex: 1,
+    marginTop: SetMargin(.25)
+  },
+  userInfoTextContainer: {
+
+    width: '80%',
+    alignSelf: 'center',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-start'
+  },
+  userInfoText: {
+    fontSize: 20,
+    letterSpacing: .8
   },
   settingTabsTextClass: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#8c52ff",
+    fontSize: 22,
+    color: 'black',
     marginLeft: 17,
     letterSpacing: 1.15,
   },
   settingTabsButton: {
-    flex: 1,
-    borderRadius: 15,
-    borderStyle: "solid",
-    borderWidth: 4,
-    borderColor: "#8c52ff",
     flexDirection: "row",
-    padding: 15,
+    padding: 5,
+  
+    alignItems: 'center',
+    width: '100%'
   },
   settingTabsButtonContainer: {
-    width: "90%",
-    padding: 5,
+    width: "100%",
+    padding: 25,
+    borderTopWidth: 2,
+    borderStyle: 'solid',
+    alignItems: 'center',
   },
   tabsContainer: {
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
-    marginTop: 200,
+    marginTop: SetMargin(.05)
   },
 });

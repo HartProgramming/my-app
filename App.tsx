@@ -11,9 +11,6 @@ import Settings from "./screens/Settings/Settings";
 import SettingNavigation from "./screens/Settings/SettingNav";
 import UserColors from "./screens/Details/CustomColors";
 import DetailsNavigation from "./screens/Details/Navigation/DetailsNavigation";
-import RegimenNavigation from "./screens/Journal/Navigation/RegimenNavigation";
-import MainProgram from "./screens/Program/Screens/MainProgram";
-import ProgramNavigation from "./screens/Program/Navigation/ProgramNavigation";
 
 
 const Stack = createNativeStackNavigator<any>();
@@ -74,12 +71,6 @@ const App: React.FC = () => {
               <>
                 <Stack.Screen name="Main" options={{ headerShown: false }}>
                   {(props) => <NavBar />}
-                </Stack.Screen>
-                <Stack.Screen name='Program Navigation' options={{headerShown: false}}>
-                  {(props) => <ProgramNavigation />}
-                </Stack.Screen>
-                <Stack.Screen name="Setting Navigation" options={{ headerShown: false }}>
-                  {(props) => <SettingNavigation />}
                 </Stack.Screen>
               </>
             )}

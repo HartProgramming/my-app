@@ -2,16 +2,14 @@ import Card from "../../components/Card/Card";
 import { StyleSheet } from "react-native";
 import PhoneButton from "../../components/Inputs/PhoneButton";
 import { useNavigation } from "@react-navigation/native";
-import { AntDesign } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 import { Text } from "react-native";
-import NestedNavigation from "../../components/NavigationStack/NestedNavigation";
+import Navigation from "../../objects/NavigationType";
+import SetMargin from "../../functions/SetMargin";
+
 
 export default function AppInfo() {
   const navigation = useNavigation();
-
-  const transScreen = (event: string) => {
-    navigation.navigate(event as never);
-  };
 
   interface AppDetails {
     label: string;
@@ -32,9 +30,9 @@ export default function AppInfo() {
     <Card scrollable={false} containerClass={styles.container}>
       <Card scrollable={false} containerClass={styles.buttonsContainer}>
         <PhoneButton
-          image={<AntDesign name="back" size={28} color="#8c52ff" />}
-          onPress={() => transScreen("Profile")}
-          text="Go Back" 
+          image={<MaterialIcons name="keyboard-arrow-left" size={48} color="black" />}
+          onPress={Navigation({navigation}, "main-settings")}
+          text="" 
           buttonClass={styles.button}
           buttonContainerClass={styles.buttonContainer}
           textClass={styles.buttonText}
@@ -62,7 +60,7 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 200,
+    marginTop: SetMargin(.1),
   },
   button: {
     borderRadius: 15,

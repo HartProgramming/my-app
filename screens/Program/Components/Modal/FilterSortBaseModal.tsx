@@ -17,7 +17,7 @@ interface FilterSortBaseModalProps {
 export default function FilterSortBaseModal({
   visible,
   showHide,
-  filter,
+  filter, 
   title,
   sort,
 }: FilterSortBaseModalProps) {
@@ -25,7 +25,7 @@ export default function FilterSortBaseModal({
   return (
     <Modal visible={visible} transparent animationType="fade">
         <Card scrollable={false} containerClass={activity.container}>
-          <Card scrollable={false} containerClass={activity.scroll}>
+          <Card scrollable={false} containerClass={activity.noscroll}>
           <Card scrollable={true} containerClass={activity.contentContainer}>
             <AntDesign
               onPress={showHide}
@@ -63,7 +63,7 @@ const activity = StyleSheet.create({
     marginTop: SetMargin(0.02),
     zIndex: 2
   },
-  scroll: {
+  noscroll: {
   },
   contentContainer: {
     backgroundColor: "#fff",

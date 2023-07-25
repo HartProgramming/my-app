@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import PhoneTextInput from "../../components/Inputs/PhoneTextInput";
 import * as EmailValidator from "email-validator";
 import { useNavigation } from "@react-navigation/native";
+import Navigation from "../../objects/NavigationType";
 
 export default function ChangeEmail() {
   const [showEmail, setShowEmail] = useState<boolean>(false);
@@ -26,10 +27,6 @@ export default function ChangeEmail() {
   const confirmNewPasswordRef = useRef("confirm-new-password");
 
   const navigation = useNavigation();
-
-  const transScreen = (event: string) => {
-    navigation.navigate(event as never);
-  };
 
   interface ChangeDetails {
     placeholder: string;
@@ -168,7 +165,7 @@ export default function ChangeEmail() {
       <Card scrollable={false} containerClass={styles.changeDetailsContainer}>
         <Card scrollable={false} containerClass={styles.changeEmailContainer}>
           <PhoneButton
-            onPress={() => transScreen("Settings")}
+            onPress={() => Navigation({navigation}, "Profile")}
             text="Go Back"
             textClass={styles.buttonText}
             buttonClass={styles.button}
