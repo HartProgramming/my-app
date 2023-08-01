@@ -1,65 +1,47 @@
 import { StyleSheet } from "react-native";
-import Card from "../../../components/Card/Card";
-import ProgramCard from "../Components/Card/ProgramCard";
-import Jogging from "../../../images/cardimages/joggingstreet.jpeg";
-import Chicken from "../../../images/cardimages/chickenbreast.jpeg";
-import { ProgramCardProps } from "../Components/Card/ProgramCard";
+import Card from "../../../../components/Card/Card";
+import ProgramCard from "../../Components/Card/ProgramCard";
+import Jogging from "../../../../images/cardimages/joggingstreet.jpeg";
+import Chicken from "../../../../images/cardimages/chickenbreast.jpeg";
+import { ProgramCardProps } from "../../Components/Card/ProgramCard";
 import { useEffect, useRef, useState } from "react";
-import Navigation from "../../../objects/NavigationType";
-import SetMargin from "../../../functions/SetMargin";
-import CardText from "../../../components/Card/CardText";
-import { FlatList, PanResponder, View, Animated } from "react-native";
+import Navigation from "../../../../objects/NavigationType";
+import SetMargin from "../../../../functions/SetMargin";
+import CardText from "../../../../components/Card/CardText";
 import React from "react";
-import MainProgramButton from "../Components/Button/MainProgramButton";
 import { useNavigation } from "@react-navigation/native";
-import ProgramNavigation from "../Navigation/ProgramNavigation";
-import NestedNavigation from "../../../components/NavigationStack/NestedNavigation";
-import AvailablePrograms from "./AvailablePrograms";
-import CreateProgram from "./CreateProgram";
-import PhoneButton from "../../../components/Inputs/PhoneButton";
+import PhoneButton from "../../../../components/Inputs/PhoneButton";
 
 export default function MainProgram() {
-  const [programArray, setProgramArray] = useState<any>([]);
-  const [programElement, setProgramElement] = useState<any>([]);
   const [counter, setCounter] = useState<number>(0);
   const [currentProgramObject, setCurrentProgramObject] = useState<any>({});
-  const [currentProgramCard, setCurrentProgramCard] = useState<any>();
+  const [currentProgramCard, setCurrentProgramCard] = useState<JSX.Element>();
   const [displayDetailsModal, setDisplayDetailsModal] = useState<any>();
 
   const navigation = useNavigation();
 
   useEffect(() => {
-    setCurrentProgramObject(programDetailsArray[0]);
-  }, []);
-
-  useEffect(() => {
     setCurrentProgramCard(
       <ProgramCard
-        id={currentProgramObject.id}
-        author={currentProgramObject.author}
-        info={currentProgramObject.info}
-        price={currentProgramObject.price}
+        id={programDetailsArray[0].id}
+        author={programDetailsArray[0].author}
+        info={programDetailsArray[0].info}
+        price={programDetailsArray[0].price}
         container={styles.programCardContainer}
-        cycle={currentProgramObject.cycle}
-        cardImage={currentProgramObject.cardImage}
-        title={currentProgramObject.title}
-        detailsModal={currentProgramObject.detailsModal}
-        review={currentProgramObject.review}
-        budget={currentProgramObject.budget}
-        programType={currentProgramObject.programType}
-        userType={currentProgramObject.userType}
+        cycle={programDetailsArray[0].cycle}
+        cardImage={programDetailsArray[0].cardImage}
+        title={programDetailsArray[0].title}
+        detailsModal={programDetailsArray[0].detailsModal}
+        review={programDetailsArray[0].review}
+        budget={programDetailsArray[0].budget}
+        programType={programDetailsArray[0].programType}
+        userType={programDetailsArray[0].userType}
       />
     );
-  }, [currentProgramObject]);
-
-  useEffect(() => {
-    setProgramElement([programDetailsArray[0]]);
-    console.log(programElement);
-    console.log(programArray);
   }, []);
 
   const programDetailsArray: ProgramCardProps[] = [
-    { 
+    {
       cardImage: Jogging,
       title: "Supreme Lean",
       cycle: 2,
@@ -147,20 +129,40 @@ export default function MainProgram() {
       <Card scrollable={false} containerClass={styles.highlightedContainer}>
         {currentProgramCard}
       </Card>
-      <Card scrollable={false} containerClass={styles.currentProgramContainer}>
-        <CardText
-          semiBold
-          container={styles.currentHeaderContainer}
-          textStyle={styles.currentHeader}
-          text="Current"
-        />
-        <Card scrollable={false} containerClass={styles.highlightedContainer}>
-          {currentProgramCard}
-        </Card>
+      <CardText
+        semiBold
+        container={styles.currentHeaderContainer}
+        textStyle={styles.currentHeader}
+        text="Current"
+      />
+      <Card scrollable={false} containerClass={styles.highlightedContainer}>
+        {currentProgramCard}
       </Card>
       <Card scrollable={false} containerClass={styles.buttonsContainer}>
-       <PhoneButton semiBold onPress={Navigation({navigation}, 'available-programs')} buttonContainerClass={styles.nestedContainer} buttonClass={styles.nestedButton} textClass={styles.nestedText} text="Available" />
-       <PhoneButton semiBold onPress={Navigation({navigation}, 'create-program')} buttonContainerClass={styles.nestedContainer} buttonClass={styles.nestedButton} textClass={styles.nestedText} text="Create" />
+        <PhoneButton
+          semiBold
+          onPress={Navigation({ navigation }, "manage-navigation")}
+          buttonContainerClass={styles.nestedContainer}
+          buttonClass={styles.nestedButton}
+          textClass={styles.nestedText}
+          text="Manage Current"
+        />
+        <PhoneButton
+          semiBold
+          onPress={Navigation({ navigation }, "available-programs")}
+          buttonContainerClass={styles.nestedContainer}
+          buttonClass={styles.nestedButton}
+          textClass={styles.nestedText}
+          text="Tone Up Shop"
+        />
+        <PhoneButton
+          semiBold
+          onPress={Navigation({ navigation }, "create-program")}
+          buttonContainerClass={styles.nestedContainer}
+          buttonClass={styles.nestedButton}
+          textClass={styles.nestedText}
+          text="Create Program"
+        />
       </Card>
     </Card>
   );
@@ -169,6 +171,7 @@ export default function MainProgram() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
   },
   item: {
     width: "100%",
@@ -183,17 +186,16 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   highlightedContainer: {
-    flexDirection: "row",
-    width: "100%",
-    justifyContent: "center",
+    flex: 1,
   },
   programCardContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
     width: "100%",
     borderStyle: "solid",
     borderBottomWidth: 2,
     borderColor: "black",
-    height: SetMargin(0.22),
+    height: SetMargin(0.21),
+    justifyContent: "space-between",
   },
   currentProgramContainer: {},
   currentHeaderContainer: {
@@ -203,8 +205,7 @@ const styles = StyleSheet.create({
   currentHeader: {
     fontSize: 30,
   },
-  buttonsContainer: {
-  },
+  buttonsContainer: {},
   nestedContainer: {
     alignSelf: "center",
     width: "100%",
@@ -214,12 +215,12 @@ const styles = StyleSheet.create({
     borderColor: "black",
   },
   nestedButton: {
-    height: SetMargin(0.17),
+    height: SetMargin(0.115),
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
     padding: 5,
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
   nestedText: {
     fontSize: 30,

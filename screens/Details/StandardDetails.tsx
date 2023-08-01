@@ -1,17 +1,19 @@
-import MobileSelector from "../../components/Inputs/MobileSelector";
 import Card from "../../components/Card/Card";
 import { StyleSheet } from "react-native";
 import ReusableDetails, { SelectorArray } from "./ReusableDetails";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import CardText from "../../components/Card/CardText";
 import PhoneButton from "../../components/Inputs/PhoneButton";
 import { useNavigation } from "@react-navigation/native";
 import { physicalDetails } from "./Classes/Details";
-import { useRoute } from "@react-navigation/native";
 import Navigation from "../../objects/NavigationType";
 import SetMargin from "../../functions/SetMargin";
 import ModalPopup from "../../components/Modal/Modal";
-import { Modal } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+
+export type physicalInfoProps = "Update" | "Sign Up";
+
+export type physicalInfo = { component: physicalInfoProps };
 
 export default function StandardDetails({ route }: any) {
   interface DataDetails {
@@ -25,11 +27,30 @@ export default function StandardDetails({ route }: any) {
   const [data, setData] = useState<any>([]);
   const [selectors, setSelectors] = useState<any>();
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [navigate, setNavigate] = useState<boolean>(false);
+
+  const component = route.params;
+
+  useEffect(() => {
+    console.log(data)
+    if (navigate) {
+      Navigation({ navigation }, "physical-fitness");
+    }
+  }, [data]);
 
   const navigation = useNavigation();
 
-  const handleTrans = () => {
-    setModalVisible(true);
+  const handlePostSave = () => {
+    if(component === 'Update'){
+      /* Save Details and Send to Backend */
+    }else if(component === 'Sign Up'){
+      /* Save Details and transition to next screen */
+    }
+    /* Send Details to the backend */
+  };
+
+  const handleTransition = () => {
+    console.log("transition");
   };
 
   const handleClose = () => {
@@ -38,32 +59,54 @@ export default function StandardDetails({ route }: any) {
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
-      <CardText
-        text="Step 2 of 5"
-        textStyle={styles.header}
-        container={styles.headerContainer}
-      />
       <Card scrollable={false} containerClass={styles.container}>
+        {component === 'Sign Up' && (
+          <CardText semiBold text="Step 2 of 5" container={styles.stepsContainer} textStyle={styles.stepsHeader} />
+        )}
         <ReusableDetails
           data={setData}
           selectorArray={physicalDetails}
           header={"Your Physical Info."}
         />
         <PhoneButton
+          semiBold
           onPress={
-            data.length === 3
-              ? () => Navigation({ navigation }, "fitness-goals")
-              : handleTrans
+            data.length === 3 && component === "Sign Up"
+              ? Navigation({navigation}, 'fitness-goals')
+
+              : data.length === 3 && component === "Update"
+              ? handlePostSave
+              : () => setModalVisible(true) 
           }
           buttonClass={styles.button}
           buttonContainerClass={styles.buttonContainer}
-          text="Next"
+          text={component === "Sign Up" ? "Next" : "Save"}
           textClass={styles.buttonText}
         />
         {modalVisible && (
           <ModalPopup details="" visible={modalVisible} onClose={handleClose} />
         )}
       </Card>
+        <Card scrollable={false} containerClass={styles.backCard}>
+          <PhoneButton
+            semiBold
+            onPress={
+              component === 'Update' ? Navigation({navigation}, 'update-info')
+              : Navigation({navigation}, 'fitness-goals')
+            }
+            text=""
+            buttonClass={styles.backButton}
+            buttonContainerClass={styles.backButtonContainer}
+            textClass={styles.backButtonText}
+            image={
+              <MaterialIcons
+                name="keyboard-arrow-left"
+                size={50}
+                color={"black"}
+              />
+            }
+          />
+        </Card>
     </Card>
   );
 }
@@ -71,6 +114,15 @@ export default function StandardDetails({ route }: any) {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
+    flex: 1,
+    backgroundColor: "white",
+  },
+  stepsContainer: {
+    marginBottom: SetMargin(-.14),
+    marginTop: SetMargin(.14)
+  },
+  stepsHeader: {
+    fontSize: 28
   },
   headerContainer: {
     alignItems: "center",
@@ -84,7 +136,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1.15,
   },
   buttonContainer: {
-    backgroundColor: "blue",
+    backgroundColor: "black",
     marginTop: SetMargin(0.03),
     borderRadius: 15,
     borderStyle: "solid",
@@ -95,8 +147,17 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 24,
-    fontWeight: "bold",
     letterSpacing: 1.15,
     color: "white",
   },
+  backCard: {
+    width: "90%",
+  },
+  backButtonContainer: {
+    width: "20%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backButton: {},
+  backButtonText: {},
 });

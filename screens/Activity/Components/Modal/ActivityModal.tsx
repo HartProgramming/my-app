@@ -6,9 +6,13 @@ import { Modal } from "react-native";
 import SetMargin from "../../../../functions/SetMargin";
 import CardText from "../../../../components/Card/CardText";
 import { Image, Text } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
+import PhoneButton from "../../../../components/Inputs/PhoneButton";
+import SlideDownBar from "../../../../components/Card/SlideDownBar";
+import MainRegimenButton from "../../../Journal/Components/Buttons/MainRegimenButton";
 
-interface ActivityModalProps {
+
+export interface ActivityModalProps {
   details: any;
   visible: any;
   showHide: any;
@@ -30,15 +34,20 @@ export default function ActivityModal({
     ([key]) => !keysNotToDisplay.includes(key)
   );
 
-  useEffect(() => { 
+  const handleSwipeClose = () => {
+    console.log('close')
+  }
+
+  useEffect(() => {
     setFiltered(filteredEntries);
     console.log(filtered);
-  }, []);
+  }, []); 
 
   return (
     <Modal visible={visible} transparent animationType="fade">
       <Card scrollable={false} containerClass={activity.container}>
         <Card scrollable={false} containerClass={activity.contentContainer}>
+          <SlideDownBar />
           <Image style={activity.imageStyle} source={details.Image} />
           <AntDesign
             onPress={handleClose}
@@ -73,7 +82,8 @@ const activity = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     backgroundColor: "rgba(0, 0, 0, 0.04)",
-  },
+  }, 
+
   closeCircle: {
     position: "absolute",
     marginLeft: SetMargin(0.42),

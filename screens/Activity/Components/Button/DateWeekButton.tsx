@@ -5,13 +5,13 @@ import SetMargin from "../../../../functions/SetMargin";
 interface DateWeekButtonProps {
   label: string;
   onPress: any;
-  left: boolean;
+  background: boolean;
 }
 
 export default function DateWeekButton({
-  left,
   label,
   onPress,
+  background
 }: DateWeekButtonProps) {
   return (
     <PhoneButton
@@ -19,10 +19,9 @@ export default function DateWeekButton({
       onPress={onPress}
       buttonContainerClass={styles.container}
       buttonClass={[
-        styles.button,
-        left ? styles.borderLeft : styles.borderRight,
+        styles.button, background ? styles.highlightedBackground : styles.noHighlightedBackground
       ]}
-      textClass={styles.text}
+      textClass={[styles.text,  background ? styles.highlightedBackground : styles.noHighlightedBackground]}
       semiBold={true}
     />
   );
@@ -30,22 +29,30 @@ export default function DateWeekButton({
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    borderStyle: 'solid',
+    borderColor: 'black',
+    borderWidth: 2,
+    borderTopWidth: 0
   },
   button: { 
     padding: 5,
-},
+    width: '100%'
+  },
   text: {
-    fontSize: 22,
-    marginLeft: 5,
-    marginRight: 5,
-    letterSpacing: .5
+    fontSize: 20,
+
+    letterSpacing: .5,
+    textAlign: 'center'
 },
-  borderLeft: {
-    borderLeftColor: "black",
-    borderLeftWidth: 1,
-  },
-  borderRight: {
-    borderRightColor: "black",
-    borderRightWidth: 1,
-  },
+highlightedBackground: {
+  backgroundColor: 'black',
+  color: 'white'
+},
+noHighlightedBackground: {
+  backgroundColor: 'white',
+  color: 'black'
+}
 });

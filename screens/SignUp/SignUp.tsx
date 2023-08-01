@@ -3,10 +3,13 @@ import PhoneButton from "../../components/Inputs/PhoneButton";
 import { StyleSheet, Dimensions } from "react-native";
 import React, { useEffect, useState } from "react";
 import PhoneTextInput from "../../components/Inputs/PhoneTextInput";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import * as EmailValidator from "email-validator";
 import logo from '../../images/logo/minhealthtrans.png';
+import Navigation from "../../objects/NavigationType";
+import SetMargin from "../../functions/SetMargin";
+import Card from "../../components/Card/Card";
 
 export default function SignUp() {
   interface Data {
@@ -159,10 +162,10 @@ export default function SignUp() {
 
   return (
     <View style={[styles.container, { height: screenHeight }]}>
-      <View style={styles.headerContainer}>
+      <Card scrollable={false} containerClass={styles.headerContainer}>
         <Image source={logo} />
-      </View>
-      <View>
+      </Card>
+      <Card scrollable={false} containerClass={styles.inputsContainer}>
         <PhoneTextInput
           placeholder="Email"
           inputClass={styles.inputClass}
@@ -214,9 +217,10 @@ export default function SignUp() {
             )
           }
         ></PhoneTextInput>
-      </View>
+      </Card>
       <View>
         <PhoneButton
+        semiBold
           buttonClass={styles.buttonClass}
           buttonContainerClass={styles.buttonContainerClass}
           textClass={styles.buttonText}
@@ -224,76 +228,75 @@ export default function SignUp() {
           text="Sign Up"
         ></PhoneButton>
       </View>
-      <View>
+      <Card scrollable={false} containerClass={styles.loginContainer}>
         <Text style={styles.loginClass}>
-          Need to{" "}
-          <Text style={styles.loginText} onPress={() => transScreen("Log In")}>
+          Need to:
+          <Text style={styles.loginText} onPress={Navigation({navigation}, "Log In")}>
             Login
           </Text>
           ?
         </Text>
-      </View>
+      </Card>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
     backgroundColor: "white",
-    justifyContent: 'center'
+    flex: 1
   },
   headerContainer: {
-    display: "flex",
     alignItems: "center",
+    marginTop: SetMargin(.25)
   },
   header: {
-    color: "green",
     fontSize: 34,
-    fontWeight: "bold",
     letterSpacing: 1.2,
   },
+  inputsContainer: {
+    marginTop: SetMargin(.05)
+  },
   inputContainerClass: {
-    display: "flex",
     alignItems: "center",
-    padding: 10,
+    padding: 5,
+    width: '80%',
+    alignSelf: 'center',
+    marginTop: SetMargin(.01)
   },
   inputClass: {
     backgroundColor: "#e2e2e2",
-    width: 225,
-    height: 75,
-    display: "flex",
     paddingLeft: 15,
-    borderRadius: 14,
+    borderRadius: 35,
     justifyContent: "flex-start",
     flexDirection: "row",
+    width: '80%',
+    padding: 20
   },
   textClass: {
     fontSize: 18,
   },
   buttonContainerClass: {
-    display: "flex",
+    marginTop: SetMargin(.04),
     alignItems: "center",
+    width: '43%',
+    alignSelf: 'center'
   },
   buttonClass: {
-    backgroundColor: "#8c52ff",
-    width: 150,
-    display: "flex",
+    backgroundColor: "black",
     alignItems: "center",
-    height: 57,
-    borderRadius: 15,
+    borderRadius: 45,
     justifyContent: "center",
+    width: '100%',
+    padding: 20
   },
   buttonText: {
     fontSize: 22,
-    fontWeight: "bold",
-    letterSpacing: 1.2,
+    letterSpacing: 1.05,
     color: 'white'
   },
   loginText: {
     color: "#8c52ff",
-    textAlign: "center",
-    fontSize: 16,
   },
   loginClass: {
     color: "black",
@@ -302,4 +305,7 @@ const styles = StyleSheet.create({
   icon: {
     marginTop: 22,
   },
+  loginContainer: {
+
+  }
 });

@@ -1,10 +1,7 @@
 import Card from "../../../components/Card/Card";
 import { StyleSheet } from "react-native";
-import { Text, View } from "react-native";
-import Meter from "../../../components/Meter/Meter";
 import { useEffect, useState } from "react";
 import { Dimensions } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import PhoneButton from "../../../components/Inputs/PhoneButton";
 import ActivityModal from "../Components/Modal/ActivityModal";
 import RecentActivityImageButton from "../Components/Button/RecentActivityImageButton";
@@ -12,10 +9,15 @@ import Jogging from "../../../images/cardimages/joggingstreet.jpeg";
 import Chicken from "../../../images/cardimages/chickenbreast.jpeg";
 import CardText from "../../../components/Card/CardText";
 import SetMargin from "../../../functions/SetMargin";
-import DateArrowButton from "../Components/Button/DateArrowButton";
 import { MaterialIcons } from "@expo/vector-icons";
 import DateWeekButton from "../Components/Button/DateWeekButton";
 import ResultsMeter from "../Components/ResultsMeter/ResultsMeter";
+import ProgramLogCard from "../../../components/Card/ProgramLogCard";
+import TodayLogHeader from "../Components/Card/TodayLogHeader";
+import { DUMMYMANAGE } from "../../Program/Screens/Manage/DummyArray";
+import RecentButtonsCard from "../Components/Card/RecentButtonsCard";
+import TraverseDateButton from "../Components/Button/TraverseDateButton";
+import next from "next/types";
 
 export interface ExerciseActivity {
   Exercise: string | undefined;
@@ -23,9 +25,10 @@ export interface ExerciseActivity {
   Miles?: number | undefined;
   Minutes?: number | undefined;
   CaloriesBurned?: number;
-  Image?: any; 
+  Image?: any;
   Sets?: number | undefined;
   Weight?: number | undefined;
+  ExerciseType?: string;
 }
 
 export interface MealActivity {
@@ -89,22 +92,10 @@ const TodayScreen: React.FC = () => {
   const [protcalRecommended, setProtcalRecommended] = useState<number>(10);
   const [protcalData, setProtcalData] = useState<string>("");
 
-  const [elements, setElements] = useState<any>();
+  const [nextDateLog, setNextDateLog] = useState<string>("");
+  const [previousDateLog, setPreviousDateLog] = useState<string>("");
 
-  const [datePosition, setDatePosition] = useState<number>(0);
-  const [dateArrayString, setDateArrayString] = useState<string>("");
-  const [weeklyArrayString, setWeeklyArrayString] = useState<string>("");
-  const [dailyWeeklyBoo, setDailyWeeklyBoo] = useState<boolean>(false);
-
-  const [moreInfoButton, setMoreInfoButton] = useState<boolean>(false);
-
-  const [modal, setModal] = useState<any>("");
-
-  const windowWidth = Dimensions.get("window").width;
-
-  const meterWidth = windowWidth * 0.62;
-
-  const indicatorsArrayData1: MeterDetails[] = [
+  const indicatorsArrayData: MeterDetails[] = [
     {
       label: "kCal",
       percentage: calorieIntakePercentage,
@@ -126,9 +117,6 @@ const TodayScreen: React.FC = () => {
       percentage: protcalPercentage,
       data: protcalData,
     },
-  ];
-
-  const indicatorsArrayData2: MeterDetails[] = [
     { label: "Sodium", percentage: sodiumPercentage, data: sodiumData },
     {
       label: "Chol",
@@ -139,6 +127,44 @@ const TodayScreen: React.FC = () => {
     { label: "Carbs", percentage: carbsPercentage, data: carbsData },
     { label: "Sugar", percentage: sugarPercentage, data: sugarsData },
   ];
+
+  const [primaryResultsArray, setPrimaryResultsArray] = useState<
+    MeterDetails[]
+  >(indicatorsArrayData.filter((value, index) => index < 5));
+  const [secondaryResultsArray, setSecondaryyResultsArray] = useState<
+    MeterDetails[]
+  >(indicatorsArrayData.filter((value, index) => index >= 5));
+
+  const [elements, setElements] = useState<MeterDetails[]>(primaryResultsArray);
+
+  const [datePosition, setDatePosition] = useState<number>(0);
+  const [dateArrayString, setDateArrayString] = useState<string>("");
+  const [weeklyArrayString, setWeeklyArrayString] = useState<string>("");
+  const [dailyWeeklyBoo, setDailyWeeklyBoo] = useState<boolean>(false);
+
+  const [moreInfoButton, setMoreInfoButton] = useState<boolean>(false);
+  const [morePerformanceButtonName, setMorePerformanceButtonName] =
+    useState<boolean>(true);
+  const [lessPerformanceButtonName, setLessPerformanceButtonName] =
+    useState<boolean>(false);
+
+  const [nextPerformanceDate, setNextPerformanceDate] =
+    useState<boolean>(false);
+  const [prevPerformanceDate, setPrevPerformanceDate] = useState<boolean>(true);
+
+  const [modal, setModal] = useState<any>("");
+
+  const windowWidth = Dimensions.get("window").width;
+
+  const meterWidth = windowWidth * 0.62;
+
+  useEffect(() => {
+    setTimeout(() => {
+      console.log(primaryResultsArray);
+    }, 50);
+    setElements(primaryResultsArray);
+    console.log(caloriesBurned);
+  }, []);
 
   const DUMMY_EXERCISE: ExerciseActivity[] = [
     {
@@ -189,43 +215,24 @@ const TodayScreen: React.FC = () => {
     /* Async UseEffect to get dates */
   };
 
+  const [dailyWeeklyButtonBackground, setDailyWeeklyButtonBackground] = useState<boolean>(false);
+
   const handleDaily = () => {
-    setDailyWeeklyBoo(true);
+    setDailyWeeklyButtonBackground(true);
   };
 
   const handleWeekly = () => {
-    setDailyWeeklyBoo(false);
+    setDailyWeeklyButtonBackground(false);
   };
 
   const handleMoreInfo = (event: string) => {
     if (event === "More") {
+      console.log("more");
       setMoreInfoButton(true);
-      setElements(
-        indicatorsArrayData2.map((value) => {
-          return (
-            <ResultsMeter
-              label={value.label}
-              data={value.data}
-              width={meterWidth}
-              percentage={value.percentage}
-            />
-          );
-        })
-      );
+      setElements(secondaryResultsArray);
     } else if (event === "Less") {
       setMoreInfoButton(false);
-      setElements(
-        indicatorsArrayData1.map((value) => {
-          return (
-            <ResultsMeter
-              label={value.label}
-              data={value.data}
-              width={meterWidth}
-              percentage={value.percentage}
-            />
-          );
-        })
-      );
+      setElements(primaryResultsArray);
     }
   };
 
@@ -262,52 +269,21 @@ const TodayScreen: React.FC = () => {
   ]);
 
   useEffect(() => {
-    setElements(
-      indicatorsArrayData1.map((value) => {
-        return (
-          <ResultsMeter
-            width={meterWidth}
-            data={value.data}
-            label={value.label}
-            percentage={value.percentage}
-          />
-        );
-      })
-    );
-  }, []);
+    console.log(morePerformanceButtonName);
+    /* if previous date log then get date from backend at previous date */
+    /* if next date log then get date from backend at next date */
+  }, [previousDateLog, nextDateLog, morePerformanceButtonName]);
 
   return (
-    <Card scrollable={false} containerClass={styles.container}>
+    <Card scrollable={true} containerClass={styles.container}>
       <Card scrollable={false} containerClass={styles.recentContainer}>
         <CardText
           text="Recent Activity"
           textStyle={styles.recentHeader}
           container={styles.recentHeaderContainer}
-          semiBold={true}
+          bold
         />
-        <Card scrollable={false} containerClass={styles.detailsContainer}>
-          <Card
-            scrollable={false}
-            containerClass={styles.recentImagesContainer}
-          >
-            {DUMMY_EXERCISE.map((value) => {
-              return (
-                <>
-                  <RecentActivityImageButton
-                    label={value.Exercise}
-                    source={value.Image}
-                    showModal={() => setModal(value.Exercise)}
-                  />
-                  <ActivityModal
-                    showHide={() => setModal("")}
-                    details={value}
-                    visible={modal === value.Exercise}
-                  />
-                </>
-              );
-            })}
-          </Card>
-        </Card>
+        <RecentButtonsCard array={DUMMY_EXERCISE} />
         <Card scrollable={false} containerClass={styles.detailsContainer}>
           <Card
             scrollable={false}
@@ -326,86 +302,73 @@ const TodayScreen: React.FC = () => {
                     details={value}
                     visible={modal === value.Meal}
                   />
-                </> 
-              );  
+                </>
+              );
             })}
-          </Card>
+          </Card> 
         </Card>
       </Card>
       <Card scrollable={false} containerClass={styles.activityContainer}>
+        <CardText bold text="Performance Results" container={styles.performanceHeaderContainer} textStyle={styles.performanceHeader}/>
         <Card scrollable={false} containerClass={styles.dateWeeklyContainer}>
-          <Card scrollable={false} containerClass={styles.dateContainer}>
-            <MaterialIcons
-              name="keyboard-arrow-left"
-              size={50}
-              color="black"
-              onPress={handlePreviousDate}
-            />
-
-            <CardText
-              container={styles.dateHeaderContainer}
-              textStyle={styles.dateHeader}
-              semiBold={true}
-              text={datePosition === 0 ? "Today" : dateArrayString}
-            />
-            {datePosition !== 0 && (
-              <MaterialIcons
-                name="keyboard-arrow-right"
-                size={50}
-                color="black"
-                onPress={handleNextDate}
-              />
-            )}
-          </Card>
-          <Card
-            scrollable={false}
-            containerClass={styles.dateWeekButtonsContainer}
-          >
-            <DateWeekButton left={false} onPress={handleDaily} label="Daily" />
-            <DateWeekButton left={true} onPress={handleWeekly} label="Weekly" />
-          </Card>
+          <TraverseDateButton
+            type="log"
+            previous={setPreviousDateLog}
+            next={setNextDateLog}
+            index={0}
+            date="Today"
+            size={50}
+            length={0}
+            
+          />
         </Card>
         <Card scrollable={false} containerClass={styles.indicatorsContainer}>
-          {elements}
+          {elements.map((value) => {
+            return (
+              <ResultsMeter
+                width={meterWidth}
+                data={value.data}
+                label={value.label}
+                percentage={value.percentage}
+              />
+            );
+          })}
+        </Card>
+        <Card
+          scrollable={false}
+          containerClass={styles.dateWeekButtonsContainer}
+        >
+          <DateWeekButton background={dailyWeeklyButtonBackground} onPress={handleDaily} label="Daily" />
+          <DateWeekButton background={!dailyWeeklyButtonBackground}  onPress={handleWeekly} label="Weekly" />
         </Card>
         <Card
           scrollable={false}
           containerClass={styles.moreInfoButtonsContainer}
         >
-          {moreInfoButton === false ? (
-            <PhoneButton
-              text="Next"
-              semiBold={true}
-              image={
-                <MaterialIcons
-                  name="keyboard-arrow-right"
-                  size={50}
-                  color="black"
-                />
-              }
-              onPress={() => handleMoreInfo("More")}
-              buttonContainerClass={styles.nextBackInfoButtonContainer}
-              buttonClass={styles.nextTextContainer}
-              textClass={styles.nextBackTextStyle}
-            />
-          ) : (
-            <PhoneButton
-              text="Prev"
-              semiBold={true}
-              image={
-                <MaterialIcons
-                  name="keyboard-arrow-left"
-                  size={50}
-                  color="black"
-                />
-              }
-              onPress={() => handleMoreInfo("Less")}
-              buttonContainerClass={styles.nextBackInfoButtonContainer}
-              buttonClass={styles.prevTextContainer}
-              textClass={styles.nextBackTextStyle}
-            />
-          )}
+          <TraverseDateButton
+            type="performance"
+            next={setMorePerformanceButtonName}
+            previous={setLessPerformanceButtonName}
+            date={morePerformanceButtonName ? "More" : "Less"}
+            size={50}
+            index={0}
+          />
         </Card>
+        <Card scrollable={false} containerClass={styles.programLogContainer}>
+          <ProgramLogCard
+            mealArray={DUMMYMANAGE[0].mealArray}
+            exerciseArray={DUMMYMANAGE[0].exerciseArray}
+            cardHeader={<TodayLogHeader />}
+          />
+        </Card>
+        <TraverseDateButton
+          type="log"
+          previous={setPreviousDateLog}
+          next={setNextDateLog}
+          index={0}
+          date="Today"
+          size={50}
+        />
       </Card>
     </Card>
   );
@@ -418,7 +381,7 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: "center",
-    marginTop: 115,
+    marginTop: SetMargin(.05),
   },
   header: {
     fontSize: 32,
@@ -426,8 +389,16 @@ const styles = StyleSheet.create({
     color: "#8c52ff",
   },
   activityContainer: {
-    alignItems: 'center',
-    marginTop: SetMargin(-.01)
+    alignItems: "center",
+  },
+  performanceHeaderContainer: {
+    width: '90%',
+    marginBottom: SetMargin(-.0275)
+  },
+  performanceHeader: {
+    fontSize: 30,
+    textAlign: 'left',
+    letterSpacing: 1
   },
   indicatorsContainer: {
     alignItems: "center",
@@ -443,12 +414,9 @@ const styles = StyleSheet.create({
     width: "85%",
     alignSelf: "center",
   },
-  detailsContainer: {
-    marginTop: SetMargin(0.01),
-    paddingBottom: 5,
-  },
+  detailsContainer: {},
   recentContainer: {
-    marginTop: SetMargin(0.115),
+    marginTop: SetMargin(0.105),
   },
   recentImagesContainer: {
     flexDirection: "row",
@@ -464,34 +432,33 @@ const styles = StyleSheet.create({
   },
   dateWeeklyContainer: {
     flexDirection: "row",
-    borderBottomColor: "black",
+    borderColor: "black",
     borderBottomWidth: 3,
     borderStyle: "solid",
     alignItems: "center",
     width: "90%",
-    justifyContent: "space-around",
+    justifyContent: 'center',
+    marginTop: SetMargin(.03)
   },
   dateContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginTop: SetMargin(0.01),
-  },
-  dateHeaderContainer: {
+    borderColor: "black",
+    borderWidth: 3,
+    borderStyle: "solid",
+    width: "50%",
     alignItems: "center",
-    justifyContent: "space-around",
-    flexDirection: "row",
+    justifyContent: "center",
   },
-  dateHeader: {
-    fontSize: 28,
-    letterSpacing: 1.05,
-  },
+
   dateWeekButtonsContainer: {
-    flexDirection: "row",
-    marginTop: SetMargin(0.02),
+   flexDirection: 'row',
+   justifyContent: 'center',
+   alignItems: 'center',
+   width: '70%',
   },
 
   moreInfoButtonsContainer: {
     width: "80%",
+    marginTop: SetMargin(0.01),
   },
   nextBackInfoButtonContainer: {
     width: "40%",
@@ -511,6 +478,15 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: "black",
     marginTop: SetMargin(0.008),
+  },
+  programLogContainer: {
+    width: "90%",
+    marginBottom: SetMargin(0.05),
+    marginTop: SetMargin(0.1),
+    borderStyle: "solid",
+    borderColor: "black",
+    borderWidth: 2,
+    borderRadius: 25,
   },
 });
 

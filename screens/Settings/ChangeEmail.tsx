@@ -6,12 +6,54 @@ import PhoneTextInput from "../../components/Inputs/PhoneTextInput";
 import * as EmailValidator from "email-validator";
 import { useNavigation } from "@react-navigation/native";
 import Navigation from "../../objects/NavigationType";
+import { MaterialIcons, Entypo, AntDesign } from "@expo/vector-icons";
+import SetMargin from "../../functions/SetMargin";
+import CardText from "../../components/Card/CardText";
+import { userAgent } from "next/server";
 
 export default function ChangeEmail() {
+  type emailWarningCheck =
+    | "New === Current"
+    | "Confirm === Current"
+    | "New !== Confirm"
+    | "!New"
+    | "!Current"
+    | "!Confirm";
+
+  interface emailWarning {
+    emailWarningType: emailWarningCheck;
+    warning: string;
+  }
+
+  const emailWarningArray: emailWarning[] = [
+    {
+      emailWarningType: "New !== Confirm",
+      warning: "Your New Email does not match your Confirm Email",
+    },
+    {
+      emailWarningType: "New === Current",
+      warning: "Your New Email matches your Current Email",
+    },
+    { emailWarningType: "!New", warning: "New Email is not in email format" },
+    {
+      emailWarningType: "Confirm === Current",
+      warning: "Your Confirmation Email matches your Current Email",
+    },
+    {
+      emailWarningType: "!Confirm",
+      warning: "Confirm Email is not in email format",
+    },
+    {
+      emailWarningType: "!Current",
+      warning: "Current Email is not in email format",
+    },
+  ];
+
   const [showEmail, setShowEmail] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [currentEmail, setCurrentEmail] = useState<string>("");
   const [currentPassword, setCurrentPassword] = useState<string>("");
+  const [confirmNewEmail, setConfirmNewEmail] = useState<string>("");
   const [newEmail, setNewEmail] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [confirmNewPassword, setConfirmNewPassword] = useState<string>("");
@@ -19,12 +61,16 @@ export default function ChangeEmail() {
   const [sendButton, setSendButton] = useState<boolean>(false);
   const [sendVerify, setSendVerify] = useState<boolean>(false);
   const [verified, setVerified] = useState<boolean>(false);
+  const [emailWarning, setEmailWarning] = useState<boolean>(false);
+  const [emailWarningType, setEmailWarningType] =
+    useState<emailWarningCheck>("New === Current");
 
   const currentEmailRef = useRef("current-email");
   const currentPasswordRef = useRef("current-password");
   const newEmailRef = useRef("new-email");
   const newPasswordRef = useRef("new-password");
   const confirmNewPasswordRef = useRef("confirm-new-password");
+  const confirmEmailRef = useRef("confirm-new-email");
 
   const navigation = useNavigation();
 
@@ -61,19 +107,43 @@ export default function ChangeEmail() {
       setNewPassword(event);
     } else if (focus === "confirm-new-password") {
       setConfirmNewPassword(event);
+    } else if (focus === "confirm-new-email") {
+      setConfirmNewEmail(event);
     }
   };
 
-  const handleEmail = () => {
-    if (showEmail === false) {
-      setShowEmail(true);
-    } else {
-      setShowEmail(false);
+  const handleChangeEmail = () => {
+    if (
+      currentEmail !== newEmail &&
+      newEmail === confirmNewEmail &&
+      EmailValidator.validate(newEmail) &&
+      EmailValidator.validate(currentEmail) 
+    ) {
+      setSendButton(true);
+      setEmailWarning(false);
+    } else if (currentEmail === newEmail) {
+      setEmailWarning(true);
+      setEmailWarningType("New === Current");
+    } else if (confirmNewEmail !== newEmail) {
+      setEmailWarning(true);
+      setEmailWarningType("New !== Confirm");
+    } else if (confirmNewEmail === currentEmail) {
+      setEmailWarning(true);
+      setEmailWarningType("Confirm === Current");
+    } else if (!EmailValidator.validate(currentEmail)) {
+      setEmailWarning(true);
+      setEmailWarningType("!Current");
+    } else if (!EmailValidator.validate(newEmail)) {
+      setEmailWarning(true);
+      setEmailWarningType("!New");
+    } else if (!EmailValidator.validate(confirmNewEmail)) {
+      setEmailWarning(true);
+      setEmailWarningType("!Confirm");
     }
   };
 
   const handleSend = () => {
-    if (sendVerify === true) {
+    if (sendButton === true) {
       setSendVerify(false);
     } else {
       setSendVerify(true);
@@ -81,6 +151,7 @@ export default function ChangeEmail() {
   };
 
   const handleVerification = () => {
+    /* Send Verification to Email / Phone Number */
     if (verified === true) {
       setVerified(false);
     } else {
@@ -101,7 +172,6 @@ export default function ChangeEmail() {
       placeholder: "Current Email",
       text: currentEmail,
       ref: currentEmailRef,
-
       secureTextEntry: false,
       keyboardType: "email-address",
     },
@@ -109,7 +179,13 @@ export default function ChangeEmail() {
       placeholder: "New Email",
       text: newEmail,
       ref: newEmailRef,
-
+      secureTextEntry: false,
+      keyboardType: "email-address",
+    },
+    {
+      placeholder: "Confirm New Email",
+      text: confirmNewEmail,
+      ref: confirmEmailRef,
       secureTextEntry: false,
       keyboardType: "email-address",
     },
@@ -120,7 +196,6 @@ export default function ChangeEmail() {
       placeholder: "Current Password",
       text: currentPassword,
       ref: useRef("current-password"),
-
       secureTextEntry: false,
       keyboardType: "default",
     },
@@ -128,7 +203,6 @@ export default function ChangeEmail() {
       placeholder: "New Password",
       text: newPassword,
       ref: newPasswordRef,
-
       secureTextEntry: false,
       keyboardType: "default",
     },
@@ -136,15 +210,14 @@ export default function ChangeEmail() {
       placeholder: "Confirm New Password",
       text: confirmNewPassword,
       ref: confirmNewPasswordRef,
-
       secureTextEntry: false,
       keyboardType: "default",
     },
   ];
 
   useEffect(() => {
-    console.log(sendButton)
-   
+    console.log(sendButton);
+
     console.log(focus);
     console.log(currentPassword);
     console.log(newPassword);
@@ -157,26 +230,35 @@ export default function ChangeEmail() {
     currentEmail,
     currentPassword,
     newPassword,
-    confirmNewPassword,sendButton
+    confirmNewPassword,
+    sendButton,
   ]);
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
       <Card scrollable={false} containerClass={styles.changeDetailsContainer}>
-        <Card scrollable={false} containerClass={styles.changeEmailContainer}>
+        <Card scrollable={false} containerClass={styles.backContainer}>
           <PhoneButton
-            onPress={() => Navigation({navigation}, "Profile")}
-            text="Go Back"
-            textClass={styles.buttonText}
-            buttonClass={styles.button}
-            buttonContainerClass={styles.buttonContainer}
+            image={
+              <MaterialIcons
+                name="keyboard-arrow-left"
+                size={48}
+                color="black"
+              />
+            }
+            onPress={Navigation({ navigation }, "main-settings")}
+            text=""
+            buttonClass={styles.backButton}
+            buttonContainerClass={styles.backButtonContainer}
+            textClass={styles.backButtonText}
           />
-          <PhoneButton
-            onPress={handleEmail}
-            textClass={styles.buttonText}
-            buttonClass={styles.button}
-            buttonContainerClass={styles.buttonContainer}
+        </Card>
+        <Card scrollable={false} containerClass={styles.changeEmailContainer}>
+          <CardText
+            semiBold
             text="Change Email"
+            container={styles.changeEmailHeaderContainer}
+            textStyle={styles.changeEmailHeader}
           />
           {changeEmailArr.map((value) => {
             return (
@@ -194,29 +276,29 @@ export default function ChangeEmail() {
               />
             );
           })}
+          <Card
+            scrollable={false}
+            containerClass={styles.changeEmailButtonContainer}
+          >
+            {!sendButton &&
+            <PhoneButton
+              semiBold
+              text="Change"
+              textClass={styles.changeButtonText}
+              buttonClass={styles.changeButton}
+              buttonContainerClass={styles.changeButtonContainer}
+              onPress={handleChangeEmail}
+            />
+}
+          </Card>
           <>
-            {sendButton &&
-              EmailValidator.validate(newEmail) &&
-              EmailValidator.validate(currentEmail) && (
+            {sendButton && (
                 <PhoneButton
-                  text="Send"
-                  textClass={styles.sendText}
+                  text="Send Verification"
+                  textClass={styles.sendButtonText}
                   buttonClass={styles.sendButton}
                   buttonContainerClass={styles.sendButtonContainer}
-                  onPress={() => handleSend}
-                />
-              )}
-          </>
-          <>
-            {sendVerify &&
-              EmailValidator.validate(newEmail) &&
-              EmailValidator.validate(currentEmail) && (
-                <PhoneButton
-                  text="Verify"
-                  textClass={styles.sendText}
-                  buttonClass={styles.sendButton}
-                  buttonContainerClass={styles.sendButtonContainer}
-                  onPress={() => handleVerification}
+                  onPress={handleVerification}
                 />
               )}
           </>
@@ -284,6 +366,26 @@ export default function ChangeEmail() {
           </>
         </Card>
       </Card>
+      {emailWarning &&
+        emailWarningArray.map(
+          (value) => emailWarningType === value.emailWarningType
+        ) &&
+        emailWarningArray.map((item) => {
+          return (
+            <Card
+              scrollable={false}
+              containerClass={styles.emailWarningContainer}
+            >
+              <Entypo name="warning" size={24} color={"orange"} />
+              <CardText
+                container={styles.emailWarningTextContainer}
+                textStyle={styles.emailWarningText}
+                text={item.warning}
+              />
+              <AntDesign name="closecircle" size={24} color={"black"} />
+            </Card>
+          );
+        })}
     </Card>
   );
 }
@@ -293,6 +395,25 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
+  backContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: SetMargin(-0.25),
+  },
+  backButton: {
+    flexDirection: "row",
+    padding: 15,
+  },
+  backButtonContainer: {
+    width: "90%",
+    padding: 5,
+  },
+  backButtonText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    letterSpacing: 1.15,
+    alignSelf: "center",
+  },
   changeDetailsContainer: {
     width: "100%",
     alignSelf: "center",
@@ -301,33 +422,29 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderColor: "black",
     borderWidth: 2,
-    marginTop: -90,
   },
   changeEmailContainer: {
     width: "100%",
     alignItems: "center",
+    marginTop: SetMargin(0.05),
+    borderStyle: "solid",
+    borderColor: "black",
+    borderWidth: 2,
+  },
+  changeEmailHeaderContainer: {
+    borderStyle: "solid",
+    borderColor: "black",
+    borderWidth: 2,
+  },
+  changeEmailHeader: {
+    fontSize: 24,
+    letterSpacing: 0.8,
   },
   changePasswordContainer: {
     width: "100%",
     alignItems: "center",
   },
-  buttonText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    letterSpacing: 1.15,
-    color: "#8c52ff",
-    alignSelf: "center",
-  },
-  button: {
-    borderRadius: 10,
-    borderColor: "#8c52ff",
-    borderWidth: 2,
-    borderStyle: "solid",
-    padding: 10,
-  },
-  buttonContainer: {
-    width: "85%",
-  },
+
   inputText: {
     fontSize: 18,
   },
@@ -343,14 +460,38 @@ const styles = StyleSheet.create({
     width: "65%",
     margin: 10,
   },
-  sendButton: {
-    flex: 1,
+  changeEmailButtonContainer: {
+    width: "100%",
   },
-  sendText: {
-    fontSize: 24,
-    fontWeight: "bold",
+  changeButton: {
+    alignItems: "center",
+    padding: 10,
+    width: "100%",
+  },
+  changeButtonText: {
+    fontSize: 26,
+    color: "white",
+    letterSpacing: 0.8,
+  },
+  changeButtonContainer: {
+    width: "50%",
+    backgroundColor: "black",
+    alignSelf: "center",
+    borderRadius: 25,
   },
   sendButtonContainer: {
-    width: "50%",
+
   },
+  sendButton: {
+
+  },
+  sendButtonText: {
+
+  },
+  buttonContainer: {},
+  button: {},
+  buttonText: {},
+  emailWarningContainer: {},
+  emailWarningTextContainer: {},
+  emailWarningText: {},
 });

@@ -20,7 +20,7 @@ export interface SelectorArray extends MobileSelectorInterface {
 
 export default function ReusableDetails({
   header,
-  selectorArray,
+  selectorArray, 
   data,
 }: ReusableDetails) {
   const [pickerValue, setPickerValue] = useState<string>("");
@@ -56,6 +56,7 @@ export default function ReusableDetails({
   return (
     <Card scrollable={false} containerClass={styles.container}>
       <CardText
+      bold
         text={header}
         container={styles.headerContainer}
         textStyle={styles.header}
@@ -65,6 +66,7 @@ export default function ReusableDetails({
           return (
             <Card scrollable={false} containerClass={styles.selectorDetails}>
               <CardText
+              semiBold
                 text={value.label}
                 container={styles.labelContainer}
                 textStyle={styles.label}
@@ -99,23 +101,27 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     alignItems: "center",
+    
   },
   header: {
     fontSize: 28,
-    fontWeight: "bold",
   },
   selectorsContainer: {
     flexDirection: "column",
+   
   },
   selectorDetails: {
     flexDirection: "column",
+   
+    alignItems: 'center'
   },
   labelContainer: {
-    alignItems: "center",
+    alignItems: "flex-start",
     padding: 15,
+ 
+    width: '80%'
   },
   label: {
     fontSize: 24,
-    fontWeight: "bold",
   },
 });

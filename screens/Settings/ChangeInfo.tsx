@@ -1,33 +1,37 @@
 import Card from "../../components/Card/Card";
+import CardText from "../../components/Card/CardText";
 import { StyleSheet, Text } from "react-native";
 import PhoneButton from "../../components/Inputs/PhoneButton";
 import { useNavigation } from "@react-navigation/native";
-import PhoneTextInput from "../../components/Inputs/PhoneTextInput";
-import { FunctionComponentElement } from "react";
-import Picker from "react-native-picker-select";
-import Details from "../Details/Details";
 import Navigation from "../../objects/NavigationType";
+import DetailsNavigation, { detailsNavigationArray } from "../Details/Navigation/DetailsNavigation";
+import SetMargin from "../../functions/SetMargin";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useEffect, useState } from "react";
+import { NavigationArrayProps } from "../../components/NavigationStack/NavigationStack";
+
+
 
 export default function ChangeInfo() {
   const navigation = useNavigation();
 
+ 
+
   return (
     <Card scrollable={false} containerClass={styles.container}>
-      <Details
-      changeHeader={true}
-      globalDetails={true}
-      submitGoBackStyle={styles.buttonsContainer}
-      submitGoBackContainer={true}
-        button={
-          <PhoneButton
-            text="Go Back"
-            onPress={() => Navigation({navigation},'Profile')}
-            buttonClass={styles.button}
-            buttonContainerClass={styles.buttonContainer}
-            textClass={styles.buttonText}
-          />
-        }
-      ></Details>
+     <Card scrollable={false} containerClass={styles.topLevelContainer}>
+        <CardText bold text="Update Info" container={styles.headerContainer} textStyle={styles.header} />
+     </Card>
+     <Card scrollable={false} containerClass={styles.detailsButtonsContainer}>
+      {detailsNavigationArray.map((value) => {
+        return(
+          <PhoneButton onPress={Navigation({navigation}, value.name)} semiBold text={value.label} buttonContainerClass={styles.detailsButtonContainer} buttonClass={styles.detailsButton} textClass={styles.detailsButtonText} />
+        )
+      })}
+     </Card>
+     <Card scrollable={false} containerClass={styles.backArrowContainer} >
+      <MaterialIcons style={styles.backArrow} name='keyboard-arrow-left' size={50} color={'black'} />
+     </Card>
     </Card>
   );
 }
@@ -37,29 +41,51 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
-  buttonText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    letterSpacing: 1.15,
-    color: "#8c52ff",
-    alignSelf: "center",
+  topLevelContainer: {
+    width: '100%',
+    marginTop: SetMargin(.15)
   },
-  button: {
-    borderRadius: 10,
-    borderColor: "#8c52ff",
-    borderWidth: 2,
+  headerContainer: {
+    alignItems: 'center'
+  },
+  header: {
+    fontSize: 32,
+    letterSpacing: 1
+  },
+  detailsButtonsContainer: {
+    borderTopColor: "black",
+    borderTopWidth: 2,
     borderStyle: "solid",
-    padding: 10,
-  },
-  buttonContainer: {
-    width: "50%",
-    alignSelf: "center",
-  },
-  buttonsContainer: {
+    width: '100%',
     alignItems: 'center',
-    flexDirection: 'row-reverse',
-    justifyContent: 'space-between',
-    margin: 5,
-    width: '70%'
+    alignSelf: 'center',
+    marginTop: SetMargin(.1)
+  },
+  detailsButtonContainer: {
+    width: "100%",
+    alignItems: "center",
+    borderBottomColor: "black",
+    borderBottomWidth: 2,
+    borderStyle: "solid",
+    padding: 15
+  },
+  detailsButton: {
+    alignItems: 'flex-start',
+    width: '70%',
+    padding: 10,
+    justifyContent: 'center',
+
+  },
+  detailsButtonText: {
+    fontSize: 26,
+    letterSpacing: 1.15,
+    color: "black",
+  },
+  backArrowContainer: {
+    width: '100%',
+    marginTop: SetMargin(.12)
+  },
+  backArrow: {
+    marginLeft: SetMargin(.04)
   }
 });

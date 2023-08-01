@@ -8,7 +8,7 @@ import TodayScreen from "../../screens/Activity/Screens/MainActivity";
 import RegimenNavigation from "../../screens/Journal/Navigation/RegimenNavigation";
 import { NavBarInterface } from "../../App";
 import ProgramNavigation from "../../screens/Program/Navigation/ProgramNavigation";
-import SettingNavigation from "../../screens/Settings/SettingNav";
+import SettingNavigation from "../../screens/Settings/Navigation/SettingNav";
 
 export default function NavBar() {
   const navBarArray: NavBarInterface[] = [
@@ -18,7 +18,7 @@ export default function NavBar() {
       image: () => <FontAwesome5 name="running" size={24} color={"black"} />,
       backgroundColor: "",
       fontColor: "",
-      borderColor: "", 
+      borderColor: "",
       route: "activity",
     },
     {
@@ -57,7 +57,7 @@ export default function NavBar() {
         labelStyle: {
           fontSize: 12,
           letterSpacing: 1.02,
-          color: 'black'
+          color: "black",
         },
       }}
       screenOptions={({ route }) => ({

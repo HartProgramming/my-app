@@ -11,7 +11,7 @@ interface CardText {
   regular?: boolean;
   semiBold?: boolean;
   medium?: boolean;
-}
+} 
 
 export default function CardText({medium, bold, regular, semiBold, text, container, textStyle }: CardText) {
 

@@ -85,7 +85,7 @@ export default function SearchInput({
             })}
         </Card>
       </Card>
-    </Card>
+    </Card> 
   );
 }
 

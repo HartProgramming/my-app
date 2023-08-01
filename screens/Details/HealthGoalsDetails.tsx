@@ -8,8 +8,10 @@ import { fitnessGoals } from "./Classes/Details";
 import Navigation from "../../objects/NavigationType";
 import SetMargin from "../../functions/SetMargin";
 import CardText from "../../components/Card/CardText";
+import { MaterialIcons } from "@expo/vector-icons";
+import { isSearchBarAvailableForCurrentPlatform } from "react-native-screens";
 
-export default function HealthGoalsDetails() {
+export default function HealthGoalsDetails({ route }: any) {
   const [weightGoal, setWeightGoal] = useState<number>(0);
   const [muscleGoal, setMuscleGoal] = useState<string>("");
   const [data, setData] = useState<[]>([]);
@@ -22,12 +24,16 @@ export default function HealthGoalsDetails() {
     console.log(dataObj);
   };
 
+  const component = route.params;
+
   useEffect(() => {
+    console.log(component);
     fitnessGoals[0].selectedValue = weightGoal;
     fitnessGoals[1].selectedValue = muscleGoal;
   }, []);
 
   useEffect(() => {
+    console.log(fitnessGoals.map((value) => value.selectedValue));
     console.log(data);
     setDataObj(data);
   }, [data]);
@@ -35,9 +41,10 @@ export default function HealthGoalsDetails() {
   return (
     <Card scrollable={false} containerClass={styles.container}>
       <CardText
-        text="Step 3 of 5"
+        bold
+        text={component === "Sign Up" ? "Step 3 of 5" : ""}
         textStyle={styles.header}
-        container={styles.headerContainer}
+        container={component === 'Sign Up' ? styles.headerContainer : styles.updateHeaderContainer}
       />
       <ReusableDetails
         data={setData}
@@ -45,12 +52,42 @@ export default function HealthGoalsDetails() {
         selectorArray={fitnessGoals}
       />
       <PhoneButton
-        text="Next"
-        buttonClass={[styles.button, { backgroundColor: "red" }]}
+        semiBold
+        text={"Next"}
+        buttonClass={[
+          styles.button,
+          { backgroundColor: "black", color: "white" },
+        ]}
         buttonContainerClass={styles.buttonContainer}
-        onPress={() => handleTrans({ navigation }, "current-activity")}
+        onPress={
+          component === "Sign Up"
+            ? Navigation({ navigation }, "current-activity")
+            : Navigation({ navigation }, "update-info")
+        }
         textClass={styles.text}
       />
+      <Card scrollable={false} containerClass={styles.backContainer}>
+        {component === "Update" && (
+          <PhoneButton
+            text={""}
+            image={
+              <MaterialIcons
+                name="keyboard-arrow-left"
+                size={50}
+                color={"black"}
+              />
+            }
+            buttonClass={[styles.backButton]}
+            buttonContainerClass={styles.backButtonContainer}
+            onPress={
+              component === "Sign Up"
+                ? Navigation({ navigation }, "current-activity")
+                : Navigation({ navigation }, "update-info")
+            }
+            textClass={styles.text}
+          />
+        )}
+      </Card>
     </Card>
   );
 }
@@ -59,17 +96,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  updateHeaderContainer: {
+    alignItems: "center",
+    marginTop: SetMargin(-.1)
+  },
   headerContainer: {
     marginTop: SetMargin(0.15),
     marginBottom: SetMargin(-0.15),
     alignItems: "center",
   },
   header: {
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 28,
   },
   buttonContainer: {
-    width: "30%",
+    width: "55%",
     alignSelf: "center",
   },
   button: {
@@ -83,6 +123,22 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 24,
-    fontWeight: "bold",
+    color: "white",
   },
+  backContainer: {
+    marginTop: SetMargin(0.06),
+    width: "90%",
+    alignSelf: "center",
+    justifyContent: "center",
+  },
+  backButtonContainer: {
+    width: "25%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backButton: {
+    marginTop: SetMargin(0.01),
+    marginBottom: SetMargin(-0.03),
+  },
+
 });

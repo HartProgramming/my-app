@@ -16,6 +16,13 @@ import { SetStateAction } from "react";
 import { userAgent } from "next/server";
 
 export default function AvailablePrograms() {
+  const userTypeArray: ProgramCardProps["userType"] = ["Trainer", "User"];
+  const programTypeArray: ProgramCardProps["programType"] = [
+    "Exercise",
+    "Meal",
+    "Complete",
+  ];
+
   const programRegimenArray: ProgramDetailsInterface[] = [
     {
       day: "Day 1",
@@ -138,81 +145,81 @@ export default function AvailablePrograms() {
       review: 5,
       budget: 0,
     },
-      {
-        cardImage: Jogging,
-        title: "Extra Lean",
-        cycle: 9,
-        container: styles.programCardContainer,
-        price: 11.99,
-        info: "This is a combination program with a meal and exercise scheduled that is designed to optimize weight loss and building some tone.",
-        author: "Tracy Biggs",
-        id: "M1",
-        programType: "Complete",
-        userType: "User",
-        detailsModal: moreDetailsModal,
-        review: 2,
-        budget: 1,
-      },
-      {
-        cardImage: Chicken,
-        title: "Free Up",
-        cycle: 8,
-        container: styles.programCardContainer,
-        price: 12.99,
-        info: "This is a combination program with a meal and exercise scheduled that is designed to optimize weight loss and building some tone.",
-        author: "Melinda Ross",
-        id: "M2",
-        programType: "Meal",
-        userType: "Trainer",
-        detailsModal: moreDetailsModal,
-        review: 5,
-        budget: 3,
-      },
-      {
-        cardImage: Jogging,
-        title: "Lean",
-        cycle: 7,
-        container: styles.programCardContainer,
-        price: 6.99,
-        info: "This is a combination program with a meal and exercise scheduled that is designed to optimize weight loss and building some tone.",
-        author: "Frank Castle",
-        id: "M3",
-        programType: "Exercise",
-        userType: "Trainer",
-        detailsModal: moreDetailsModal,
-        review: 5,
-        budget: 2,
-      },
-      {
-        cardImage: Chicken,
-        title: "Protein",
-        cycle: 11,
-        container: styles.programCardContainer,
-        price: 5.99,
-        info: "This is a combination program with a meal and exercise scheduled that is designed to optimize weight loss and building some tone.",
-        author: "Greg Throne",
-        id: "M4",
-        programType: "Meal",
-        userType: "Trainer",
-        detailsModal: moreDetailsModal,
-        review: 5,
-        budget: 3,
-      },
-      {
-        cardImage: Jogging,
-        title: "TLean",
-        cycle: 10,
-        container: styles.programCardContainer,
-        price: 7.99,
-        info: "This is a combination program with a meal and exercise scheduled that is designed to optimize weight loss and building some tone.",
-        author: "Dipshit Believer",
-        id: "M5",
-        programType: "Exercise",
-        userType: "User",
-        detailsModal: moreDetailsModal,
-        review: 4,
-        budget: 3,
-      },
+    {
+      cardImage: Jogging,
+      title: "Extra Lean",
+      cycle: 9,
+      container: styles.programCardContainer,
+      price: 11.99,
+      info: "This is a combination program with a meal and exercise scheduled that is designed to optimize weight loss and building some tone.",
+      author: "Tracy Biggs",
+      id: "M1",
+      programType: "Complete",
+      userType: "User",
+      detailsModal: moreDetailsModal,
+      review: 2,
+      budget: 1,
+    },
+    {
+      cardImage: Chicken,
+      title: "Free Up",
+      cycle: 8,
+      container: styles.programCardContainer,
+      price: 12.99,
+      info: "This is a combination program with a meal and exercise scheduled that is designed to optimize weight loss and building some tone.",
+      author: "Melinda Ross",
+      id: "M2",
+      programType: "Meal",
+      userType: "Trainer",
+      detailsModal: moreDetailsModal,
+      review: 5,
+      budget: 3,
+    },
+    {
+      cardImage: Jogging,
+      title: "Lean",
+      cycle: 7,
+      container: styles.programCardContainer,
+      price: 6.99,
+      info: "This is a combination program with a meal and exercise scheduled that is designed to optimize weight loss and building some tone.",
+      author: "Frank Castle",
+      id: "M3",
+      programType: "Exercise",
+      userType: "Trainer",
+      detailsModal: moreDetailsModal,
+      review: 5,
+      budget: 2,
+    },
+    {
+      cardImage: Chicken,
+      title: "Protein",
+      cycle: 11,
+      container: styles.programCardContainer,
+      price: 5.99,
+      info: "This is a combination program with a meal and exercise scheduled that is designed to optimize weight loss and building some tone.",
+      author: "Greg Throne",
+      id: "M4",
+      programType: "Meal",
+      userType: "Trainer",
+      detailsModal: moreDetailsModal,
+      review: 5,
+      budget: 3,
+    },
+    {
+      cardImage: Jogging,
+      title: "TLean",
+      cycle: 10,
+      container: styles.programCardContainer,
+      price: 7.99,
+      info: "This is a combination program with a meal and exercise scheduled that is designed to optimize weight loss and building some tone.",
+      author: "Dipshit Believer",
+      id: "M5",
+      programType: "Exercise",
+      userType: "User",
+      detailsModal: moreDetailsModal,
+      review: 4,
+      budget: 3,
+    },
   ];
 
   const [programArray, setProgramArray] =
@@ -225,7 +232,11 @@ export default function AvailablePrograms() {
   };
 
   useEffect(() => {
-    console.log(filterCardArray.map((value) => [{value: value.value, filterType: value.filterType}]));
+    console.log(
+      filterCardArray.map((value) => [
+        { value: value.value, filterType: value.filterType },
+      ])
+    ); 
     let filterSomeEveryArray: any = [];
     if (filterCardArray.length > 0) {
       filterSomeEveryArray.push(
@@ -248,7 +259,7 @@ export default function AvailablePrograms() {
                   (value.programType === label && value.price <= label) ||
                   label === value.userType ||
                   label === value.programType ||
-                  label >= value.price && label - 4.99 <= value.price
+                  (label >= value.price && label - 4.99 <= value.price)
               )
           )
         );
@@ -267,7 +278,7 @@ export default function AvailablePrograms() {
                   (value.programType === label && value.price <= label) ||
                   label === value.userType ||
                   label === value.programType ||
-                  label >= value.price && label - 4.99 >= value.price
+                  (label >= value.price && label - 4.99 >= value.price)
               )
           )
         );
@@ -310,7 +321,7 @@ export default function AvailablePrograms() {
         text="Available"
         container={styles.headerContainer}
         textStyle={styles.header}
-      />
+      /> 
       <Card scrollable={true} containerClass={styles.programContainer}>
         {programArray.map((value) => {
           return (

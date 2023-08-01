@@ -26,7 +26,7 @@ export default function LoginInput({
   useEffect(() => {
     console.log(inputValue);
   }, [inputValue]);
-
+ 
   return (
     <PhoneTextInput
       keyboardType={keyboardType}

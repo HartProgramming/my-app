@@ -15,7 +15,7 @@ export default function Card({
   containerClass,
   scrollable,
   children,
-  onPress,
+  onPress, 
   onPressBoo,
 }: CardProps) {
   return (

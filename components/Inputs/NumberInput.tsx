@@ -5,23 +5,25 @@ import cn from 'classnames'
 import { ViewStyle, TextStyle } from "react-native";
 import { StyleProp } from "react-native";
 
-type handleChange = () => void;
 
 interface PhoneInputProps {
   inputContainerClass: StyleProp<ViewStyle>;
   inputClass: StyleProp<ViewStyle>;
   textClass: StyleProp<TextStyle>;
   placeholder: string;
-  onChange: handleChange;
+  onChange: any;
   secureTextEntry: boolean;
-}
+  value: string;
+  key: string;
+  onFocus: any;
+} 
 
-const NumberInput : React.FC<PhoneInputProps> = ({secureTextEntry, onChange, placeholder, inputContainerClass, inputClass, textClass}) => {
+const NumberInput : React.FC<PhoneInputProps> = ({key,onFocus, value, secureTextEntry, onChange, placeholder, inputContainerClass, inputClass, textClass}) => {
 
   return (
     <View style={inputContainerClass}>
       <TouchableOpacity style={inputClass}>
-        <TextInput keyboardType='numeric' secureTextEntry={secureTextEntry} onChange={onChange} placeholder={placeholder} style={textClass}></TextInput>
+        <TextInput onFocus={onFocus} key={key} value={value} keyboardType='numeric' secureTextEntry={secureTextEntry} onChange={onChange} placeholder={placeholder} style={textClass}></TextInput>
       </TouchableOpacity>
     </View>
   );

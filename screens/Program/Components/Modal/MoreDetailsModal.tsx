@@ -44,7 +44,7 @@ export default function MoreDetailsModal({
       setArrowImage(true);
       setRegimenArray(programArray[0]);
     }
-  };
+  }; 
 
   useEffect(() => {
     const reviewArray: JSX.Element[] = [];

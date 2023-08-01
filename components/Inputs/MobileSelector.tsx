@@ -60,6 +60,7 @@ export default function MobileSelector({
     } else if (array === undefined) {
       arr.push({ label: "1", value: "2" });
     }
+    arr.unshift({label: 'Select', value: 'Select'})
     return arr;
   }
 
@@ -72,6 +73,10 @@ export default function MobileSelector({
     console.log(event);
     handleFocus(event);
   }
+
+  useEffect(() => {
+    setValue(generateSelectorContent(minimumNum, maximumNum, contentArrayStr)[0])
+  }, [])
 
   useEffect(() => {
     selectedValue = value;
@@ -91,6 +96,7 @@ export default function MobileSelector({
           (value: any) => {
             return (
               <Picker.Item
+                enabled={value.label === 'Select' ? false : true}
                 style={pickerItemStyle}
                 label={value.label}
                 value={value.value}

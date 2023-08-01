@@ -13,18 +13,24 @@ export interface NavigationArrayProps {
     fontColor?: string;
     borderColor?: string;
     options: boolean;
+    label?: string; 
+    componentProps?: any
 }
 
 export default function NavigationStack({navArray}: NavigationProps){
  
   const navStack = createStackNavigator();
 
+    console.log(navArray[0].component)
 
     return(
         <navStack.Navigator>
             {navArray.map((value) => {
+                console.log(value.componentProps)
                 return(
-                    <navStack.Screen name={value.name} options={{headerShown: value.options}} component={value.component}/>
+                    <navStack.Screen name={value.name} options={{headerShown: value.options}}>
+                       {props => <value.component route={{params: value.componentProps}} />}
+                        </navStack.Screen>
                 )
             })}
         </navStack.Navigator>

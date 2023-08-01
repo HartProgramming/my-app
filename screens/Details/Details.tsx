@@ -76,38 +76,6 @@ export default function Details({
     days: string;
   }
 
-  interface DropdownInfo {
-    label: string;
-    value?: string;
-    ref?: MutableRefObject<string> | undefined;
-    checked?: boolean;
-    id?: number;
-  }
-
-  const checkboxDaysArr: DropdownInfo[] = [
-    { id: 1, label: "Monday", ref: useRef<string>("Monday"), checked: false },
-    { id: 2, label: "Tuesday", ref: useRef<string>("Tuesday"), checked: false },
-    {
-      id: 3,
-      label: "Wednesday",
-      ref: useRef<string>("Wednesday"),
-      checked: false,
-    },
-    {
-      id: 4,
-      label: "Thursday",
-      ref: useRef<string>("Thursday"),
-      checked: false,
-    },
-    { id: 5, label: "Friday", ref: useRef<string>("Friday"), checked: false },
-    {
-      id: 6,
-      label: "Saturday",
-      ref: useRef<string>("Saturday"),
-      checked: false,
-    },
-    { id: 7, label: "Sunday", ref: useRef<string>("Sunday"), checked: false },
-  ];
 
   const [ageArr, setAgeArr]: any = useState();
   const [weightArr, setWeightArr]: any = useState();
@@ -654,21 +622,7 @@ export default function Details({
             </Picker>
           </View>
         </View>
-        <Card scrollable={false} containerClass={styles.inputContainer}>
-          <Text style={styles.inputLabel}>{label.days}</Text>
-          <Card scrollable={false} containerClass={styles.pickerContainer}>
-            {checkboxArr.map((value) => {
-              return (
-                <CheckBox
-                  title={value.label}
-                  checked={value.checked}
-                  key={value.id}
-                  onPress={() => handleCheck(value.id)}
-                />
-              );
-            })}
-          </Card>
-        </Card>
+        
       </View>
       <Card
         scrollable={false}

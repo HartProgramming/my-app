@@ -47,8 +47,19 @@ export const lightMode = new ColorClass(
   '#191919',
   '#3d3d3d'
 );
-export const customMode = new ColorClass(
-  '#8c52ff',
-  'white',
-  '#8c52ff'
+export const greenMode = new ColorClass(
+  '#00cc66',
+  'black',
+  'black',
 );
+export const purpleMode = new ColorClass(
+  '#8c19ff',
+  'white',
+  'white'
+)
+
+export const blueMode = new ColorClass(
+  '#0044cc',
+  'white',
+  'black'
+)

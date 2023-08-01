@@ -3,14 +3,14 @@ import { MealActivity } from "../../../Activity/Screens/MainActivity";
 
 export interface ProgramDetailsInterface {
   day: string;
-  mealArray: MealDetailsArray[];
+  mealArray: MealDetailsArray[]; 
   exerciseArray: ExerciseDetailsArray[];
 }
 
 export interface MealDetailsArray extends MealActivity {
   time: string;
 }
- 
+  
 export interface ExerciseDetailsArray extends ExerciseActivity {}
 
 

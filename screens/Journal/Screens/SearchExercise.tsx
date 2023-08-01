@@ -9,15 +9,15 @@ import { CriteriaExerciseInterface } from "../Interfaces/Interfaces";
 import { Image } from "react-native";
 import Jogging from "../../../images/cardicons/jogging.png";
 
+export const displaySearchArr: CriteriaExerciseInterface[] = [
+  { name: "Jogging", key: "jogging", miles: 3, resultsBoo: false },
+  { name: "Push-ups", key: "push-ups", reps: 200, resultsBoo: false },
+  { name: "Planks", key: "planks", minutes: 3, resultsBoo: false },
+];
+
 export default function SearchExercise() {
   const [exerciseValue, setExerciseValue] = useState<string>("");
   const [resultObject, setResultObject] = useState<any>();
-
-  const displaySearchArr: CriteriaExerciseInterface[] = [
-    { name: "Jogging", key: "jogging", miles: 3, resultsBoo: false },
-    { name: "Push-ups", key: "push-ups", reps: 200, resultsBoo: false },
-    { name: "Planks", key: "planks", minutes: 3, resultsBoo: false },
-  ];
 
   const handleRecommendation = () => {
     console.log("hi");

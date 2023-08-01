@@ -6,6 +6,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Text } from "react-native";
 import Navigation from "../../objects/NavigationType";
 import SetMargin from "../../functions/SetMargin";
+import CardText from "../../components/Card/CardText";
 
 
 export default function AppInfo() {
@@ -13,11 +14,11 @@ export default function AppInfo() {
 
   interface AppDetails {
     label: string;
-    details: string | number;
+    details: string;
   }
 
   const appDetailsArr: AppDetails[] = [
-    { label: "Version", details: 1.0 },
+    { label: "Version", details: '1.0' },
     { label: "Designer", details: "Edward Hart" },
     { label: "Donate", details: "Details Below" },
     { label: "Cash App", details: "" },
@@ -38,12 +39,14 @@ export default function AppInfo() {
           textClass={styles.buttonText}
         />
       </Card>
+      <CardText semiBold text="App Info" container={styles.appInfoContainer} textStyle={styles.appInfo} />
+
       <Card scrollable={false} containerClass={styles.detailsContainer}>
         {appDetailsArr.map((value) => {
           return (
             <Card scrollable={false} containerClass={styles.detailCard}>
-              <Text style={styles.detailLabel}>{value.label}:</Text>
-              <Text style={styles.detailText}> {value.details}</Text>
+              <CardText medium textStyle={styles.detailLabel} container={styles.detailLabelContainer} text={`${value.label}: `}/>
+              <CardText regular textStyle={styles.detailText} container={styles.detailTextContainer} text={value.details} />
             </Card>
           );
         })}
@@ -60,13 +63,10 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop: SetMargin(.1),
+    marginTop: SetMargin(.06),
   },
   button: {
-    borderRadius: 15,
-    borderStyle: "solid",
-    borderWidth: 2,
-    borderColor: "#8c52ff",
+
     flexDirection: "row",
     padding: 15,
   },
@@ -74,27 +74,43 @@ const styles = StyleSheet.create({
     width: "90%",
     padding: 5,
   },
+  appInfoContainer: {
+    width: '100%',
+    marginTop: SetMargin(.1)
+  },
+  appInfo: {
+    fontSize: 28,
+    textAlign: 'center'
+  },
+
   buttonText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#8c52ff",
-    marginLeft: 17,
-    letterSpacing: 1.15,
+    
   },
   detailsContainer: {
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "#8c52ff",
-    width: "95%",
+    marginTop: SetMargin(.05),
+    width: "80%",
     alignSelf: "center",
   },
   detailCard: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 5,
+    borderStyle: 'solid',
+    borderBottomColor: 'black',
+    borderBottomWidth: 2
+  },
+  detailLabelContainer: {
+
   },
   detailLabel: {
-    fontSize: 20
+    fontSize: 22
+  },
+  detailTextContainer: {
+
   },
   detailText: {
     fontSize: 20
-  }
+  },
+ 
+  
 });

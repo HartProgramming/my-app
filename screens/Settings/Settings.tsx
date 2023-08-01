@@ -13,6 +13,7 @@ import CardText from "../../components/Card/CardText";
 import Navigation from "../../objects/NavigationType";
 import { useState } from "react";
 import SetMargin from "../../functions/SetMargin";
+import LogoutDeleteModal from "./Components/Modal/LogoutDeleteModal";
 
 export default function Settings() {
   interface SettingNavInterface {
@@ -27,10 +28,17 @@ export default function Settings() {
   }
 
   const userDetails: UserProps = {
-    username: 'Ed', email: 'hart@yahoo.com'
-  }
+    username: "Ed",
+    email: "hart@yahoo.com",
+  };
 
-  const [userInfo, setUserInfo] = useState<UserProps>(userDetails)
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const handleModal = () => {
+    setShowModal(true);
+  };
+
+  const [userInfo, setUserInfo] = useState<UserProps>(userDetails);
 
   const navigation = useNavigation();
 
@@ -48,33 +56,47 @@ export default function Settings() {
       ),
     },
     {
-      label: "Change Info",
-      route: "change-info",
+      label: "Update Info",
+      route: "update-info-nav",
       icon: <Ionicons name="information-circle" size={28} color="black" />,
-    },
-    {
-      label: "Log Out",
-      route: "log-out",
-      icon: <AntDesign name="logout" size={28} color="black" />,
     },
     {
       label: "Delete Account",
       route: "delete-account",
       icon: <AntDesign name="delete" size={28} color="black" />,
     },
+    {
+      label: "Log Out",
+      route: "log-out",
+      icon: <AntDesign name="logout" size={28} color="black" />,
+    },
   ];
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
       <Card scrollable={false} containerClass={styles.scrollContainer}>
-        <CardText semiBold container={styles.userInfoTextContainer} textStyle={styles.userInfoText} text={`Username: ${userInfo.username}`} />
-        <CardText semiBold container={styles.userInfoTextContainer} textStyle={styles.userInfoText} text={`Email: ${userInfo.email}`} />
+        <CardText
+          semiBold
+          container={styles.userInfoTextContainer}
+          textStyle={styles.userInfoText}
+          text={`Username: ${userInfo.username}`}
+        />
+        <CardText
+          semiBold
+          container={styles.userInfoTextContainer}
+          textStyle={styles.userInfoText}
+          text={`Email: ${userInfo.email}`}
+        />
         <Card scrollable={false} containerClass={styles.tabsContainer}>
           {settingTabsArray.map((value: any) => (
             <PhoneButton
               semiBold
               image={value.icon}
-              onPress={Navigation({ navigation }, value.route)}
+              onPress={
+                value.label === "Log Out"
+                  ? () => handleModal()
+                  : Navigation({ navigation }, value.route)
+              }
               text={value.label}
               textClass={styles.settingTabsTextClass}
               buttonClass={styles.settingTabsButton}
@@ -82,6 +104,7 @@ export default function Settings() {
             />
           ))}
         </Card>
+        <LogoutDeleteModal showHide={setShowModal} visible={showModal} />
       </Card>
     </Card>
   );
@@ -90,47 +113,46 @@ export default function Settings() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: "white",
   },
   scrollContainer: {
     backgroundColor: "white",
-    marginTop: SetMargin(.25)
+    marginTop: SetMargin(0.25),
   },
   userInfoTextContainer: {
-
-    width: '80%',
-    alignSelf: 'center',
-    justifyContent: 'flex-end',
-    alignItems: 'flex-start'
+    width: "80%",
+    alignSelf: "center",
+    justifyContent: "flex-end",
+    alignItems: "flex-start",
   },
   userInfoText: {
     fontSize: 20,
-    letterSpacing: .8
+    letterSpacing: 0.8,
   },
   settingTabsTextClass: {
     fontSize: 22,
-    color: 'black',
+    color: "black",
     marginLeft: 17,
     letterSpacing: 1.15,
   },
   settingTabsButton: {
     flexDirection: "row",
     padding: 5,
-  
-    alignItems: 'center',
-    width: '100%'
+
+    alignItems: "center",
+    width: "100%",
   },
   settingTabsButtonContainer: {
     width: "100%",
     padding: 25,
     borderTopWidth: 2,
-    borderStyle: 'solid',
-    alignItems: 'center',
+    borderStyle: "solid",
+    alignItems: "center",
   },
   tabsContainer: {
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
-    marginTop: SetMargin(.05)
+    marginTop: SetMargin(0.05),
   },
 });
