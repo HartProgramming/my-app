@@ -23,7 +23,7 @@ const NumberInput : React.FC<PhoneInputProps> = ({key,onFocus, value, secureText
   return (
     <View style={inputContainerClass}>
       <TouchableOpacity style={inputClass}>
-        <TextInput onFocus={onFocus} key={key} value={value} keyboardType='numeric' secureTextEntry={secureTextEntry} onChange={onChange} placeholder={placeholder} style={textClass}></TextInput>
+        <TextInput onFocus={onFocus} key={key} value={value} keyboardType='numeric' secureTextEntry={secureTextEntry} onChangeText={onChange} placeholder={placeholder} style={textClass}></TextInput>
       </TouchableOpacity>
     </View>
   );

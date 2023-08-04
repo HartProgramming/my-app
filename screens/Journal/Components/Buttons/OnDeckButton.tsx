@@ -5,18 +5,18 @@ import { MainRegimenButtonProps } from "../../Interfaces/Interfaces";
 
 interface OnDeckButtonProps {
     label: string;
-    left: boolean;
+    highlight: boolean;
     onPress: any;
 }
-
-export default function OnDeckButton({label, left, onPress}: OnDeckButtonProps){
+ 
+export default function OnDeckButton({label, highlight, onPress}: OnDeckButtonProps){
 
     return(
-        <PhoneButton onPress={onPress} text={label} buttonContainerClass={styles.container}  buttonClass={
-            left
-              ? [styles.button, styles.borderLeft]
-              : [styles.button, styles.borderRight]
-          } textClass={styles.text}/>
+        <PhoneButton semiBold onPress={onPress} text={label} buttonContainerClass={styles.container}  buttonClass={
+            highlight
+              ? [styles.button, styles.backgroundBlack]
+              : [styles.button, styles.backgroundWhite]
+          } textClass={!highlight ? styles.textBlack : styles.textWhite}/>
     )
 }
 
@@ -28,13 +28,19 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         borderBottomColor: 'black',
-        borderBottomWidth: 2,
+        borderWidth: 2,
         borderStyle: 'solid',
         padding: 5
     },
-    text: {
+    textBlack: {
         fontSize: 22,
-        fontWeight: 'bold'
+        letterSpacing: .8,
+        color: 'black'
+    },
+    textWhite: {
+        fontSize: 22,
+        letterSpacing: .8,
+        color: 'white'
     },
     borderLeft: {
         borderLeftColor: 'black',
@@ -43,5 +49,11 @@ const styles = StyleSheet.create({
     borderRight: {
         borderRightColor: 'black',
         borderRightWidth: 1
+    },
+    backgroundBlack: {
+        backgroundColor: 'black'
+    },
+    backgroundWhite: {
+        backgroundColor: 'white'
     }
 })

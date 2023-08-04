@@ -16,7 +16,7 @@ export interface SearchCreateModalProps {
 export default function SearchCreateModal({
   type,
   visible,
-  day
+  day 
 }: SearchCreateModalProps) {
   return (
     <Modal visible={visible} transparent animationType="fade">

@@ -7,74 +7,44 @@ import SetMargin from "../../../../functions/SetMargin";
 import PhoneTextInput from "../../../../components/Inputs/PhoneTextInput";
 import NumberInput from "../../../../components/Inputs/NumberInput";
 import { CreateExerciseMealProps } from "../Interfaces/CreateExerciseMealInterface";
-import { mealProps } from "../../Arrays/CreateExerciseMealArrays";
+import { mealProps, exerciseProps } from "../../Arrays/CreateExerciseMealArrays";
 import { endEvent } from "react-native/Libraries/Performance/Systrace";
+import AddInput from "../Input/AddInput";
+import MealExerciseDetailsInput from "../Input/MealExerciseDetailsInput";
 
 export default function CreateEditModal() {
-  const [textInputType, setTextInputType] = useState<string>("");
+  const mealObj = {
+    Calories: "",
+    Protein: "",
+    Sodium: "",
+    Fat: "",
+    Sugar: "",
+    Cholesterol: "",
+  };
+
+  const exerciseObj = {
+    Reps: '',
+    Miles: '',
+    Minutes: '',
+    Sets: '',
+    Weight: ''
+  }
+
+  const [textInputType, setTextInputType] = useState<"meal" | "exercise">(
+    "meal"
+  );
   const [displaySearchArr, setDisplaySearchArr] = useState<[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [numericInputValue, setNumericInputValue] = useState<string>("");
-  const [focus, setFocus] = useState<string>("");
-  const [calories, setCalories] = useState<string>("");
-  const [protein, setProtein] = useState<string>("");
-  const [sodium, setSodium] = useState<string>("");
-  const [fat, setFat] = useState<string>("");
-  const [cholesterol, setCholesterol] = useState<string>("");
-  const [sugar, setSugar] = useState<string>("");
   const [mealDataObj, setMealDataObj] = useState<any>([]);
 
-  const handleProgramAdd = () => {};
-
-  const handleAddName = () => {
-    setName(inputValue);
-    setInputValue("");
-  };
-
-  const handleChange = (event: string) => {
-    setInputValue(event);
-  };
-
-  const handleNumberChange = (event: string) => {
-    if (focus === "Calories") {
-      setNumericInputValue(event);
-      setCalories(event);
-    } else if (focus === "Protein") {
-      setNumericInputValue(event);
-      setProtein(event);
-    } else if (focus === "Sodium") {
-      setNumericInputValue(event);
-      setSodium(event);
-    } else if (focus === "Fat") {
-      setNumericInputValue(event);
-      setFat(event);
-    } else if (focus === "Sugar") {
-      setNumericInputValue(event);
-      setSugar(event);
-    } else if (focus === "Cholesterol") {
-      setNumericInputValue(event);
-      setCholesterol(event);
-    }
-  };
-
-  const handleNumericFocus = (event: string) => {
-    setFocus(event);
+  const handleProgramAdd = () => {
+    console.log(mealDataObj);
   };
 
   useEffect(() => {
-    const mealObjectArray = [
-      { title: name },
-      { Calories: calories },
-      { Protein: protein },
-      { Sodium: sodium },
-      {Sugar: sugar},
-      {Cholesterol: cholesterol},
-      {Fat: fat}
-    ];
-    setMealDataObj(mealObjectArray)
-    console.log(mealObjectArray)
-  }, [calories, protein, sodium, fat, sugar, cholesterol]);
+    console.log(mealDataObj);
+  }, [mealDataObj]);
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
@@ -97,63 +67,16 @@ export default function CreateEditModal() {
         />
       </Card>
       <Card scrollable={false} containerClass={styles.createContainer}>
-        <PhoneTextInput
-          keyboardType="default"
-          value={inputValue}
-          secureTextEntry={false}
-          onChange={handleChange}
-          placeholder={textInputType === "exercise" ? "Exercise" : "Meal"}
-          inputContainerClass={styles.inputContainer}
-          inputClass={styles.input}
-          textClass={styles.inputText}
-          medium
-        />
-        <PhoneButton
-          semiBold
-          text="Add"
-          onPress={handleAddName}
-          buttonContainerClass={styles.addNameButtonContainer}
-          buttonClass={styles.addNameButton}
-          textClass={styles.addNameButtonText}
-        />
+        <AddInput name={setName} type={textInputType} />
       </Card>
       <Card scrollable={false} containerClass={styles.detailContainer}>
-        {textInputType === "meal" && (
-          <Card scrollable={false} containerClass={styles.detailsContainer}>
-            <CardText
-              medium
-              container={styles.detailLabelContainer}
-              textStyle={styles.detailLabel}
-              text="Name: "
-            />
-            <CardText
-              container={styles.detailTextContainer}
-              textStyle={styles.detailText}
-              text={name}
-            />
-          </Card>
-        )}
-        {mealProps.map((value) => (
-          <Card scrollable={false} containerClass={styles.detailsContainer}>
-            <CardText
-              medium
-              container={styles.detailLabelContainer}
-              textStyle={styles.detailLabel}
-              text={value.label}
-            />
-            <NumberInput
-              value={numericInputValue}
-              onChange={handleNumberChange}
-              placeholder={"0"}
-              secureTextEntry={false}
-              inputContainerClass={styles.numberInputContainer}
-              inputClass={styles.numberInput}
-              textClass={styles.numberInputText}
-              key={value.label}
-              onFocus={() => handleNumericFocus(value.label)}
-            />
-          </Card>
-        ))}
+        <MealExerciseDetailsInput
+          mealObject={textInputType === 'meal' ? mealObj : exerciseObj}
+          array={textInputType === 'meal' ? mealProps : exerciseProps}
+          name={name}
+          onChange={setMealDataObj}
+          type={textInputType === 'meal' ? 'meal' : 'exercise'}
+        />
       </Card>
       <Card scrollable={false} containerClass={styles.addContainer}>
         <PhoneButton
@@ -195,10 +118,7 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
   },
   createContainer: {
-    width: "90%",
-    alignSelf: "center",
-    flexDirection: "row",
-    marginTop: SetMargin(0.03),
+    width: "100%",
   },
   buttonContainer: {
     width: "50%",
@@ -218,67 +138,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
   },
-  inputContainer: {
-    borderWidth: 2,
-    width: "70%",
-    backgroundColor: "rgba(0,0,0,.12)",
-    borderTopLeftRadius: 25,
-    borderBottomLeftRadius: 25,
-    alignSelf: "center",
-    height: SetMargin(0.07),
-  },
-  input: {},
-  inputText: {
-    fontSize: 20,
-  },
-  addNameButtonContainer: {
-    justifyContent: "center",
-    backgroundColor: "black",
-    width: "30%",
-    alignItems: "center",
-    height: SetMargin(0.07),
-    borderTopRightRadius: 30,
-    borderBottomRightRadius: 30,
-  },
-  addNameButton: {},
-  addNameButtonText: {
-    color: "white",
-    fontSize: 24,
-  },
-
-  detailContainer: {
-    height: SetMargin(0.35),
-    borderWidth: 2,
-    width: "90%",
-    alignSelf: "center",
-    marginTop: SetMargin(0.02),
-    flexDirection: "column",
-    justifyContent: "flex-end",
-  },
-  detailsContainer: {
-    flexDirection: "row",
-    borderWidth: 2,
-    alignItems: "center",
-  },
-  detailLabelContainer: {
-    borderWidth: 2,
-    width: "40%",
-  },
-  detailLabel: {
-    fontSize: 20,
-  },
-  detailTextContainer: {
-    width: "60%",
-    borderWidth: 2,
-  },
-  detailText: {
-    fontSize: 22,
-  },
-  numberInputContainer: {},
-  numberInput: {},
-  numberInputText: {
-    fontSize: 22,
-  },
+  detailContainer: {},
   addContainer: {
     width: "90%",
     alignSelf: "center",
