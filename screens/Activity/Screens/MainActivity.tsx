@@ -17,7 +17,7 @@ import TodayLogHeader from "../Components/Card/TodayLogHeader";
 import { DUMMYMANAGE } from "../../Program/Screens/Manage/DummyArray";
 import RecentButtonsCard from "../Components/Card/RecentButtonsCard";
 import TraverseDateButton from "../Components/Button/TraverseDateButton";
-import next from "next/types";
+import Dot from "../../../components/Indicators/Dot";
 
 export interface ExerciseActivity {
   Exercise: string | undefined;
@@ -140,7 +140,7 @@ const TodayScreen: React.FC = () => {
   const [datePosition, setDatePosition] = useState<number>(0);
   const [dateArrayString, setDateArrayString] = useState<string>("");
   const [weeklyArrayString, setWeeklyArrayString] = useState<string>("");
-  const [dailyWeeklyBoo, setDailyWeeklyBoo] = useState<boolean>(false);
+  const [dailyWeeklyType, setDailyWeeklyType] = useState<'daily' | 'weekly'>('daily');
 
   const [moreInfoButton, setMoreInfoButton] = useState<boolean>(false);
   const [morePerformanceButtonName, setMorePerformanceButtonName] =
@@ -156,7 +156,7 @@ const TodayScreen: React.FC = () => {
 
   const windowWidth = Dimensions.get("window").width;
 
-  const meterWidth = windowWidth * 0.62;
+  const meterWidth = windowWidth * 0.55;
 
   useEffect(() => {
     setTimeout(() => {
@@ -215,14 +215,17 @@ const TodayScreen: React.FC = () => {
     /* Async UseEffect to get dates */
   };
 
-  const [dailyWeeklyButtonBackground, setDailyWeeklyButtonBackground] = useState<boolean>(false);
+  const [dailyWeeklyButtonBackground, setDailyWeeklyButtonBackground] =
+    useState<boolean>(false);
 
   const handleDaily = () => {
     setDailyWeeklyButtonBackground(true);
+    setDailyWeeklyType('daily')
   };
 
   const handleWeekly = () => {
     setDailyWeeklyButtonBackground(false);
+    setDailyWeeklyType('weekly')
   };
 
   const handleMoreInfo = (event: string) => {
@@ -237,12 +240,12 @@ const TodayScreen: React.FC = () => {
   };
 
   useEffect(() => {
-    if (dailyWeeklyBoo === true) {
+    if (dailyWeeklyType === 'daily') {
       setDateArrayString(dateArrayString[datePosition]);
-    } else if (dailyWeeklyBoo === false) {
+    } else if (dailyWeeklyType === 'weekly') {
       setDateArrayString(weeklyArrayString[datePosition]);
     }
-  }, [datePosition, dailyWeeklyBoo]);
+  }, [datePosition, dailyWeeklyType]);
 
   useEffect(() => {
     setCalorieIntakePercentage(currentCalories / maxCalories);
@@ -305,24 +308,35 @@ const TodayScreen: React.FC = () => {
                 </>
               );
             })}
-          </Card> 
+          </Card>
         </Card>
       </Card>
       <Card scrollable={false} containerClass={styles.activityContainer}>
-        <CardText bold text="Performance Results" container={styles.performanceHeaderContainer} textStyle={styles.performanceHeader}/>
-        <Card scrollable={false} containerClass={styles.dateWeeklyContainer}>
-          <TraverseDateButton
-            type="log"
-            previous={setPreviousDateLog}
-            next={setNextDateLog}
-            index={0}
-            date="Today"
-            size={50}
-            length={0}
-            
-          />
-        </Card>
+        <CardText
+          bold
+          text="Performance"
+          container={styles.performanceHeaderContainer}
+          textStyle={styles.performanceHeader}
+        />
+
         <Card scrollable={false} containerClass={styles.indicatorsContainer}>
+          <Card scrollable={false} containerClass={styles.dateWeeklyContainer}>
+            <CardText
+              semiBold
+              text={dailyWeeklyType === 'daily' ? 'Day: ' : 'Week: '}
+              container={styles.dayHeaderContainer}
+              textStyle={styles.dayHeader}
+            />
+            <TraverseDateButton
+              type="log"
+              previous={setPreviousDateLog}
+              next={setNextDateLog}
+              index={0}
+              date="Today"
+              size={50}
+              length={0}
+            />
+          </Card>
           {elements.map((value) => {
             return (
               <ResultsMeter
@@ -338,13 +352,25 @@ const TodayScreen: React.FC = () => {
           scrollable={false}
           containerClass={styles.dateWeekButtonsContainer}
         >
-          <DateWeekButton background={dailyWeeklyButtonBackground} onPress={handleDaily} label="Daily" />
-          <DateWeekButton background={!dailyWeeklyButtonBackground}  onPress={handleWeekly} label="Weekly" />
+          <DateWeekButton
+            background={dailyWeeklyType === 'daily' ? true : false}
+            onPress={() => setDailyWeeklyType('daily')}
+            label="Daily"
+          />
+          <DateWeekButton
+            background={dailyWeeklyType === 'weekly' ? true : false}
+            onPress={() => setDailyWeeklyType('weekly')}
+            label="Weekly"
+          />
         </Card>
         <Card
           scrollable={false}
           containerClass={styles.moreInfoButtonsContainer}
         >
+          <Card scrollable={false} containerClass={styles.dotsContainer}>
+            <Dot highlighted={true} />
+            <Dot highlighted={false} />
+          </Card>
           <TraverseDateButton
             type="performance"
             next={setMorePerformanceButtonName}
@@ -352,6 +378,7 @@ const TodayScreen: React.FC = () => {
             date={morePerformanceButtonName ? "More" : "Less"}
             size={50}
             index={0}
+            length={0}
           />
         </Card>
         <Card scrollable={false} containerClass={styles.programLogContainer}>
@@ -368,6 +395,7 @@ const TodayScreen: React.FC = () => {
           index={0}
           date="Today"
           size={50}
+          length={0}
         />
       </Card>
     </Card>
@@ -379,86 +407,73 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
   },
-  headerContainer: {
-    alignItems: "center",
-    marginTop: SetMargin(.05),
-  },
-  header: {
-    fontSize: 32,
-    letterSpacing: 1.2,
-    color: "#8c52ff",
-  },
   activityContainer: {
     alignItems: "center",
+    marginTop: SetMargin(0.05),
   },
-  performanceHeaderContainer: {
-    width: '90%',
-    marginBottom: SetMargin(-.0275)
-  },
-  performanceHeader: {
-    fontSize: 30,
-    textAlign: 'left',
-    letterSpacing: 1
-  },
-  indicatorsContainer: {
-    alignItems: "center",
+  recentContainer: {
+    marginTop: SetMargin(0.0905),
   },
 
-  border: {
-    color: "#2196f3",
-  },
-  dataContainer: {
-    borderWidth: 4,
-    borderStyle: "solid",
-    borderColor: "#8c52ff",
-    width: "85%",
-    alignSelf: "center",
-  },
-  detailsContainer: {},
-  recentContainer: {
-    marginTop: SetMargin(0.105),
-  },
   recentImagesContainer: {
     flexDirection: "row",
     justifyContent: "center",
   },
   recentHeaderContainer: {
-    alignSelf: "flex-start",
-    marginLeft: SetMargin(0.02),
+    alignSelf: "center",
+    width: "90%",
   },
   recentHeader: {
     fontSize: 32,
-    letterSpacing: 0.8,
+    letterSpacing: 0.5,
   },
+  performanceHeaderContainer: {
+    width: "90%",
+    alignSelf: "center",
+  },
+  performanceHeader: {
+    fontSize: 32,
+    letterSpacing: 0.5,
+  },
+  dayHeaderContainer: {},
+  dayHeader: {
+    fontSize: 26,
+  },
+  indicatorsContainer: {
+    width: "90%",
+    borderBottomWidth: 2,
+  },
+  border: {
+    color: "#2196f3",
+  },
+
+  detailsContainer: {},
   dateWeeklyContainer: {
     flexDirection: "row",
     borderColor: "black",
-    borderBottomWidth: 3,
     borderStyle: "solid",
     alignItems: "center",
     width: "90%",
-    justifyContent: 'center',
-    marginTop: SetMargin(.03)
-  },
-  dateContainer: {
-    borderColor: "black",
-    borderWidth: 3,
-    borderStyle: "solid",
-    width: "50%",
-    alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    alignSelf: "center",
   },
 
   dateWeekButtonsContainer: {
-   flexDirection: 'row',
-   justifyContent: 'center',
-   alignItems: 'center',
-   width: '70%',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "90%",
   },
-
+  dotsContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    width: '50%',
+    padding: 7.5,
+    alignSelf: 'center'
+  },
   moreInfoButtonsContainer: {
     width: "80%",
-    marginTop: SetMargin(0.01),
   },
   nextBackInfoButtonContainer: {
     width: "40%",
@@ -483,10 +498,9 @@ const styles = StyleSheet.create({
     width: "90%",
     marginBottom: SetMargin(0.05),
     marginTop: SetMargin(0.1),
-    borderStyle: "solid",
-    borderColor: "black",
     borderWidth: 2,
-    borderRadius: 25,
+    borderLeftWidth: 0,
+    borderRadius: 20,
   },
 });
 

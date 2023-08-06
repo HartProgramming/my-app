@@ -157,7 +157,7 @@ export default function MainProgram() {
         />
         <PhoneButton
           semiBold
-          onPress={Navigation({ navigation }, "create-program")}
+          onPress={Navigation({ navigation }, "create-navigation")}
           buttonContainerClass={styles.nestedContainer}
           buttonClass={styles.nestedButton}
           textClass={styles.nestedText}

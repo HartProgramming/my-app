@@ -71,7 +71,6 @@ export default function ProgramCard({
     <Card scrollable={false} containerClass={container}>
       <TouchableOpacity onPress={handleMore}>
         <Card scrollable={false} containerClass={styles.topContainer}>
-          <Image style={styles.image} source={cardImage} />
           <Card scrollable={false} containerClass={styles.detailsContainer}>
             <Card scrollable={false} containerClass={styles.headerContainer}>
               <Card
@@ -92,14 +91,25 @@ export default function ProgramCard({
                     scrollable={false}
                     containerClass={styles.reviewContainer}
                   >
-                    {reviewElements}
+                    <AntDesign name="star" size={20} color="black" />
+                    <CardText
+                      text={`${review}`}
+                      container={styles.reviewHeaderContainer}
+                      textStyle={styles.reviewHeader}
+                    />
                   </Card>
-                  <CardText
-                    medium
-                    text={`${cycle} Day`}
-                    container={styles.cycleContainer}
-                    textStyle={styles.cycle}
-                  />
+                  <Card
+                    scrollable={false}
+                    containerClass={styles.budgetContainer}
+                  >
+                    <CardText
+                      medium
+                      text={budget > 0 ? `Budget: ` : ""}
+                      container={styles.budgetLabelContainer}
+                      textStyle={styles.budgetLabel}
+                    />
+                    {budgetElements}
+                  </Card>
                 </Card>
               </Card>
 
@@ -129,26 +139,19 @@ export default function ProgramCard({
             container={styles.authorContainer}
             textStyle={styles.author}
           />
-          <Card scrollable={false} containerClass={styles.programTypeCardContainer}>
-            <CardText
-              medium
-              textStyle={styles.programType}
-              container={styles.programTypeContainer}
-              text={`Type: ${programType}`}
-            />
-            <Card
-              scrollable={false}
-              containerClass={styles.budgetContainer}
-            >
-              <CardText
-                medium
-                text={budget > 0 ? `Budget: ` : ""}
-                container={styles.budgetLabelContainer}
-                textStyle={styles.budgetLabel}
-              />
-              {budgetElements}
-            </Card>
-          </Card>
+
+          <CardText
+            medium
+            textStyle={styles.programType}
+            container={styles.programTypeContainer}
+            text={`Type: ${programType}`}
+          />
+          <CardText
+            medium
+            text={`Cycle: ${cycle} Days`}
+            container={styles.cycleContainer}
+            textStyle={styles.cycle}
+          />
         </Card>
       </TouchableOpacity>
     </Card>
@@ -163,16 +166,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     width: "100%",
   },
-  image: {
-    width: "33%",
-    height: "100%",
-    borderBottomRightRadius: 15,
-    borderStyle: "solid",
-    borderColor: "black",
-    borderWidth: 2,
-  },
+
   detailsContainer: {
-    width: "70%",
+    width: "100%",
     flexDirection: "column",
   },
   headerReviewContainer: {
@@ -187,28 +183,38 @@ const styles = StyleSheet.create({
   },
   titleContainer: {},
   title: {
-    fontSize: 20,
+    fontSize: 24,
     marginLeft: SetMargin(0.03),
-  },
-  reviewContainer: {
-    flexDirection: "row",
-    marginLeft: SetMargin(0.03),
+    letterSpacing: 0.5,
   },
   reviewCycleContainer: {
     width: "100%",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     alignItems: "center",
   },
-  cycleContainer: {
-    width: "43%",
+  reviewContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    width: "30%",
+    alignItems: "center",
+  },
+  reviewHeaderContainer: {},
+  reviewHeader: {
+    fontSize: 20,
+  },
+  budgetContainer: {
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
+    width: "50%",
   },
-  cycle: {
-    fontSize: 14,
-    marginTop: SetMargin(0.005),
+  budgetLabelContainer: {
+    alignItems: "center",
+    justifyContent: "flex-end",
+  },
+  budgetLabel: {
+    fontSize: 17,
   },
   priceContainer: {
     backgroundColor: "black",
@@ -230,55 +236,44 @@ const styles = StyleSheet.create({
   },
   infoDetailsContainer: {
     width: "90%",
+    marginTop: SetMargin(0.01),
   },
   infoDetails: {
-    fontSize: 14,
+    fontSize: 16,
   },
 
   bottomContainer: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     marginTop: SetMargin(0.002),
-    width: '100%'
+    width: "93%",
+    alignSelf: 'center'
   },
   authorContainer: {
-    width: "35%",
     alignItems: "center",
     justifyContent: "flex-start",
     flexDirection: "row",
-
   },
   author: {
-    fontSize: 16,
-    marginLeft: SetMargin(0.01),
+    fontSize: 17,
   },
-  budgetContainer: {
-    flexDirection: "row",
-    justifyContent: 'flex-end',
-    alignItems: "center",
-    width: '75%'
-  },
-  budgetLabelContainer: {
-    alignItems: "center",
-    justifyContent: "flex-end",
-  
-  },
-  budgetLabel: {
-    fontSize: 16,
-  },
-  programTypeCardContainer: {
-    flexDirection: "row",
-    width: "35%",
 
-  },
   programTypeContainer: {
     flexDirection: "row",
-    width: "100%",
     justifyContent: "flex-start",
+    alignItems: "center",
   },
   programType: {
-    fontSize: 16,
-    marginRight: SetMargin(0.01),
+    fontSize: 17,
+  },
+
+  cycleContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  cycle: {
+    fontSize: 17,
   },
 });

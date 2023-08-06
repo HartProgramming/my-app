@@ -13,7 +13,7 @@ interface ResultsMeterProps {
 export default function ResultsMeter({
   label,
   data,
-  width,
+  width, 
   percentage,
 }: ResultsMeterProps) {
   return (
@@ -48,17 +48,18 @@ export default function ResultsMeter({
 const styles = StyleSheet.create({
   indicatorContainer: {
     flexDirection: "row",
-    width: "85%",
+    width: "100%",
     justifyContent: "space-around",
     alignItems: "center",
     borderColor: "black",
-    borderBottomWidth: 2,
+    borderTopWidth: 2,
+    borderLeftWidth: 2,
     borderStyle: "solid",
     padding: 14,
+    alignSelf: 'center'
   },
   performanceLabelContainer: {
     width: "32%",
-
   },
   performanceLabel: {
     fontSize: 18,

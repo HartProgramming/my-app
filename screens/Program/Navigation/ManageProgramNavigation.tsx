@@ -11,7 +11,7 @@ export default function ManageProgramNavigation() {
         {component: EditProgram, name: 'edit-program', options: false, backgroundColor: '', borderColor: '', fontColor: ''},
         {component: GroceryProgram, name: 'grocery-program', options: false, backgroundColor: '', borderColor: '', fontColor: ''},
 
-    ]
+    ] 
 
     return <NavigationStack navArray={manageNavArray} />
 }

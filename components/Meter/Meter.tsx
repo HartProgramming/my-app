@@ -24,7 +24,7 @@ export default function Meter({
   width,
   percentage,
   strokeWidth,
-  strokeLinecap,
+  strokeLinecap, 
   data,
   strokeProgress,
   strokeStandard,

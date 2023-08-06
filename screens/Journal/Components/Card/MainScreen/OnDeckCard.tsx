@@ -35,25 +35,23 @@ export default function OnDeckCard({ type, array }: OnDeckCardProps) {
     setImageHeader("Chicken");
   }, []);
 
-  const renderList: any = ({ item }) => (
+  const renderList: any = ({ item }) =>
     Object.keys(item).map((value) => (
       <Card scrollable={false} containerClass={styles.listItemContainer}>
         <CardText
-          text={value}
+        medium
+          text={`${value}: `}
           container={styles.labelContainer}
           textStyle={styles.label}
-        />
+        /> 
         <CardText
+        regular
           text={item[value]}
           container={styles.infoContainer}
           textStyle={styles.info}
         />
       </Card>
-    )));
-
-  useEffect(() => {
-    console.log(array.map((value)=> Object.keys(value).map((item) => item)))
-  }, [array]);
+    ));
 
   return (
     <Card scrollable={false} containerClass={styles.onDeckContainer}>
@@ -78,7 +76,7 @@ export default function OnDeckCard({ type, array }: OnDeckCardProps) {
         </Card>
       </Card>
       <Card scrollable={false} containerClass={styles.cardContainer}>
-        <Card scrollable={false} containerClass={styles.cardHeaderContainer}>
+        <Card scrollable={false} containerClass={styles.topLevelCard}>
           <CardText
             bold
             container={styles.imageHeaderContainer}
@@ -93,9 +91,10 @@ export default function OnDeckCard({ type, array }: OnDeckCardProps) {
             onPress={handleAdd}
             text="Add"
           />
-        </Card>
+        </Card> 
+
         <Card scrollable={false} containerClass={styles.cardDetailsContainer}>
-          <FlatList renderItem={renderList} data={array} />
+          <FlatList keyExtractor={(item) => item.label} numColumns={2} renderItem={renderList} data={array} />
         </Card>
       </Card>
     </Card>
@@ -109,71 +108,70 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     alignSelf: "center",
-    marginTop: SetMargin(0.02),
+    marginTop: SetMargin(0.1),
     marginBottom: SetMargin(-0.02),
   },
-  onDeckContainer: {},
   headerContainer: {
     width: "35%",
   },
   onDeckHeader: {
     fontSize: 28,
+    letterSpacing: .5
   },
   onDeckButtonsContainer: {
     flexDirection: "row",
     width: "65%",
   },
   cardContainer: {
-    marginTop: SetMargin(0.02),
-  },
-  cardHeaderContainer: {
-    backgroundColor: "rgba(255,255,255,.7)",
-    width: "95%",
-    alignSelf: "center",
-    alignItems: "center",
     marginTop: SetMargin(0.04),
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    padding: 5,
+    flexDirection: "column",
+    borderWidth: 2,
+    width: "90%",
+    alignSelf: "center",
+    borderRadius: 15,
+      padding: 10
+  },
+  onDeckContainer: {},
+  topLevelCard: {
     flexDirection: "row",
+    justifyContent: "space-between",
+    borderBottomWidth: 2
   },
   imageHeader: {
-    fontSize: 28,
+    fontSize: 24,
     color: "black",
     letterSpacing: 1.15,
   },
-  onDeckImage: {
-    width: "95%",
-    height: SetMargin(0.3),
-    alignSelf: "center",
-    borderRadius: 25,
-    marginTop: SetMargin(0.04),
-  },
+
   onDeckAddButtonContainer: {
-    position: "absolute",
-    marginTop: SetMargin(0.279),
-    width: "35%",
-    marginLeft: SetMargin(0.307),
-    zIndex: 2,
+    width: '35%',
   },
   onDeckAddButton: {
-    backgroundColor: "rgba(0,0,0,.83)",
+    backgroundColor: "black",
     alignItems: "center",
     padding: 5,
-    borderBottomRightRadius: 15,
-    borderTopLeftRadius: 15,
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10
   },
   onDeckAddButtonText: {
     fontSize: 24,
     color: "white",
     letterSpacing: 1.1,
   },
-  carDetailsContainer: {},
-  listItemContainer: {},
+  listItemContainer: {
+    width: '50%',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    flexDirection: 'row',
+  },
   labelContainer: {},
-  label: {fontSize: 24},
+  label: { fontSize: 22 },
   infoContainer: {},
-  info: {fontSize: 24},
+  info: { fontSize: 19 },
   imageHeaderContainer: {},
-  cardDetailsContainer: {},
+  cardDetailsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: SetMargin(.01)
+  },
 });

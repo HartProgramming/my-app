@@ -11,7 +11,8 @@ interface DateWeekButtonProps {
 export default function DateWeekButton({
   label,
   onPress,
-  background
+  background,
+  
 }: DateWeekButtonProps) {
   return (
     <PhoneButton
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0
   },
   button: { 
-    padding: 5,
+    padding: 10,
     width: '100%'
   },
   text: {

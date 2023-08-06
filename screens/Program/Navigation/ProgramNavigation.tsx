@@ -1,10 +1,11 @@
 import NavigationStack, {
   NavigationArrayProps,
 } from "../../../components/NavigationStack/NavigationStack";
-import CreateProgram from "../Screens/CreateProgram";
 import AvailablePrograms from "../Screens/AvailablePrograms";
 import MainProgram from "../Screens/Main/MainProgram";
 import ManageProgramNavigation from "./ManageProgramNavigation";
+import CreateMain from "../Screens/Create/CreateMainScreen";
+import CreateProgramNavigation from "./CreateNavigation";
 
 export default function ProgramNavigation() {
   const navigationArray: NavigationArrayProps[] = [
@@ -26,8 +27,8 @@ export default function ProgramNavigation() {
     },
     {
       options: false,
-      component: CreateProgram,
-      name: "create-program",
+      component: CreateProgramNavigation,
+      name: "create-navigation",
       backgroundColor: "",
       fontColor: "",
       borderColor: "",
@@ -36,9 +37,9 @@ export default function ProgramNavigation() {
       options: false,
       component: ManageProgramNavigation,
       name: "manage-navigation",
-      backgroundColor: '',
-      borderColor: '',
-      fontColor: ''
+      backgroundColor: "",
+      borderColor: "",
+      fontColor: "",
     },
   ];
 

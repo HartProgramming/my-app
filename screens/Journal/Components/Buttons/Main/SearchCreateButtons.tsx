@@ -48,7 +48,7 @@ export default function SearchCreateButtons({
 
 const styles = StyleSheet.create({
   buttonsContainer: {
-    marginTop: SetMargin(0.3),
+    marginTop: SetMargin(.05),
     flexDirection: "row",
     width: "100%",
   },
