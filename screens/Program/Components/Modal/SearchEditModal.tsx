@@ -9,15 +9,26 @@ import PhoneButton from "../../../../components/Inputs/PhoneButton";
 import SearchInput from "../../../Journal/Components/Input/SearchInput";
 import { displaySearchArr } from "../../../Journal/Screens/SearchExercise";
 import InfoDeleteOptionalCard from "../Card/InfoDeleteOptionalCard";
+import CreateRegimenInput from "../../../../components/Inputs/CreateRegimenInput";
+import { AntDesign } from "@expo/vector-icons";
+
 
 export interface SearchEditModalProps {
-    day: string
+  day: string;
+  modalType: "program" | "journal";
+  textInputType: "meal" | "exercise";
+  close: any;
+  data: any;
 }
 
-export default function SearchEditModal({day}: SearchEditModalProps) {
-  const [textInputType, setTextInputType] = useState<"meal" | "exercise">(
-    "meal"
-  );
+export default function SearchEditModal({
+  day,
+  modalType,
+  textInputType,
+  close,
+  data
+}: SearchEditModalProps) {
+  const [inputType, setInputType] = useState<"meal" | "exercise">("meal");
   const [inputValue, setInputValue] = useState<string>("");
   const [resultsObj, setResultsObj] = useState<any>([]);
   const [programAddObj, setProgramAddObj] = useState<any>([]);
@@ -40,69 +51,44 @@ export default function SearchEditModal({day}: SearchEditModalProps) {
   }, [textInputType]);
 
   useEffect(() => {
-    console.log(resultsObj);
-    setProgramAddObj((prev: any) => [...resultsObj, ...prev]);
+    data(resultsObj)
   }, [resultsObj]);
 
   useEffect(() => {
-    console.log(programAddObj.map((item: any) => item));
   }, [programAddObj]);
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
-      <Card scrollable={false} containerClass={styles.buttonsContainer}>
-        <PhoneButton
-          semiBold
-          buttonContainerClass={styles.buttonContainer}
-          buttonClass={[styles.button, styles.topLeftRadius, styles.right]}
-          textClass={styles.buttonText}
-          onPress={() => setTextInputType("exercise")}
-          text="Exercise"
-        />
-        <PhoneButton
-          semiBold
-          buttonContainerClass={styles.buttonContainer}
-          buttonClass={[styles.button, styles.topRightRadius, styles.left]}
-          textClass={styles.buttonText}
-          onPress={() => setTextInputType("meal")}
-          text="Meal"
-        />
-      </Card>
-      <Card scrollable={false} containerClass={styles.searchContainer}>
-        <SearchInput
-          resultObject={setResultsObj}
-          displaySearch={displaySearchArr}
-          value={setInputValue}
-          placeholder={
-            textInputType === "meal" ? "Search Meal" : "Search Exercise"
-          }
-        />
-      </Card>
-      <Card scrollable={false} containerClass={styles.resultsContainer}>
-        <CardText
-          semiBold
-          text={`Add to ${day}`}
-          container={styles.resultsHeaderContainer}
-          textStyle={styles.resultsHeader}
-        />
-        <Card scrollable={true} containerClass={styles.hiddenResults}>
-            <Card scrollable={true} containerClass={styles.overflowResults}>
-            {programAddObj.length > 0 &&
-            programAddObj.map((value: any) => (
-              <InfoDeleteOptionalCard text={value.name} />
-            ))}
-            </Card>
-         
+      {modalType === "journal" && (
+        <Card scrollable={false} containerClass={styles.buttonsContainer}>
+          <PhoneButton
+            semiBold
+            buttonContainerClass={styles.buttonContainer}
+            buttonClass={[styles.button, styles.topLeftRadius, styles.right]}
+            textClass={styles.buttonText}
+            onPress={() => setInputType("exercise")}
+            text="Exercise"
+          />
+          <PhoneButton
+            semiBold
+            buttonContainerClass={styles.buttonContainer}
+            buttonClass={[styles.button, styles.topRightRadius, styles.left]}
+            textClass={styles.buttonText}
+            onPress={() => setInputType("meal")}
+            text="Meal"
+          />
         </Card>
-      </Card>
-      <Card scrollable={false} containerClass={styles.addContainer}>
-        <PhoneButton
-          semiBold
-          onPress={handleProgramAdd}
-          text="Add"
-          buttonContainerClass={styles.addButtonContainer}
-          buttonClass={styles.addButton}
-          textClass={styles.addButtonText}
+      )}
+     <Card scrollable={false} containerClass={styles.regimenInputContainer}>
+     <CreateRegimenInput setData={setResultsObj} inputType={textInputType} addNameType={'search'} />
+
+     </Card>
+      <Card scrollable={false} containerClass={styles.closeContainer}>
+        <AntDesign
+          onPress={() => close(false)}
+          name="closecircle"
+          size={40}
+          color={"black"}
         />
       </Card>
     </Card>
@@ -117,6 +103,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 35,
     borderTopLeftRadius: 35,
     elevation: 5,
+    marginTop: SetMargin(.04)
   },
   topLeftRadius: {
     borderTopLeftRadius: 35,
@@ -173,10 +160,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
   hiddenResults: {
-    overflow: 'hidden'
+    overflow: "hidden",
   },
   overflowResults: {
-    maxHeight: 400
+    maxHeight: 400,
   },
   addContainer: {
     width: "90%",
@@ -199,4 +186,12 @@ const styles = StyleSheet.create({
     letterSpacing: 0.8,
     color: "white",
   },
+  closeContainer: {
+    width: '90%',
+    alignSelf: 'center',
+    alignItems: 'flex-end'
+  },
+  regimenInputContainer: {
+    marginTop: SetMargin(.09),
+  }
 });

@@ -13,26 +13,27 @@ interface SearchInputProps {
   placeholder: string;
   value: any;
   displaySearch: any;
-  resultObject: any;
+  name: any;
 }
 
 export default function SearchInput({
   placeholder,
   value,
   displaySearch,
-  resultObject,
+  name,
 }: SearchInputProps) {
   const [inputValue, setInputValue] = useState<string>("");
   const [displaySearchResults, setDisplaySearchResults] = useState<[]>([]);
   const [resultsDataObj, setResultsDataObj] = useState<any>();
+  const [title, setTitle] = useState<string>('');
 
   const handleChange = (event: string) => {
     setInputValue(event);
     value(event);
   };
 
-  const handleResult = () => {
-    resultObject(resultsDataObj);
+  const handleResult = (event: string) => {
+    name(event);
     setInputValue("");
   };
 
@@ -48,8 +49,11 @@ export default function SearchInput({
           : [{ name: "No Results", index: "No Results" }]
         : [{ name: "No Results" }]
     );
-    setResultsDataObj(displaySearchResults);
   }, [inputValue]);
+
+  useEffect(() => {
+    setResultsDataObj(displaySearchResults)
+  }, [displaySearchResults, title])
 
   const searchIcon = (
     <Card scrollable={false} containerClass={styles.iconContainer}>
@@ -77,7 +81,7 @@ export default function SearchInput({
               return (
                 <SearchResultText
                   container={styles.input}
-                  onPress={() => handleResult()}
+                  onPress={() => handleResult(value.name)}
                 >
                   <Text>{value.name}</Text>
                 </SearchResultText>
@@ -134,6 +138,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "black",
     backgroundColor: "white",
+    height: 50
   },
   resultText: {
     fontSize: 22,

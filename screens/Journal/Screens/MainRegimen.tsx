@@ -54,7 +54,7 @@ export default function MainRegimen() {
         <OnDeckCard array={DUMMYARRAY} />
         <Card scrollable={false} containerClass={styles.todaysRoutineCards}>
           <CardText
-            bold
+            bold 
             container={styles.todayHeaderContainer}
             textStyle={styles.todayHeader}
             text={

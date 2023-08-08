@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 import { Poppins_400Regular, Poppins_500Medium, Poppins_600SemiBold, Poppins_700Bold, useFonts } from "@expo-google-fonts/poppins";
 
 interface CardText {
-  text: string;
+  text: string | number;
   container: StyleProp<ViewStyle>;
   textStyle: StyleProp<TextStyle>;
   bold?: boolean;

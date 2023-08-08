@@ -10,22 +10,23 @@ import { Image } from "react-native";
 import Jogging from "../../../images/cardicons/jogging.png";
 
 export const displaySearchArr: CriteriaExerciseInterface[] = [
-  { name: "Jogging", key: "jogging", miles: 3, resultsBoo: false },
-  { name: "Push-ups", key: "push-ups", reps: 200, resultsBoo: false },
-  { name: "Planks", key: "planks", minutes: 3, resultsBoo: false },
+  { name: "Jogging", key: "124fe", miles: 3, resultsBoo: false },
+  { name: "Jogup", key: "65akc", miles: 2, resultsBoo: false },
+  { name: "Push-ups", key: "lmfk44", reps: 200, resultsBoo: false },
+  { name: "Planks", key: "tl988", minutes: 3, resultsBoo: false },
 ];
 
 export default function SearchExercise() {
   const [exerciseValue, setExerciseValue] = useState<string>("");
   const [resultObject, setResultObject] = useState<any>();
+  const [name, setName] = useState<string>('')
 
   const handleRecommendation = () => {
     console.log("hi");
   };
 
   useEffect(() => {
-    console.log(exerciseValue);
-    console.log(resultObject);
+
   }, [exerciseValue, resultObject]);
 
   return (
@@ -41,7 +42,7 @@ export default function SearchExercise() {
           displaySearch={displaySearchArr}
           placeholder="Search Exercise"
           value={setExerciseValue}
-          resultObject={setResultObject}
+          name={setName}
         />
       </Card>
       <Card scrollable={false} containerClass={styles.resultsContainer}>

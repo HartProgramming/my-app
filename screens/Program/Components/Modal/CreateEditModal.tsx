@@ -7,10 +7,14 @@ import SetMargin from "../../../../functions/SetMargin";
 import PhoneTextInput from "../../../../components/Inputs/PhoneTextInput";
 import NumberInput from "../../../../components/Inputs/NumberInput";
 import { CreateExerciseMealProps } from "../Interfaces/CreateExerciseMealInterface";
-import { mealProps, exerciseProps } from "../../Arrays/CreateExerciseMealArrays";
+import {
+  mealProps,
+  exerciseProps,
+} from "../../Arrays/CreateExerciseMealArrays";
 import { endEvent } from "react-native/Libraries/Performance/Systrace";
 import AddInput from "../Input/AddInput";
 import MealExerciseDetailsInput from "../Input/MealExerciseDetailsInput";
+import CreateRegimenInput from "../../../../components/Inputs/CreateRegimenInput";
 
 export default function CreateEditModal() {
   const mealObj = {
@@ -23,12 +27,12 @@ export default function CreateEditModal() {
   };
 
   const exerciseObj = {
-    Reps: '',
-    Miles: '',
-    Minutes: '',
-    Sets: '',
-    Weight: ''
-  }
+    Reps: "",
+    Miles: "",
+    Minutes: "",
+    Sets: "",
+    Weight: "",
+  };
 
   const [textInputType, setTextInputType] = useState<"meal" | "exercise">(
     "meal"
@@ -37,14 +41,11 @@ export default function CreateEditModal() {
   const [inputValue, setInputValue] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [mealDataObj, setMealDataObj] = useState<any>([]);
-
-  const handleProgramAdd = () => {
-    console.log(mealDataObj);
-  };
+  const [data, setData] = useState<any>([])
 
   useEffect(() => {
-    console.log(mealDataObj);
-  }, [mealDataObj]);
+    console.log(data)
+  }, [data]);
 
   return (
     <Card scrollable={false} containerClass={styles.container}>
@@ -66,28 +67,7 @@ export default function CreateEditModal() {
           text="Meal"
         />
       </Card>
-      <Card scrollable={false} containerClass={styles.createContainer}>
-        <AddInput name={setName} type={textInputType} />
-      </Card>
-      <Card scrollable={false} containerClass={styles.detailContainer}>
-        <MealExerciseDetailsInput
-          mealObject={textInputType === 'meal' ? mealObj : exerciseObj}
-          array={textInputType === 'meal' ? mealProps : exerciseProps}
-          name={name}
-          onChange={setMealDataObj}
-          type={textInputType === 'meal' ? 'meal' : 'exercise'}
-        />
-      </Card>
-      <Card scrollable={false} containerClass={styles.addContainer}>
-        <PhoneButton
-          semiBold
-          onPress={handleProgramAdd}
-          text="Add"
-          buttonContainerClass={styles.addButtonContainer}
-          buttonClass={styles.addButton}
-          textClass={styles.addButtonText}
-        />
-      </Card>
+      <CreateRegimenInput setData={setData} />
     </Card>
   );
 }
@@ -117,9 +97,6 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderRightWidth: 1,
   },
-  createContainer: {
-    width: "100%",
-  },
   buttonContainer: {
     width: "50%",
   },
@@ -137,27 +114,5 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: "row",
     width: "100%",
-  },
-  detailContainer: {},
-  addContainer: {
-    width: "90%",
-    alignSelf: "center",
-    marginTop: SetMargin(0.04),
-  },
-  addButtonContainer: {
-    width: "50%",
-    alignSelf: "center",
-  },
-  addButton: {
-    backgroundColor: "black",
-    width: "100%",
-    alignItems: "center",
-    padding: 10,
-    borderRadius: 40,
-  },
-  addButtonText: {
-    fontSize: 28,
-    letterSpacing: 0.8,
-    color: "white",
   },
 });

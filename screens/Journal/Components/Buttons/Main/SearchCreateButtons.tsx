@@ -13,34 +13,30 @@ export default function SearchCreateButtons({
   visible,
   type,
 }: SearchCreateButtonProps) {
-  const [modalType, setModalType] = useState<"search" | "create" | "noShow">(
-    "noShow"
-  );
-
-  useEffect(() => {
-    if (modalType === "noShow") {
+  const handleShowModal = (event: string) => {
+    if (event === "noShow") {
       visible(false);
       type("noShow");
-    } else if (modalType === "search") {
+    } else if (event === "search") {
       visible(true);
       type("search");
-    } else if (modalType === "create") {
+    } else if (event === "create") {
       visible(true);
       type("create");
     }
-  }, [modalType]);
+  };
 
   return (
     <Card scrollable={false} containerClass={styles.buttonsContainer}>
       <MainRegimenButton
         label="Search"
         left={false}
-        onPress={() => setModalType("search")}
+        onPress={() => handleShowModal("search")}
       />
       <MainRegimenButton
         label="Create"
         left={true}
-        onPress={() => setModalType("create")}
+        onPress={() => handleShowModal("create")}
       />
     </Card>
   );
@@ -48,7 +44,7 @@ export default function SearchCreateButtons({
 
 const styles = StyleSheet.create({
   buttonsContainer: {
-    marginTop: SetMargin(.05),
+    marginTop: SetMargin(0.05),
     flexDirection: "row",
     width: "100%",
   },
